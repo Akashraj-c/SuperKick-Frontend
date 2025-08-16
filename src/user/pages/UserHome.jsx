@@ -8,6 +8,8 @@ import CurvedLoop from '../../ReactBits/CurvedLoop/CurvedLoop';
 import HomeBrand from '../components/HomeBrand';
 import HomeTrending from '../components/HomeTrending';
 import HomeSneakers from '../components/HomeSneakers';
+import Gender from '../components/Gender';
+import HomeApparels from '../components/HomeApparels';
 
 const UserHome = () => {
   return (
@@ -71,8 +73,14 @@ const UserHome = () => {
       {/* New & Trending */}
       <HomeTrending/>
 
+      {/* Gender Selection */}
+      <Gender/>
+
       {/* Sneaker Section */}
       <HomeSneakers/>
+
+      {/* Apparel Section */}
+      <HomeApparels/>
     </>
   )
 }

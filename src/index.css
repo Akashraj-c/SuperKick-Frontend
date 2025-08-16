@@ -9,7 +9,6 @@
 /* home brand scroll */
 .parentScroll {
   overflow-x: auto;
-  
 }
 
 .parentScroll::-webkit-scrollbar {
@@ -56,6 +55,12 @@
   100%{
     transform: translateX(0);
   }
+}
+
+/* gender Select */
+.genBackground{
+  background-image: linear-gradient(to top right, rgb(225, 10, 10),black ,white,black,rgb(225, 10, 10));
+  box-shadow: 10px 1px 20px 10px  rgb(170, 164, 164);
 }
 
 /* responsive */
