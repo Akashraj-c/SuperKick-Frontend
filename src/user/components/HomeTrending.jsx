@@ -9,7 +9,7 @@ const HomeTrending = () => {
     return (
         <>
             <div>
-                <div className='d-flex align-items-center mb-5' style={{ paddingLeft: '55px', paddingTop: '65px' }}>
+                <div className='d-flex align-items-center mb-5 ' style={{ paddingLeft: '55px', paddingTop: '65px' }}>
                     <div className='d-flex justify-content-center align-items-center me-4' style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: 'rgba(199, 199, 203, 0.47)' }}>
                         <IoMdTrendingUp className='fs-1' />
                     </div>
