@@ -24,8 +24,8 @@ const Header = () => {
                   <Link to={'/newarrival'} className='fw-bold text-decoration-none text-black'><li className='fw-bold'>NEW ARRIVALS</li></Link>
                   <Link to={'/sneakers'} className='fw-bold text-decoration-none text-black'><li className='fw-bold'>SNEAKERS</li></Link>
                   <Link to={'/apparels'} className='fw-bold text-decoration-none text-black'><li className='fw-bold'>APPARELS</li></Link>
-                  <li className='fw-bold'>BRANDS</li>
-                  <li className='fw-bold'>BLOGS</li>
+                  <Link to={'/brands' } className='fw-bold text-decoration-none text-black'><li className='fw-bold'>BRANDS</li></Link>
+                  <Link to={'/blogs'} className='fw-bold text-decoration-none text-black'><li className='fw-bold'>BLOGS</li></Link>
                 </ul>
               </div>}
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../components/Header'
 
-const Apparels = () => {
+const Blogs = () => {
   return (
     <>
     <Header/>
@@ -10,4 +10,4 @@ const Apparels = () => {
   )
 }
 
-export default Apparels
+export default Blogs
