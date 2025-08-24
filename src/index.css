@@ -41,49 +41,53 @@
 
 
 /* arrow Effect */
-.arrowEffect{
+.arrowEffect {
   animation: anime 1s infinite ease-in-out;
 }
 
-@keyframes anime{
-  0%{
+@keyframes anime {
+  0% {
     transform: translateX(0);
   }
-  50%{
-     transform: translateX(10px);
+
+  50% {
+    transform: translateX(10px);
   }
-  100%{
+
+  100% {
     transform: translateX(0);
   }
 }
 
 /* gender Select */
-.genBackground{
-  background-image: linear-gradient(to top right, rgb(225, 10, 10),black ,white,black,rgb(225, 10, 10));
-  box-shadow: 10px 1px 20px 10px  rgb(170, 164, 164);
+.genBackground {
+  background-image: linear-gradient(to top right, rgb(225, 10, 10), black, white, black, rgb(225, 10, 10));
+  box-shadow: 10px 1px 20px 10px rgb(170, 164, 164);
 }
 
+
+
 /* responsive */
-@media (max-width:768px) {
+@media(max-width:750px) {
+
+  /* Home Brand section */
+  .brand {
+    margin-top: -30px;
+  }
+
   .childScroll {
     gap: 40px;
     padding-left: 20px;
   }
 
-  .carouselimg {
-    margin-top: 120px;
+  /*Home gender section */
+  .genBackground {
+    padding: 0px;
   }
 
-  .dropimg {
-    width: 300px;
+  .genImg {
+    border-radius: 0px;
   }
 
-  .dropimg+h6 {
-    padding-inline: 30px;
-    text-align: center;
-  }
-
-  .header {
-    display: none;
-  }
 }
+

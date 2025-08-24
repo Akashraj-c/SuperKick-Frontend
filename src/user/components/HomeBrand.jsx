@@ -16,7 +16,7 @@ const HomeBrand = () => {
     return (
         <>
             <div style={{ backgroundColor: '#f3f4f5', marginTop: '50px' }}>
-                <div className='d-flex justify-content-between align-items-center px-5 pt-5' style={{ color: '#565759ff' }}>
+                <div className='d-flex justify-content-between align-items-center px-5 pt-5 brand' style={{ color: '#565759ff' }}>
                     <h6>SHOP FROM GLOBAL BRANDS</h6>
                     <Link to={'/brands'} className='text-decoration-none'><h6 className='text-black fw-bold '>View All <GoArrowRight /></h6></Link>
                     {/* <div className='d-flex justify-content-center align-items-center mt-5'>

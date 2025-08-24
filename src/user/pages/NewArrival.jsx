@@ -4,7 +4,7 @@ import Header from '../components/Header'
 const NewArrival = () => {
   return (
     <div>
-        <Header/>
+      <Header/>       
         NewArrival
         </div>
   )
