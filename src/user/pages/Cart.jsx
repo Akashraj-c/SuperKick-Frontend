@@ -6,11 +6,11 @@ const Cart = () => {
   return (
     <>
       <Header />
-      <div className="conatiner-fluid" style={{overflowX:'hidden'}}>
+      <div className="conatiner-fluid " style={{overflowX:'hidden',marginTop:'130px'}}>
         <div className="row">
           <div className="col-md-8">
-            <div className='d-flex flex-column justify-content-center align-items-center mt-5 w-100'>
-              <div className='d-flex align-items-center shadow w-75 mb-5' style={{ borderRadius: '20px', height: '300px' }}>
+            <div className='d-flex flex-column justify-content-center align-items-center w-100'>
+              <div className='d-flex align-items-center shadow w-75 mb-5 border' style={{ borderRadius: '20px', height: '300px' }}>
                 <div style={{ height: '100%', width: '50%', borderRadius: '20px', marginRight: '50px' }}>
                   <img style={{ height: '100%', width: '80%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
                 </div>

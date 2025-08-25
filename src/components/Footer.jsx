@@ -3,6 +3,7 @@ import { RiInstagramLine } from "react-icons/ri";
 import { FaFacebookF } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -30,16 +31,16 @@ const Footer = () => {
                             <div className='mt-4'>
                                 <input type="text" placeholder='Email...' className='form-control border border-danger shadow' />
                                 <ul className='list-unstyled d-flex justify-content-around mt-3'>
-                                    <li><RiInstagramLine /></li>
-                                    <li><FaFacebookF /></li>
-                                    <li><FaLinkedinIn /></li>
-                                    <li><FaTwitter /></li>
+                                    <Link to={'https://www.instagram.com/'} className='text-white' target='_blank'><li><RiInstagramLine /></li></Link>
+                                    <Link to={'https://www.facebook.com/'} className='text-white' target='_blank'><li><FaFacebookF /></li></Link>
+                                     <Link to={'https://www.linkedin.com/in/akashraj-c-657a4123a/'} className='text-white' target='_blank'><li><FaLinkedinIn /></li></Link>
+                                    <Link to={'https://x.com/?lang=en-in'} className='text-white' target='_blank'><li><FaTwitter /></li></Link>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <hr />
                 <div className='d-flex justify-content-center mt-3'>
                     <p className='fw-bold'>© 2025 Superkicks — All rights reserved</p>
                 </div>

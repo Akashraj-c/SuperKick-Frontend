@@ -15,7 +15,7 @@ const Header = () => {
       
       <header style={{ width: '100%', height: '100px' }}>
         <div style={{ position: '', backgroundColor: 'white', zIndex: '1' }} className="container-fluid">
-          <div className="row  align-items-center px-3 pt-2" >
+          <div className="row  align-items-center px-3 pt-2 shadow" >
 
             <div className="col-md-2 d-flex justify-content-between align-items-center">
               <Link to={'/'}> <img src={logo} alt="no img" style={{ width: '100px' }} /></Link>
