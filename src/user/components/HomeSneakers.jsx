@@ -20,10 +20,10 @@ const HomeSneakers = () => {
 
             <div className="container">
                 <div className="row">
-                    <div className="col-md-3 mb-5 " style={{ cursor: 'pointer' }}>
+                    <div className="col-md-3 mb-5 col-6" style={{ cursor: 'pointer' }}>
                         <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                            <div className=' mb-3 mt-2 cardImg' style={{ height: '340px', width: '290px', borderRadius: '20px', transition: 'all 0.8s' }}>
-                                <img style={{ height: '340px', width: '290px', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/3-2025-08-05T170844.176.jpg?v=1754394119&width=600" alt="no img" />
+                            <div className=' mb-3 mt-2 cardImg'>
+                                <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/3-2025-08-05T170844.176.jpg?v=1754394119&width=600" alt="no img" />
                             </div>
                             <div className='w-100 text-center mt-2'>
                                 <div className='d-flex justify-content-around mb-1'>
@@ -38,11 +38,11 @@ const HomeSneakers = () => {
                         </div>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-6">
 
                         <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                            <div className=' mb-3 mt-2 cardImg' style={{ height: '340px', width: '290px', borderRadius: '20px', transition: 'all 0.8s' }}>
-                                <img style={{ height: '340px', width: '290px', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/1_d24741ab-0e6c-4aac-9c7b-719a40c2b12d.jpg?v=1742914393&width=600" alt="no img" />
+                            <div className=' mb-3 mt-2 cardImg'>
+                                <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/1_d24741ab-0e6c-4aac-9c7b-719a40c2b12d.jpg?v=1742914393&width=600" alt="no img" />
                             </div>
                             <div className='w-100 text-center'>
                                 <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
@@ -53,11 +53,11 @@ const HomeSneakers = () => {
                         </div>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-6">
 
                         <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                            <div className=' mb-3 mt-2 cardImg' style={{ height: '340px', width: '290px', borderRadius: '20px', transition: 'all 0.8s' }}>
-                                <img style={{ height: '340px', width: '290px', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
+                            <div className=' mb-3 mt-2 cardImg'>
+                                <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
                             </div>
                             <div className='w-100 text-center'>
                                 <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
@@ -68,11 +68,11 @@ const HomeSneakers = () => {
                         </div>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-6">
 
                         <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                            <div className=' mb-3 mt-2 cardImg' style={{ height: '340px', width: '290px', borderRadius: '20px', transition: 'all 0.8s' }}>
-                                <img style={{ height: '340px', width: '290px', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
+                            <div className=' mb-3 mt-2 cardImg'>
+                                <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
                             </div>
                             <div className='w-100 text-center'>
                                 <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
@@ -83,11 +83,11 @@ const HomeSneakers = () => {
                         </div>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-6">
 
                         <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                            <div className=' mb-3 mt-2 cardImg' style={{ height: '340px', width: '290px', borderRadius: '20px', transition: 'all 0.8s' }}>
-                                <img style={{ height: '340px', width: '290px', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
+                            <div className=' mb-3 mt-2 cardImg'>
+                                <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
                             </div>
                             <div className='w-100 text-center'>
                                 <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
@@ -99,11 +99,11 @@ const HomeSneakers = () => {
                     </div>
 
 
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-6">
 
                         <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                            <div className=' mb-3 mt-2 cardImg' style={{ height: '340px', width: '290px', borderRadius: '20px', transition: 'all 0.8s' }}>
-                                <img style={{ height: '340px', width: '290px', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
+                            <div className=' mb-3 mt-2 cardImg'>
+                                <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
                             </div>
                             <div className='w-100 text-center'>
                                 <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>

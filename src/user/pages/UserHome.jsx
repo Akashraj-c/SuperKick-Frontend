@@ -9,10 +9,12 @@ import HomeTrending from '../components/HomeTrending';
 import HomeSneakers from '../components/HomeSneakers';
 import Gender from '../components/Gender';
 import HomeApparels from '../components/HomeApparels';
+import Footer from '../../components/Footer';
 
 const UserHome = () => {
   return (
     <>
+      {/* Header */}
       <Header />
 
       {/* infinite scroll */}
@@ -50,7 +52,7 @@ const UserHome = () => {
           gridRotation={10}
         />
 
-        <div className='d-flex flex-column w-100 align-items-center justify-content-center' style={{ marginTop: '-180px' ,position:'relative'}}>
+        <div className='d-flex flex-column w-100 align-items-center justify-content-center' style={{ marginTop: '-180px', position: 'relative' }}>
           <img className='dropimg' src={dropCult} alt="" />
 
           <h6 className='mt-4 fw-light' style={{ fontSize: '18px' }}>Hottest Drip Around The World.Refreshed Daily.</h6>
@@ -71,6 +73,9 @@ const UserHome = () => {
 
       {/* Apparel Section */}
       <HomeApparels />
+
+      {/* Footer */}
+      <Footer />
     </>
   )
 }

@@ -12,7 +12,7 @@ const HomeCarousel = () => {
                     </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
-                    <img src="https://cdn.culture-circle.com/media/home%20banners/AJ1OBS%20Desktop.webp" alt="no img" style={{ height: '100%', width: '100%' }} />
+                    <img src="https://cdn.culture-circle.com/media/home%20banners/IBSD%20banners/Vomero%206hrs%20MRP%20Desktop.webp" alt="no img" style={{ height: '100%', width: '100%' }} />
                     <Carousel.Caption>
                         {/* <h3>Second slide label</h3> */}
                     </Carousel.Caption>
@@ -24,7 +24,7 @@ const HomeCarousel = () => {
                     </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
-                    <img src="https://cdn.culture-circle.com/media/home%20banners/IBSD%20banners/Vomero%206hrs%20MRP%20Desktop.webp" alt="no img" style={{ height: '100%', width: '100%' }} />
+                    <img src="https://cdn.culture-circle.com/media/home%20banners/Yeezy%20Desktop.webp" alt="no img" style={{ height: '100%', width: '100%' }} />
                     <Carousel.Caption>
                         {/* <h3>Third slide label</h3> */}
                     </Carousel.Caption>
@@ -33,6 +33,12 @@ const HomeCarousel = () => {
                     <img src="https://cdn.culture-circle.com/media/home%20banners/Festive%20Drip%20Deals/FDD%20desktop.webp" alt="no img" style={{ height: '100%', width: '100%' }} />
                     <Carousel.Caption>
                         {/* <h3>Third slide label</h3> */}
+                    </Carousel.Caption>
+                </Carousel.Item>
+                 <Carousel.Item>
+                    <img src="https://cdn.culture-circle.com/media/home%20banners/CentralCee%20Desktop.webp" alt="no img" style={{ height: '100%', width: '100%' }} />
+                    <Carousel.Caption>
+                        {/* <h3>Fourth slide label</h3> */}
                     </Carousel.Caption>
                 </Carousel.Item>
             </Carousel>
