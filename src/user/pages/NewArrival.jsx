@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import Header from '../components/Header'
+import Footer from '../../components/Footer';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
 import { MdBookmarkBorder } from 'react-icons/md';
 import '../../style/NewArrival.css'
-import Footer from '../../components/Footer';
 import { FaBarsProgress } from "react-icons/fa6";
 
 const NewArrival = () => {

@@ -10,12 +10,15 @@ import Cart from './user/pages/Cart'
 import WishList from './user/pages/WishList'
 import Blogs from './user/pages/Blogs'
 import ProductDetails from './user/pages/ProductDetails'
+import Auth from './pages/Auth'
 
 function App() {
 
   return (
     <>
       <Routes>
+        <Route path='/register' element={<Auth register/>} />
+        <Route path='/login' element={<Auth />} />
         <Route path='/' element={<UserHome />} />
         <Route path='/newarrival' element={<NewArrival />} />
         <Route path='/sneakers' element={<Sneakers />} />

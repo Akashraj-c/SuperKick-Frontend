@@ -7,7 +7,7 @@ const ProductDetails = () => {
     return (
         <>
             <Header />
-            <div className="container mt-4">
+            <div className="container" style={{ marginTop: '130px' }}>
                 <div className="row p-2">
                     <div className="col-md-7 d-flex border rounded p-2">
                         <div className='w-50 d-flex flex-column gap-4'>

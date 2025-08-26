@@ -5,6 +5,19 @@
   font-family: "Sen", sans-serif;
 }
 
+/* Auth */
+.Auth {
+    color: whitesmoke;
+    border: solid;
+    border-width: 0.4px;
+    border-color: rgb(58, 53, 122);
+    box-shadow: -5px -1px 50px 35px rgba(22, 9, 71, 0.5);
+}
+
+.Authinput::placeholder{
+  color: rgb(184, 180, 180);
+  font-size: smaller;
+}
 
 /* home brand scroll */
 .parentScroll {
@@ -80,6 +93,9 @@
 
 /* responsive */
 @media(max-width:750px) {
+  .AuthMain{
+    margin-top:-150px;
+  }
 
   /* Home Brand section */
   .brand {
