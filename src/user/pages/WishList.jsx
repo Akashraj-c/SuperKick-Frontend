@@ -5,10 +5,10 @@ const WishList = () => {
   return (
     <>
       <Header />
-      <div className="container mt-3">
+      <div className="container" style={{marginTop:'130px'}}>
         <div className="row">
           <div className="col-md-3 mb-5 border pb-2 " style={{ cursor: 'pointer', borderColor: 'rgba(8, 63, 119, 1)' }}>
-            <div className='d-flex flex-column align-items-center maincardDiv'>
+            <div className='d-flex flex-column align-items-center maincardDiv' style={{ height: '300px', width: '100%' }}>
               <div className=' mb-3 mt-2 ' style={{ height: '300px', width: '100%' }}>
                 <img style={{ height: '300px', width: '100%' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
               </div>

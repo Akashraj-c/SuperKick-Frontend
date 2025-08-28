@@ -62,8 +62,8 @@ const Auth = ({ register }) => {
                 toast.success('You have successfully logged in')
 
                 setTimeout(() => {
-                    if (result.data.existingUser.email == 'parkproadmin@gmail.com') {
-                        navigate('/admindashboard')
+                    if (result.data.existingUser.email == 'superkicksadmin@gmail.com') {
+                        navigate('/adminhome')
                     }
                     else {
                         navigate('/')
@@ -162,7 +162,7 @@ const Auth = ({ register }) => {
                                         </div>
 
                                         {register && <div className='w-100 mb-4'>
-                                            <input type="text" onChange={(e) => setuserDetails({ ...userDetails, username: e.target.value })} value={userDetails.username} placeholder='Username' className='form-control text-white w-100 bg-transparent border Authinput'/>
+                                            <input type="text" onChange={(e) => setuserDetails({ ...userDetails, username: e.target.value })} value={userDetails.username} placeholder='Username' className='form-control text-white w-100 bg-transparent border Authinput' />
                                         </div>}
 
                                         <div className='w-100 mb-4'>

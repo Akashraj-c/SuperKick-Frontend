@@ -11,13 +11,17 @@ import WishList from './user/pages/WishList'
 import Blogs from './user/pages/Blogs'
 import ProductDetails from './user/pages/ProductDetails'
 import Auth from './pages/Auth'
+import AdminHome from './Admin/pages/AdminHome'
+import Adminbrands from './Admin/pages/Adminbrands'
+import AdminProducts from './Admin/pages/AdminProducts'
+import AdminBlogs from './Admin/pages/AdminBlogs'
 
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path='/register' element={<Auth register/>} />
+        <Route path='/register' element={<Auth register />} />
         <Route path='/login' element={<Auth />} />
         <Route path='/' element={<UserHome />} />
         <Route path='/newarrival' element={<NewArrival />} />
@@ -28,6 +32,12 @@ function App() {
         <Route path='/wishlist' element={<WishList />} />
         <Route path='/blogs' element={<Blogs />} />
         <Route path='/productdetails' element={<ProductDetails />} />
+
+        {/* Admin */}
+        <Route path='/adminhome' element={<AdminHome />} />
+        <Route path='/adminbrands' element={<Adminbrands />} />
+        <Route path='/adminproducts' element={<AdminProducts />} />
+        <Route path='/adminblogs' element={<AdminBlogs />} />
       </Routes>
     </>
   )
