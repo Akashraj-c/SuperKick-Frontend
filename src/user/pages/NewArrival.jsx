@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { MdBookmarkBorder } from 'react-icons/md';
 import '../../style/NewArrival.css'
 import { FaBarsProgress } from "react-icons/fa6";
+import HomeSidebar from '../components/HomeSidebar';
 
 const NewArrival = () => {
   const [filterCollapse, setFilterCollpase] = useState(false)
@@ -16,10 +17,11 @@ const NewArrival = () => {
       {/* Header */}
       <Header />
 
-      <div style={{ marginTop: '150px' }} >
+      <div style={{ marginTop: '140px' }} >
         <p className='px-5 d-lg-flex d-none' style={{ color: 'rgba(94, 89, 89, 0.53)', fontSize: '14px' }}><Link to={'/'} className='text-decoration-none' style={{ color: 'rgba(94, 89, 89, 0.53)' }}>HOME</Link> / TRENDING </p>
       </div>
 
+      {/* Sorting dropdown */}
       <div className='d-flex justify-content-between align-items-center px-lg-5 px-2 mt-4 ' >
         <div>
           <h3>Trending</h3>
@@ -35,6 +37,7 @@ const NewArrival = () => {
         </div>
       </div>
 
+      {/* Menu bar */}
       <div className='w-100 d-flex flex-column justify-content-center align-items-center pt-5 pb-5' style={{ height: '10px' }}>
         <hr style={{ width: '95%' }} />
         <div className='w-100'>
@@ -42,76 +45,19 @@ const NewArrival = () => {
         </div>
       </div>
 
-      <div className='container-fluid '>
+      {/* Main Container */}
+      <div className='container-fluid'>
         <div className='row d-flex'>
           <div className='col-md-3 px-5 d-lg-flex d-none flex-column align-items-center border-end filterCol' style={{ height: '100vh', overflowY: 'auto' }}>
-            <div className='w-100 text-center mb-4 text-white shadow py-2' style={{backgroundColor:'rgba(180, 186, 180, 1)'}}>
-              <h4>Choose Your Style</h4>
-            </div>
-            {/* brands */}
-            <div className='d-flex flex-column border-bottom pb-5 w-100'>
-              <p className='fs-5'>Brands</p>
-              <div className="form-check">
-                <input className="form-check-input" value="adidas" type="checkbox" id="adidas" />
-                <label className="form-check-label" htmlFor="adidas">
-                  Adidas
-                </label>
-              </div>
-            </div>
-            <hr />
-            
-            {/* Categories */}
-            <div className='d-flex flex-column  mb-4 border-bottom pb-5 w-100'>
-              <p className='fs-5'>Categories</p>
-              <div className="form-check">
-                <input className="form-check-input" value="sneakers" type="checkbox" id="sneakers" />
-                <label className="form-check-label" htmlFor="sneakers">
-                  Sneakers
-                </label>
-              </div>
-            </div>
-
-            {/* Size */}
-            <div className='d-flex flex-column   border-bottom pb-5 w-100'>
-              <p className='fs-5'>Size</p>
-              <div className="form-check">
-                <input className="form-check-input" value="sneakers" type="checkbox" id="sneakers" />
-                <label className="form-check-label" htmlFor="sneakers">
-                  UK 4
-                </label>
-              </div>
-            </div>
-
+            <HomeSidebar />
           </div>
 
           {/* filter collapse */}
           {filterCollapse && <div className='col-md-3  px-5 d-lg-none flex-colum filterCol bg-black text-white' style={{ height: '100vh', overflowY: 'auto' }}>
-            {/* brands */}
-            <div className='d-flex flex-column  mb-4 mt-3 '>
-              <p className='fs-5'>Brands</p>
-              <div className="form-check">
-                <input className="form-check-input" value="adidas" type="checkbox" id="adidas" />
-                <label className="form-check-label" htmlFor="adidas">
-                  Adidas
-                </label>
-              </div>
-            </div>
-
-            <hr className='text-light' />
-            {/* Categories */}
-            <div className='d-flex flex-column '>
-              <p className='fs-5'>Categories</p>
-              <div className="form-check">
-                <input className="form-check-input" value="sneakers" type="checkbox" id="sneakers" />
-                <label className="form-check-label" htmlFor="sneakers">
-                  Sneakers
-                </label>
-              </div>
-            </div>
-
-            <hr className='text-light' />
+            <HomeSidebar />
           </div>}
 
+          {/* products */}
           <div className='col-md-9 mainCol' style={{ height: '100vh', overflowY: 'auto' }}>
             <div className="container- ">
               <div className="row">

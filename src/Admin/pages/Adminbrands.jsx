@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader'
 import AdminSidebar from '../components/AdminSidebar'
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -11,7 +11,11 @@ import { addBrandApi, deleteBrandApi, getAllBrandApi } from '../../services/allA
 import { GoTrash } from 'react-icons/go';
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbSettingsOff } from "react-icons/tb";
+import { searhKeyContext } from '../../context/Contextshare';
+
 const Adminbrands = () => {
+    const { searchKey, setSearchKey } = useContext(searhKeyContext)
+
     const [brandDetails, setBrandDetails] = useState({
         brandname: "",
         imageurl: ""
@@ -22,9 +26,10 @@ const Adminbrands = () => {
     const [updateStatus, setUpdateStatus] = useState('')
     const [settingsStatus, setSettingsStatus] = useState(false)
     const [AbrandData, setABrandData] = useState('')
-    const [searchKey, setSearchKey] = useState("")
+    const [selectedFilter, setSelectedFilter] = useState('Relevance')
     const [show, setShow] = useState(false); //add brand modal
     const [show1, setShow1] = useState(false); //Delete brand modal
+
     const handleClose = () => setShow(false); //add brand modal
     const handleShow = () => { //add brand modal
         setShow(true);
@@ -96,6 +101,20 @@ const Adminbrands = () => {
         }
     }
 
+    // Sorting
+    const filter = (data) => {
+        setSelectedFilter(data)
+        if (data == 'A-Z') {
+            setAllBrands([...tempArray].sort((a, b) => a.brandname.localeCompare(b.brandname)));
+        }
+        else if (data == 'Z-A') {
+            setAllBrands([...tempArray].sort((a, b) => b.brandname.localeCompare(a.brandname)));
+        }
+        else {
+            setAllBrands(tempArray);
+        }
+    }
+
     useEffect(() => {
         if (sessionStorage.getItem('token')) {
             const tok = sessionStorage.getItem('token')
@@ -124,10 +143,10 @@ const Adminbrands = () => {
                             </div>
 
                             <div className='d-flex w-75 justify-content-end'>
-                                <DropdownButton variant='secondary' id="dropdown-basic-button" title="Dropdown button">
-                                    <Dropdown.Item href="#/action-1">No-Filter</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">A-Z</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Z-A</Dropdown.Item>
+                                <DropdownButton variant='secondary' id="dropdown-basic-button" title={`Sort by : ${selectedFilter}`}>
+                                    <Dropdown.Item href="#/action-2" onClick={() => filter('Z-A')}>Z-A</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1" onClick={() => filter('A-Z')}>A-Z</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3" onClick={() => filter('Relevance')}>Relevance</Dropdown.Item>
                                 </DropdownButton>
 
                                 <button className='btn btn-success border ms-3' onClick={handleShow}>Add Brand</button>

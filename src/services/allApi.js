@@ -3,37 +3,38 @@ import { serverUrl } from "./serverUrl"
 
 // --------------------------User--------------------------
 
-// user registration
-export const registerApi = async (reqBody) => {
+export const registerApi = async (reqBody) => {  // user registration
     return await commonApi('POST', `${serverUrl}/register`, reqBody)
 }
 
-// user login
-export const loginApi = async (reqBody) => {
+export const loginApi = async (reqBody) => {  // user login
     return await commonApi('POST', `${serverUrl}/login`, reqBody)
 }
 
-// Google login
-export const googleLoginApi = async (reqBody) => {
+export const googleLoginApi = async (reqBody) => {  // Google login
     return await commonApi('POST', `${serverUrl}/googleLogin`, reqBody)
 }
 
+export const getHomeBrandsApi = async () => {  // Get Brands at userHome page
+    return await commonApi('GET', `${serverUrl}/gethomebrands`)
+}
 
 // -----------------------Admin--------------------------
 
-// Add brands
-export const addBrandApi = async (reqBody, reqHeader) => {
+export const addBrandApi = async (reqBody, reqHeader) => {  // Add brands
     return await commonApi('POST', `${serverUrl}/addbrands`, reqBody, reqHeader)
 }
 
-// Delete brand
-export const deleteBrandApi = async (id) => {
+export const deleteBrandApi = async (id) => {  // Delete brand
     return await commonApi('DELETE', `${serverUrl}/deletebrand/${id}`)
+}
+
+export const addProductApi = async (reqBody, reqHeader) => {
+    return await commonApi('POST', `${serverUrl}/addproduct`, reqBody, reqHeader)
 }
 
 // --------------------------Common--------------------------
 
-// Get all brands
-export const getAllBrandApi = async (searchKey) => {
+export const getAllBrandApi = async (searchKey) => {  // Get all brands
     return await commonApi('GET', `${serverUrl}/allbrands?search=${searchKey}`)
 }   

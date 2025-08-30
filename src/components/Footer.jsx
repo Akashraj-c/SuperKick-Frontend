@@ -29,7 +29,7 @@ const Footer = () => {
                         <div>
                             <h5 className='fw-bold'>CONTACT US</h5>
                             <div className='mt-4'>
-                                <input type="text" placeholder='Email...' className='form-control border border-danger shadow' />
+                                <input type="text" placeholder='Email...' className='form-control border border-danger shadow' name='contactus'/>
                                 <ul className='list-unstyled d-flex justify-content-around mt-3'>
                                     <Link to={'https://www.instagram.com/'} className='text-white' target='_blank'><li><RiInstagramLine /></li></Link>
                                     <Link to={'https://www.facebook.com/'} className='text-white' target='_blank'><li><FaFacebookF /></li></Link>

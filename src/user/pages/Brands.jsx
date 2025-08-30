@@ -1,45 +1,64 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { IoMdSearch } from 'react-icons/io';
 import { getAllBrandApi } from '../../services/allApi';
+import { searhKeyContext } from '../../context/Contextshare';
 
 const Brands = () => {
+  const { searchKey, setSearchKey } = useContext(searhKeyContext)
+
   const [allBrands, setAllBrands] = useState([])
+  const [tempArray, setTempArray] = useState([])
+  const [selectedFilter, setSelectedFilter] = useState('Relevance')
 
   // Get all brands
   const GetAllBrands = async () => {
-    const result = await getAllBrandApi()
-    console.log(result);
+    const result = await getAllBrandApi(searchKey)
+    // console.log(result);
     if (result.status == 200) {
       setAllBrands(result.data)
+      setTempArray(result.data)
+    }
+  }
+
+  // Sorting
+  const filter = (data) => {
+    setSelectedFilter(data)
+    if (data == 'A-Z') {
+      setAllBrands([...tempArray].sort((a, b) => a.brandname.localeCompare(b.brandname)));
+    }
+    else if (data == 'Z-A') {
+      setAllBrands([...tempArray].sort((a, b) => b.brandname.localeCompare(a.brandname)));
+    }
+    else {
+      setAllBrands(tempArray);
     }
   }
 
   useEffect(() => {
     GetAllBrands()
-  }, [])
+  }, [searchKey])
 
   return (
     <>
       {/* Header */}
       <Header />
 
-      <div className='d-flex container justify-content-between px-5 w-100' style={{ marginTop: '150px' }} >
+      <div className='d-lg-flex container justify-content-lg-between justify-content-end px-5 w-100' style={{ marginTop: '150px' }} >
         <div className='w-100 d-flex align-items-center'>
-          <input type="text" placeholder='search brand...' className='form-control w-50' />
+          <input type="text" onChange={(e) => setSearchKey(e.target.value)} placeholder='search brand...' className='form-control w-25 ' name='Brand' />
           <IoMdSearch style={{ marginLeft: '-30px' }} className='fs-5' />
         </div>
 
         <div>
-          <DropdownButton variant='secondary' id="dropdown-basic-button" title="Dropdown button">
-            <Dropdown.Item href="#/action-1">No-Filter</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">A-Z</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Z-A</Dropdown.Item>
+          <DropdownButton variant='secondary' id="dropdown-basic-button" title={`Sort by : ${selectedFilter}`}>
+            <Dropdown.Item href="#/action-2" onClick={() => filter('Z-A')}>Z-A</Dropdown.Item>
+            <Dropdown.Item href="#/action-1" onClick={() => filter('A-Z')}>A-Z</Dropdown.Item>
+            <Dropdown.Item href="#/action-3" onClick={() => filter('Relevance')}>Relevance</Dropdown.Item>
           </DropdownButton>
-
         </div>
       </div>
 
@@ -47,7 +66,7 @@ const Brands = () => {
         <div className="row px-5">
           {allBrands?.length > 0 ?
             allBrands.map((items, index) => (
-              <div key={index} className="col-md-4 mb-4">
+              <div key={index} className="col-md-4 col-4 mb-4">
                 <h6>{items?.brandname}</h6>
               </div>
             ))

@@ -25,7 +25,8 @@ const Header = () => {
             <div className="col-md-8">
               {location.pathname != '/cart' && location.pathname != '/wishlist' && <div>
                 <div className='mb-3 d-lg-flex d-none align-items-center justify-content-center'>
-                  <input type="text" placeholder='Find Your Drip' className='form-control shadow w-50' style={{ backgroundColor: '#e8f4f8' }} />
+                  <input type="text" placeholder='Find Your Drip' className='form-control shadow w-50' style={{ backgroundColor: '#e8f4f8' }} name='header'
+                  />
                   <MdOutlineSearch className='fs-4' style={{ marginLeft: '-40px' }} />
                 </div>
                 <ul className='list-unstyled d-lg-flex d-none justify-content-evenly '>
