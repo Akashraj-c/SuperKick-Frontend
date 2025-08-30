@@ -9,16 +9,19 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { addProductApi, getAllBrandApi } from '../../services/allApi';
+import { addProductApi, deleteProductApi, getAllBrandApi, getAllProductApi } from '../../services/allApi';
 import { FaFolderPlus } from "react-icons/fa6";
 import { toast, ToastContainer } from 'react-toastify';
+import { GoTrash } from "react-icons/go";
+import { FaPencilAlt } from "react-icons/fa";
 
 const AdminProducts = () => {
     const { searchKey, setSearchKey } = useContext(searhKeyContext)
 
     const [productDetails, setProductDetails] = useState({
         category: "",
-        subcategory: "sneaker",
+        subcategory: "",
+        gender: "",
         brand: "",
         name: "",
         color: "",
@@ -32,9 +35,22 @@ const AdminProducts = () => {
     const [preview, setPreview] = useState('')
     const [previewList, setPreviewList] = useState([])
     const [token, setToken] = useState('')
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [allProducts, setAllProducts] = useState([])
+    const [updateStatus, setUpdateStatus] = useState('')
+    const [AproductData, setAproductData] = useState('')
+    const [show, setShow] = useState(false); // Add Product modal
+    const [show1, setShow1] = useState(false); //Delete brand modal
+
+    const handleClose = () => {  // Add Product modal
+        setShow(false);
+        handleReset()
+    }
+    const handleShow = () => setShow(true); // Add Product modal
+    const handleClose1 = () => setShow1(false); //Delete brand modal
+    const handleShow1 = (data) => { //Delete brand modal
+        setShow1(true);
+        setAproductData(data) //Data of the particular Product
+    }
 
     // Get All Brands to show in form 
     const GetAllBrands = async () => {
@@ -61,11 +77,11 @@ const AdminProducts = () => {
         setPreviewList(newArray)
     }
 
-    // handle Upload
+    // Upload New Product
     const handleUpload = async () => {
-        const { category, subcategory, brand, name, color, size, price, uploadedImg } = productDetails
+        const { category, subcategory, gender, brand, name, color, size, price, uploadedImg } = productDetails
 
-        if (!category || !subcategory || !brand || !name || !color || !size || !price || uploadedImg.length == 0) {
+        if (!category || !subcategory || !gender || !brand || !name || !color || !size || !price || uploadedImg.length == 0) {
             toast.info('fill the form completely')
         }
         else {
@@ -93,7 +109,9 @@ const AdminProducts = () => {
 
             if (result.status == 200) {
                 toast.success('Product added successfully')
+                setUpdateStatus(result.data)
                 handleReset()
+                handleClose()
             }
             else if (result.status == 402) {
                 toast.info(result.response.data)
@@ -104,11 +122,12 @@ const AdminProducts = () => {
         }
     }
 
-    // handle reset
+    // reset the product form
     const handleReset = () => {
         setProductDetails({
             category: "",
             subcategory: "",
+            gender: "",
             brand: "",
             name: "",
             color: "",
@@ -119,13 +138,36 @@ const AdminProducts = () => {
         setPreviewList([])
     }
 
+    // get All products
+    const getAllProducts = async () => {
+        const result = await getAllProductApi(searchKey)
+        // console.log(result);
+        setAllProducts(result.data)
+    }
+
+    // Delete Product
+    const handleDelete = async () => {
+        const result = await deleteProductApi(AproductData?._id)
+        // console.log(result);
+
+        if (result.status == 200) {
+            toast.success(`${result.data.name} deleted successfuly`)
+            setUpdateStatus(result.data)
+            handleClose1()
+        }
+        else {
+            toast.error('Something went wrong')
+        }
+    }
+
     useEffect(() => {
         if (sessionStorage.getItem('token')) {
             const tok = sessionStorage.getItem('token')
             setToken(tok)
         }
         GetAllBrands()
-    }, [])
+        getAllProducts()
+    }, [updateStatus, searchKey])
 
     return (
         <>
@@ -142,7 +184,7 @@ const AdminProducts = () => {
                     <div className="col-md-9">
                         <div className='d-flex container justify-content-between px-5 w-100' style={{ marginTop: '80px' }} >
                             <div className='w-100 d-flex align-items-center'>
-                                <input type="text" onChange={(e) => setSearchKey(e.target.value)} placeholder='search brand...' className='form-control w-50' />
+                                <input type="text" onChange={(e) => setSearchKey(e.target.value)} placeholder='search...' className='form-control w-50' />
                                 <IoMdSearch style={{ marginLeft: '-30px' }} className='fs-5' />
                             </div>
 
@@ -159,40 +201,55 @@ const AdminProducts = () => {
                             </div>
                         </div>
 
-                        <div className='mt-5' style={{ overflowX: 'scroll' }}>
-                            <table className="table table-hover table-success">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Sl.No</th>
-                                        <th scope="col">Brand</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Color</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Edit</th>
-                                        <th scope="col">Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th style={{ width: '80px' }} scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div className='mt-5 px-4' style={{ overflowX: 'auto' }}>
+                            {allProducts?.length > 0 ?
+                                <table className="table table-hover ">
+                                    <thead>
+                                        <tr className='text-center'>
+                                            <th scope="col">Sl.No</th>
+                                            <th scope="col">Brand</th>
+                                            <th scope="col">Gender</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Color</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">size</th>
+                                            <th scope="col">Edit</th>
+                                            <th scope="col">Delete</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody className='text-center'>
+                                        {allProducts?.map((Item, index) => (
+                                            <tr key={index}>
+                                                <th scope="row">{index + 1}</th>
+                                                <td>{Item?.brand}</td>
+                                                <td>{Item?.gender}</td>
+                                                <td>{Item?.name.slice(0, 15)}</td>
+                                                <td>{Item?.color.slice(0, 15)}</td>
+                                                <td>{Item?.price}</td>
+                                                <td>{Object.entries(Item.size).map(([size, qty]) => ( //object.enteries convert object --> array of  key value pairs eg: [[1:2],[2:4],[3:1]] 
+                                                    <div key={size}>
+                                                        <h6 className={qty == 0 ? 'text-danger' : 'text-black'}>Uk {size}: {qty}</h6>
+                                                    </div>
+                                                ))}</td>
+                                                <td className='text-center'><FaPencilAlt className='text-secondary' /></td>
+                                                <td className='text-center'><GoTrash onClick={() => handleShow1(Item)} className='text-danger' /></td>
+                                            </tr>))}
+                                    </tbody>
+                                </table>
+                                :
+                                <div className='w-100  d-flex  justify-content-center mt-5'>
+                                    <img src="https://dld-vip.com/img/empty-product.png" alt="no img" />
+                                </div>
+                            }
                         </div>
 
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* modal to add product */}
-            <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} size='lg'>
+            <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} size='lg' >
                 <Modal.Header closeButton className='bg-secondary'>
                     <Modal.Title className='text-white fs-4'>ADD PROUDCTS</Modal.Title>
                 </Modal.Header>
@@ -202,13 +259,13 @@ const AdminProducts = () => {
                     <div className="mb-2">
                         <Form.Select value={productDetails?.category} aria-label="Select category" onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}>
                             <option>Select Category</option>
-                            <option value="sneaker">Sneaker</option>
+                            <option value="shoes">Shoes</option>
                             <option value="apparel">Apparel</option>
                         </Form.Select>
                     </div>
 
                     {/* Sub Category */}
-                    {productDetails?.category == 'apparel' && <div className="mb-2">
+                    {productDetails?.category == 'apparel' ? <div className="mb-2">
                         <Form.Select value={productDetails?.subcategory} aria-label="Select category" onChange={(e) => setProductDetails({ ...productDetails, subcategory: e.target.value })}>
                             <option>Select Sub Category</option>
                             <option value="Hoodies">Hoodies</option>
@@ -217,7 +274,27 @@ const AdminProducts = () => {
                             <option value="Shirt">Shirt</option>
                             <option value="Jacket">Jacket</option>
                         </Form.Select>
-                    </div>}
+                    </div>
+                        :
+                        <div className="mb-2">
+                            <Form.Select value={productDetails?.subcategory} aria-label="Select category" onChange={(e) => setProductDetails({ ...productDetails, subcategory: e.target.value })}>
+                                <option>Select Sub Category</option>
+                                <option value="sneakers">Sneakers</option>
+                                <option value="slides">Slides</option>
+
+                            </Form.Select>
+                        </div>
+                    }
+
+                    {/* Gender */}
+                    <div className="mb-2">
+                        <Form.Select value={productDetails?.gender} aria-label="Select Gender" onChange={(e) => setProductDetails({ ...productDetails, gender: e.target.value })}>
+                            <option>Select Category</option>
+                            <option value="Male">Men</option>
+                            <option value="Female">Women</option>
+                            <option value="Unisex">Unisex</option>
+                        </Form.Select>
+                    </div>
 
                     {/* Brand */}
                     <div className="mb-2">
@@ -241,13 +318,13 @@ const AdminProducts = () => {
 
                     {/* Price */}
                     <div className="mb-2">
-                        <input value={productDetails?.price} type="number" onChange={(e) => setProductDetails({ ...productDetails, price: e.target.value })} placeholder="Price" className="form-control" />
+                        <input min={0} value={productDetails?.price} type="number" onChange={(e) => setProductDetails({ ...productDetails, price: e.target.value })} placeholder="Price" className="form-control" />
                     </div>
 
                     {/* Sizes with Quantity */}
                     <div className="mb-3">
                         <h6 className="fw-bold">Size & Quantity</h6>
-                        {productDetails.category == 'sneaker' ? <div className="d-flex gap-2 flex-wrap">
+                        {productDetails.category == 'shoes' ? <div className="d-flex gap-2 flex-wrap">
                             {["6", "7", "8", "9", "10", "11"].map((size, index) => (
                                 <div key={index} className="d-flex align-items-center border rounded p-2" style={{ width: "110px" }}>
                                     <span className="me-2">UK {size}</span>
@@ -302,6 +379,20 @@ const AdminProducts = () => {
                 <Modal.Footer>
                     <Button variant="danger" onClick={handleReset}>Reset</Button>
                     <Button variant="success" onClick={handleUpload}>Add</Button>
+                </Modal.Footer>
+            </Modal >
+
+            {/* Delete Product Confirmation Modal */}
+            <Modal show={show1} onHide={handleClose1} backdrop="static" keyboard={false} style={{ marginTop: '100px' }}>
+                <Modal.Header closeButton className='bg-secondary'>
+                    <Modal.Title className='fw-bold fs-5'>{AproductData.name}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Are you sure you want to delete this Product?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose1}>Cancel</Button>
+                    <Button variant="danger" onClick={handleDelete}>Delete</Button>
                 </Modal.Footer>
             </Modal>
 

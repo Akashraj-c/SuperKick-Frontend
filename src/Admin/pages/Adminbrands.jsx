@@ -30,7 +30,10 @@ const Adminbrands = () => {
     const [show, setShow] = useState(false); //add brand modal
     const [show1, setShow1] = useState(false); //Delete brand modal
 
-    const handleClose = () => setShow(false); //add brand modal
+    const handleClose = () => { //add brand modal
+        setShow(false);
+        handleReset()
+    }
     const handleShow = () => { //add brand modal
         setShow(true);
         setSettingsStatus(false)
@@ -129,6 +132,7 @@ const Adminbrands = () => {
             {/* header */}
             <AdminHeader />
 
+            {/* Main Container */}
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-3">
@@ -167,26 +171,12 @@ const Adminbrands = () => {
                                         <div key={index} className="col-md-4 col-4 mb-4 d-flex">
                                             <h6 style={{ cursor: 'pointer' }}>{items?.brandname}</h6>
                                             {settingsStatus && <h6> <GoTrash className='ms-3 text-danger' style={{ cursor: 'pointer' }} onClick={() => handleShow1(items)} /></h6>}
-
-                                            {/*Delete Brand Modal */}
-                                            <Modal modal='true' show={show1} onHide={handleClose1} backdrop="static" keyboard={false} style={{ marginTop: '100px' }}>
-                                                <Modal.Header closeButton className='bg-secondary'>
-                                                    <Modal.Title className='fw-bold fs-5'>{AbrandData?.brandname}</Modal.Title>
-                                                </Modal.Header>
-                                                <Modal.Body>
-                                                    <p>Are you sure you want to delete this brand?</p>
-                                                </Modal.Body>
-                                                <Modal.Footer>
-                                                    <Button variant="secondary" onClick={handleClose1}>Cancel</Button>
-                                                    <Button variant="danger" onClick={handleDelete}>Delete</Button>
-                                                </Modal.Footer>
-                                            </Modal>
                                         </div>
                                     ))
                                     :
                                     <div className='w-100 d-flex align-items-center justify-content-center'>
-                                        <div className='w-50'>
-                                            <img src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png" alt="no img" width={'100%'} />
+                                        <div className='w-50 mt-5'>
+                                            <img src="https://dld-vip.com/img/empty-product.png" alt="no img" width={'100%'} />
                                         </div>
                                     </div>
                                 }
@@ -224,6 +214,20 @@ const Adminbrands = () => {
                     <Button variant="primary" onClick={handleAdd}>Add</Button>
                 </Modal.Footer>
             </Modal >
+
+            {/*Delete Brand confirmation Modal */}
+            <Modal modal='true' show={show1} onHide={handleClose1} backdrop="static" keyboard={false} style={{ marginTop: '100px' }}>
+                <Modal.Header closeButton className='bg-secondary'>
+                    <Modal.Title className='fw-bold fs-5'>{AbrandData?.brandname}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Are you sure you want to delete this brand?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose1}>Cancel</Button>
+                    <Button variant="danger" onClick={handleDelete}>Delete</Button>
+                </Modal.Footer>
+            </Modal>
 
             {/* Toast conatiner */}
             < ToastContainer position="top-center" autoClose={1500} theme="colored" />
