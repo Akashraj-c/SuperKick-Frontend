@@ -41,6 +41,10 @@ export const deleteProductApi = async (id) => {  //Delete a product
     return await commonApi('DELETE', `${serverUrl}/deleteproduct/${id}`)
 }
 
+export const editProductDetailsApi = async (reqBody, id) => {  //edit product details
+    return await commonApi('PUT', `${serverUrl}/editprodcut/${id}`, reqBody)
+}
+
 // --------------------------Common--------------------------
 
 export const getAllBrandApi = async (searchKey) => {  // Get all brands

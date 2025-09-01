@@ -153,7 +153,7 @@ const Adminbrands = () => {
                                     <Dropdown.Item href="#/action-3" onClick={() => filter('Relevance')}>Relevance</Dropdown.Item>
                                 </DropdownButton>
 
-                                <button className='btn btn-success border ms-3' onClick={handleShow}>Add Brand</button>
+                                <button className='btn btn-success border ms-3' type='button' onClick={handleShow}>Add Brand</button>
 
                                 {!settingsStatus ?
                                     <button className='btn btn-warning border ms-3' onClick={() => setSettingsStatus(!settingsStatus)}><IoSettingsOutline /></button>
@@ -187,14 +187,7 @@ const Adminbrands = () => {
             </div >
 
             {/*Add Brand Modal */}
-            <Modal modal='true'
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                style={{ marginTop: '100px' }
-                }
-            >
+            <Modal modal='true' show={show} onHide={handleClose} backdrop="static" keyboard={false} style={{ marginTop: '100px' }}>
                 <Modal.Header closeButton className='bg-secondary'>
                     <Modal.Title className='fw-bold fs-5'>ADD BRANDS</Modal.Title>
                 </Modal.Header>
@@ -211,7 +204,7 @@ const Adminbrands = () => {
                     <Button variant="secondary" onClick={handleReset}>
                         Reset
                     </Button>
-                    <Button variant="primary" onClick={handleAdd}>Add</Button>
+                    <Button variant="primary" type='button' onClick={handleAdd}>Add</Button>
                 </Modal.Footer>
             </Modal >
 
@@ -224,13 +217,13 @@ const Adminbrands = () => {
                     <p>Are you sure you want to delete this brand?</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose1}>Cancel</Button>
-                    <Button variant="danger" onClick={handleDelete}>Delete</Button>
+                    <Button variant="secondary" type='button' onClick={handleClose1}>Cancel</Button>
+                    <Button variant="danger" type='button' onClick={handleDelete}>Delete</Button>
                 </Modal.Footer>
             </Modal>
 
             {/* Toast conatiner */}
-            < ToastContainer position="top-center" autoClose={1500} theme="colored" />
+            < ToastContainer position="top-center" autoClose={1000} theme="colored" />
         </>
     )
 }
