@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { MdOutlineSearch } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 import { FaBars } from "react-icons/fa6";
 import CurvedLoop from '../../ReactBits/CurvedLoop/CurvedLoop';
+import { searhKeyContext } from '../../context/Contextshare';
 
 const Header = () => {
+  const { searchKey, setSearchKey } = useContext(searhKeyContext)
+
   const [menuCollapse, setMenuCollapse] = useState(false)
 
-
   return (
-    <div className='w-100 z-1' style={{ position: 'fixed',top:'0px'}}>
-      
+    <div className='w-100 z-1' style={{ position: 'fixed', top: '0px' }}>
+
       <header style={{ width: '100%', height: '100px' }}>
         <div style={{ position: '', backgroundColor: 'white', zIndex: '1' }} className="container-fluid">
           <div className="row  align-items-center px-3 pt-2 shadow" >
@@ -21,11 +23,11 @@ const Header = () => {
               <Link to={'/'}> <img src={logo} alt="no img" style={{ width: '100px' }} /></Link>
               <FaBars onClick={() => setMenuCollapse(!menuCollapse)} className='text-balck d-lg-none fs-1' />
             </div>
-            
+
             <div className="col-md-8">
               {location.pathname != '/cart' && location.pathname != '/wishlist' && <div>
                 <div className='mb-3 d-lg-flex d-none align-items-center justify-content-center'>
-                  <input type="text" placeholder='Find Your Drip' className='form-control shadow w-50' style={{ backgroundColor: '#e8f4f8' }} name='header'
+                  <input type="text" placeholder='Find Your Drip' onChange={(e) => setSearchKey(e.target.value)} className='form-control shadow w-50' style={{ backgroundColor: '#e8f4f8' }} name='header'
                   />
                   <MdOutlineSearch className='fs-4' style={{ marginLeft: '-40px' }} />
                 </div>
@@ -57,7 +59,7 @@ const Header = () => {
                 <h2 className='fw-bold'>WISHLIST</h2>
               </div>}
             </div>
-            
+
             <div className="col-md-2">
               <ul className='list-unstyled d-lg-flex d-none justify-content-end align-items-center'>
                 <Link to={'/wishlist'}><li className='fw-bold me-4 fs-5 text-black'><FaRegHeart /></li></Link>
@@ -76,7 +78,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-      
+
       {/* infinite loop */}
       {location.pathname == '/' && <div className='w-100 z-1' style={{ overflowX: 'hidden' }}>
         <CurvedLoop

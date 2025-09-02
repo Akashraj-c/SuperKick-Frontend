@@ -1,6 +1,5 @@
 import React from 'react'
 import Header from '../components/Header'
-import { FaBasketball } from 'react-icons/fa6';
 import dropCult from '../../assets/drop.svg'
 import RippleGrid from '../../ReactBits/RippleGrid/RippleGrid';
 import HomeCarousel from '../components/HomeCarousel';

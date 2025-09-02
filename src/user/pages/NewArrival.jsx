@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -8,9 +8,43 @@ import { MdBookmarkBorder } from 'react-icons/md';
 import '../../style/NewArrival.css'
 import { FaBarsProgress } from "react-icons/fa6";
 import HomeSidebar from '../components/HomeSidebar';
+import { getAllProductApi } from '../../services/allApi';
+import { searhKeyContext } from '../../context/Contextshare';
+import { serverUrl } from '../../services/serverUrl';
 
 const NewArrival = () => {
+  const { searchKey, setSearchKey } = useContext(searhKeyContext)
+
   const [filterCollapse, setFilterCollpase] = useState(false)
+  const [allProducts, setAllProducts] = useState([])
+  const [tempArray, setTempArray] = useState([])
+  const [filterButtonData, setFilterBottomData] = useState('Relevance')
+
+  // get All products
+  const getAllProducts = async () => {
+    const result = await getAllProductApi(searchKey)
+    // console.log(result);
+    setAllProducts(result.data)
+    setTempArray(result.data)
+  }
+
+  // filter button
+  const filterButton = (data) => {
+    setFilterBottomData(data)
+    if (data == 'L-H') {
+      setAllProducts([...tempArray].sort((a, b) => a.price - b.price))
+    }
+    else if (data == 'H-L') {
+      setAllProducts([...tempArray].sort((a, b) => b.price - a.price))
+    }
+    else {
+      setAllProducts(tempArray)
+    }
+  }
+
+  useEffect(() => {
+    getAllProducts()
+  }, [searchKey])
 
   return (
     <>
@@ -29,10 +63,10 @@ const NewArrival = () => {
         </div>
 
         <div>
-          <DropdownButton id="dropdown-basic-button" variant='secondary' title="Sort by : Relavance">
-            <Dropdown.Item href="#/action-1">Newest</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Price : Low to High</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Price : High to Low</Dropdown.Item>
+          <DropdownButton id="dropdown-basic-button" variant='secondary' title={`Sort By : ${filterButtonData}`}>
+            <Dropdown.Item href="#/action-2" onClick={() => filterButton('L-H')}>Price : Low to High</Dropdown.Item>
+            <Dropdown.Item href="#/action-3" onClick={() => filterButton('H-L')}>Price : High to Low</Dropdown.Item>
+            <Dropdown.Item href="#/action-1" onClick={() => filterButton('Relevence')}>Relevence</Dropdown.Item>
           </DropdownButton>
         </div>
       </div>
@@ -61,93 +95,26 @@ const NewArrival = () => {
           <div className='col-md-9 mainCol' style={{ height: '100vh', overflowY: 'auto' }}>
             <div className="container- ">
               <div className="row">
-                <div className="col-md-3 mb-3 col-6 " style={{ cursor: 'pointer' }}>
-                  <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
-                    <div className=' mb-3 mt-2 NewcardImg'>
-                      <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
-                    </div>
-                    <div className='w-100 text-center mt-2'>
-                      <div className='d-flex justify-content-around mb-1'>
-                        <p></p>
-                        <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                        <MdBookmarkBorder className='fs-5' />
+
+                {allProducts?.map((item, index) => (
+                  <div key={index} className="col-md-3 mb-3 col-6 " style={{ cursor: 'pointer' }}>
+                    <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
+                      <div className=' mb-3 mt-2 NewcardImg'>
+                        <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${item?.uploadedImg[0]}`} alt="no img" />
                       </div>
-                      <h6>GEL-QUANTUM 360 VIII</h6>
-                      <p>ILLUMINATE YELLOW/BLACK</p>
-                      <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> 7,899</p>
+                      <div className='w-100 text-center mt-2'>
+                        <div className='d-flex justify-content-around mb-1'>
+                          <p></p>
+                          <h6 style={{ textTransform: 'uppercase' }}>{item?.brand}</h6>
+                          <MdBookmarkBorder className='fs-5' />
+                        </div>
+                        <h6>{item?.name}</h6>
+                        <p>{item?.color}</p>
+                        <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {item?.price}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                <div className="col-md-3 col-6">
-                  <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
-                    <div className=' mb-3 mt-2 NewcardImg'>
-                      <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/6_20_d731898b-efbd-42ff-bb6c-75d3bb52a509.jpg?v=1748524954&width=600" alt="no img" />
-                    </div>
-                    <div className='w-100 text-center'>
-                      <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                      <h6>GEL-QUANTUM 360 VIII</h6>
-                      <p>ILLUMINATE YELLOW/BLACK</p>
-                      <p> 7899</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-md-3 col-6">
-                  <div className='d-flex flex-column align-items-center NewmaincardDiv' style={{ borderRadius: '20px' }}>
-                    <div className=' mb-3 mt-2 NewcardImg' >
-                      <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/7_12_c3b2c027-2ae5-426c-8058-0bab6deb9c0b.jpg?v=1748524926&width=600" alt="no img" />
-                    </div>
-                    <div className='w-100 text-center'>
-                      <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                      <h6>GEL-QUANTUM 360 VIII</h6>
-                      <p>ILLUMINATE YELLOW/BLACK</p>
-                      <p>$ 7899</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-md-3 col-6">
-                  <div className='d-flex flex-column align-items-center NewmaincardDiv' style={{ borderRadius: '20px' }}>
-                    <div className=' mb-3 mt-2 NewcardImg' >
-                      <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
-                    </div>
-                    <div className='w-100 text-center'>
-                      <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                      <h6>GEL-QUANTUM 360 VIII</h6>
-                      <p>ILLUMINATE YELLOW/BLACK</p>
-                      <p>$ 7899</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-md-3 col-6">
-                  <div className='d-flex flex-column align-items-center NewmaincardDiv' style={{ borderRadius: '20px' }}>
-                    <div className=' mb-3 mt-2 NewcardImg' >
-                      <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
-                    </div>
-                    <div className='w-100 text-center'>
-                      <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                      <h6>GEL-QUANTUM 360 VIII</h6>
-                      <p>ILLUMINATE YELLOW/BLACK</p>
-                      <p>$ 7899</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-md-3 col-6">
-                  <div className='d-flex flex-column align-items-center NewmaincardDiv' style={{ borderRadius: '20px' }}>
-                    <div className=' mb-3 mt-2 NewcardImg' >
-                      <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
-                    </div>
-                    <div className='w-100 text-center'>
-                      <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                      <h6>GEL-QUANTUM 360 VIII</h6>
-                      <p>ILLUMINATE YELLOW/BLACK</p>
-                      <p>$ 7899</p>
-                    </div>
-                  </div>
-                </div>
+                ))}
 
               </div>
             </div>

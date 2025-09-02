@@ -14,7 +14,7 @@ import { FaFolderPlus } from "react-icons/fa6";
 import { toast, ToastContainer } from 'react-toastify';
 import { GoTrash } from "react-icons/go";
 import { FaPencilAlt } from "react-icons/fa";
-import { serverUrl } from '../../services/serverUrl';
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const AdminProducts = () => {
     const { searchKey, setSearchKey } = useContext(searhKeyContext)
@@ -264,6 +264,16 @@ const AdminProducts = () => {
                 size: AproductData.size || {},
                 uploadedImg: AproductData.uploadedImg || []
             });
+            if (AproductData.uploadedImg?.length > 0) {
+                const urls = AproductData.uploadedImg.map(
+                    (file) => `http://localhost:4000/uploads/${file}`
+                );
+                setPreviewList(urls);
+                setPreview(urls[0])
+            } else {
+                setPreviewList([]);
+                setPreview('')
+            }
         }
     }, [updateStatus, searchKey, AproductData])
 
@@ -275,11 +285,11 @@ const AdminProducts = () => {
             {/* main container */}
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                         <AdminSidebar />
                     </div>
 
-                    <div className="col-md-9" >
+                    <div className="col-md-10 mainDiv" style={{ height: '86vh', overflowY: 'auto' }}>
                         <div className='d-flex container justify-content-between px-5 w-100' style={{ marginTop: '60px' }} >
                             <div className='w-100 d-flex align-items-center'>
                                 <input type="text" onChange={(e) => setSearchKey(e.target.value)} placeholder='search...' className='form-control w-50' />
@@ -351,11 +361,11 @@ const AdminProducts = () => {
 
             {/* modal to add and edit product */}
             <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} size='lg' >
-                <Modal.Header closeButton className='bg-secondary'>
+                <Modal.Header closeButton style={{ backgroundColor: 'rgba(101, 100, 103, 1)' }}>
                     {AproductData == 'add' ?
-                        <Modal.Title className='text-white fs-4'>ADD PROUDCTS</Modal.Title>
+                        <Modal.Title className='text-white fs-4'>ADD PROUDCT</Modal.Title>
                         :
-                        <Modal.Title className='text-white fs-4'>Edit PROUDCTS</Modal.Title>
+                        <Modal.Title className='text-white fs-4'>EDIT PROUDCT</Modal.Title>
                     }
                 </Modal.Header>
                 <Modal.Body>
@@ -466,7 +476,10 @@ const AdminProducts = () => {
 
                         {preview && <div className='d-flex justify-content-center align-items-center mt-2'>
                             {previewList?.map((Item, index) => (
-                                <img key={index} src={Item} alt="no img" style={{ width: '80px', height: '80px' }} className='me-2' />
+                                <div key={index} className='d-flex me-3 '>
+                                    <img src={Item} alt="no img" style={{ width: '80px', height: '80px' }} className='me-3' />
+                                    <IoIosCloseCircleOutline className='text-danger' style={{ marginLeft: '-25px' }} />
+                                </div>
                             ))}
 
 

@@ -135,11 +135,11 @@ const Adminbrands = () => {
             {/* Main Container */}
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                         <AdminSidebar />
                     </div>
 
-                    <div className="col-md-9">
+                    <div className="col-md-9 ms-lg-5">
                         <div className='d-flex container justify-content-between px-5 w-100' style={{ marginTop: '80px' }} >
                             <div className='w-100 d-flex align-items-center'>
                                 <input type="text" onChange={(e) => setSearchKey(e.target.value)} placeholder='search brand...' className='form-control w-50' />
@@ -165,10 +165,10 @@ const Adminbrands = () => {
                         </div>
 
                         <div className="container mt-5">
-                            <div className="row px-5">
+                            <div className="row px-5 ">
                                 {allBrands?.length > 0 ?
                                     allBrands.map((items, index) => (
-                                        <div key={index} className="col-md-4 col-4 mb-4 d-flex">
+                                        <div key={index} className="col-md-4 col-4 mb-4 d-flex justify-content-center">
                                             <h6 style={{ cursor: 'pointer' }}>{items?.brandname}</h6>
                                             {settingsStatus && <h6> <GoTrash className='ms-3 text-danger' style={{ cursor: 'pointer' }} onClick={() => handleShow1(items)} /></h6>}
                                         </div>

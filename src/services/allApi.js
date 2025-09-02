@@ -19,6 +19,15 @@ export const getHomeBrandsApi = async () => {  // Get Brands at userHome page
     return await commonApi('GET', `${serverUrl}/gethomebrands`)
 }
 
+export const getAllSneakersApi = async (searchKey) => {  //Get all sneakers
+    return await commonApi('GET', `${serverUrl}/allSneakers?search=${searchKey}`)
+}
+
+export const getAllApparelsApi = async (searchKey) => {  //Get all Apparels
+    return await commonApi('GET', `${serverUrl}/allApparels?search=${searchKey}`)
+}
+
+
 // -----------------------Admin--------------------------
 
 export const addBrandApi = async (reqBody, reqHeader) => {  // Add brands

@@ -1,10 +1,27 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { IoMdTrendingUp } from "react-icons/io";
 import { MdBookmarkBorder } from "react-icons/md";
 import { CgChevronDoubleRight } from "react-icons/cg";
 import { Link } from 'react-router-dom';
+import { getAllProductApi } from '../../services/allApi';
+import { searhKeyContext } from '../../context/Contextshare';
+import { serverUrl } from '../../services/serverUrl';
 
 const HomeTrending = () => {
+    const { searchKey, setSearchKey } = useContext(searhKeyContext)
+
+    const [allProducts, setAllProducts] = useState([])
+
+    // get All products
+    const getAllProducts = async () => {
+        const result = await getAllProductApi(searchKey)
+        // console.log(result);
+        setAllProducts(result.data)
+    }
+
+    useEffect(() => {
+        getAllProducts()
+    }, [])
 
     return (
         <>
@@ -22,99 +39,27 @@ const HomeTrending = () => {
 
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-3 mb-5 col-6" style={{ cursor: 'pointer' }}>
-                            <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                                <div className=' mb-3 mt-2 cardImg'>
-                                    <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
-                                </div>
-                                <div className='w-100 text-center mt-2'>
-                                    <div className='d-flex justify-content-around mb-1'>
-                                        <p></p>
-                                        <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                                        <MdBookmarkBorder className='fs-5' />
+                        {allProducts?.slice(0, 8).map((item, index) => (
+                            <div key={index} className="col-md-3 mb-5 col-6" style={{ cursor: 'pointer' }}>
+                                <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
+                                    <div className=' mb-3 mt-2 cardImg'>
+                                        <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${item.uploadedImg[0]}`} alt="no img" />
                                     </div>
-                                    <h6>GEL-QUANTUM 360 VIII</h6>
-                                    <p>ILLUMINATE YELLOW/BLACK</p>
-                                    <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> 7,899</p>
+                                    <div className='w-100 text-center mt-2'>
+                                        <div className='d-flex justify-content-around mb-1'>
+                                            <p></p>
+                                            <h6 style={{ textTransform: 'uppercase' }}>{item?.brand}</h6>
+                                            <MdBookmarkBorder className='fs-5' />
+                                        </div>
+                                        <h6>{item?.name}</h6>
+                                        <p>{item?.color}</p>
+                                        <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {item?.price}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div className="col-md-3 col-6">
-
-                            <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                                <div className=' mb-3 mt-2 cardImg'>
-                                    <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/6_20_d731898b-efbd-42ff-bb6c-75d3bb52a509.jpg?v=1748524954&width=600" alt="no img" />
-                                </div>
-                                <div className='w-100 text-center'>
-                                    <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                                    <h6>GEL-QUANTUM 360 VIII</h6>
-                                    <p>ILLUMINATE YELLOW/BLACK</p>
-                                    <p> 7899</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-md-3 col-6">
-
-                            <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                                <div className=' mb-3 mt-2 cardImg' >
-                                    <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/7_12_c3b2c027-2ae5-426c-8058-0bab6deb9c0b.jpg?v=1748524926&width=600" alt="no img" />
-                                </div>
-                                <div className='w-100 text-center'>
-                                    <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                                    <h6>GEL-QUANTUM 360 VIII</h6>
-                                    <p>ILLUMINATE YELLOW/BLACK</p>
-                                    <p>$ 7899</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-md-3 col-6">
-
-                            <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                                <div className=' mb-3 mt-2 cardImg' >
-                                    <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
-                                </div>
-                                <div className='w-100 text-center'>
-                                    <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                                    <h6>GEL-QUANTUM 360 VIII</h6>
-                                    <p>ILLUMINATE YELLOW/BLACK</p>
-                                    <p>$ 7899</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-md-3 col-6">
-
-                            <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                                <div className=' mb-3 mt-2 cardImg' >
-                                    <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
-                                </div>
-                                <div className='w-100 text-center'>
-                                    <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                                    <h6>GEL-QUANTUM 360 VIII</h6>
-                                    <p>ILLUMINATE YELLOW/BLACK</p>
-                                    <p>$ 7899</p>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
 
 
-                        <div className="col-md-3 col-6">
-
-                            <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
-                                <div className=' mb-3 mt-2 cardImg' >
-                                    <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src="https://www.superkicks.in/cdn/shop/files/4_3759f13f-2605-4c76-a25f-331d607abbc5.jpg?v=1724411303&width=600" alt="no img" />
-                                </div>
-                                <div className='w-100 text-center'>
-                                    <h6 style={{ textTransform: 'uppercase' }}>Asics</h6>
-                                    <h6>GEL-QUANTUM 360 VIII</h6>
-                                    <p>ILLUMINATE YELLOW/BLACK</p>
-                                    <p>$ 7899</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
