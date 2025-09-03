@@ -289,7 +289,7 @@ const AdminProducts = () => {
                         <AdminSidebar />
                     </div>
 
-                    <div className="col-md-10 mainDiv" style={{ height: '86vh', overflowY: 'auto' }}>
+                    <div className="col-md-10 mainDiv">
                         <div className='d-flex container justify-content-between px-5 w-100' style={{ marginTop: '60px' }} >
                             <div className='w-100 d-flex align-items-center'>
                                 <input type="text" onChange={(e) => setSearchKey(e.target.value)} placeholder='search...' className='form-control w-50' />

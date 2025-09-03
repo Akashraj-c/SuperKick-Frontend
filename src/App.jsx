@@ -31,7 +31,7 @@ function App() {
         <Route path='/cart' element={<Cart />} />
         <Route path='/wishlist' element={<WishList />} />
         <Route path='/blogs' element={<Blogs />} />
-        <Route path='/productdetails' element={<ProductDetails />} />
+        <Route path='/productdetails/:id' element={<ProductDetails />} />
 
         {/* Admin */}
         <Route path='/adminhome' element={<AdminHome />} />

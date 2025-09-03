@@ -52,7 +52,7 @@ const AdminSidebar = () => {
     }, [])
 
     return (
-        <div style={{ backgroundColor: 'rgba(240, 225, 209, 1)', height: '86vh', marginLeft: '-15px' }} className='d-flex flex-column align-items-center shadow'>
+        <div style={{ backgroundColor: 'rgba(240, 225, 209, 1)', height: '100vh', marginLeft: '-15px', position: "sticky", top: '0' }} className='d-flex flex-column align-items-center shadow'>
             <div className='d-flex flex-column align-items-center mt-5'>
                 <img src={logo} alt="no img" style={{ width: '150px' }} />
                 <FaBars className='d-lg-none' onClick={() => setSidebarCollapse(!sidebarCollapse)} />
@@ -60,27 +60,27 @@ const AdminSidebar = () => {
 
             <div className='d-none d-lg-flex flex-column'>
                 <div className="form-check" onClick={() => filter('Home')}>
-                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked={homeStatus} readOnly/>
+                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked={homeStatus} readOnly />
                     <label className="form-check-label" htmlFor="exampleRadios1">
                         <h6 className='ms-2 fw-bold'><FaHome className='fs-5 me-1' /> Home</h6>
                     </label>
                 </div>
                 <div className="form-check mt-3" onClick={() => filter('Brands')}>
-                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked={brandStatus} readOnly/>
+                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked={brandStatus} readOnly />
                     <label className="form-check-label" htmlFor="exampleRadios2">
                         <h6 className='ms-2 fw-bold'><SiBrandfolder className='fs-5 me-1' /> Brands</h6>
                     </label>
                 </div>
 
                 <div className="form-check mt-3" onClick={() => filter('Products')}>
-                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option2" checked={productStatus} readOnly/>
+                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option2" checked={productStatus} readOnly />
                     <label className="form-check-label" htmlFor="exampleRadios3">
                         <h6 className='ms-2 fw-bold'><TiShoppingCart className='fs-5 me-1' /> Products</h6>
                     </label>
                 </div>
 
                 <div className="form-check mt-3" onClick={() => filter('Blogs')}>
-                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option2" checked={blogStatus} readOnly/>
+                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option2" checked={blogStatus} readOnly />
                     <label className="form-check-label" htmlFor="exampleRadios4">
                         <h6 className='ms-2 fw-bold'><FaBlog className='fs-5 me-1' /> Blogs</h6>
                     </label>
@@ -90,27 +90,27 @@ const AdminSidebar = () => {
             {/* Side bar collapse */}
             {sidebarCollapse && <div className='d-none d-lg-flex flex-column'>
                 <div className="form-check" onClick={() => filter('Home')}>
-                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked={homeStatus} readOnly/>
+                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked={homeStatus} readOnly />
                     <label className="form-check-label" htmlFor="exampleRadios1">
                         <h6 className='ms-2 fw-bold'><FaHome className='fs-5 me-1' /> Home</h6>
                     </label>
                 </div>
                 <div className="form-check mt-3" onClick={() => filter('Brands')}>
-                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked={brandStatus} readOnly/>
+                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked={brandStatus} readOnly />
                     <label className="form-check-label" htmlFor="exampleRadios2">
                         <h6 className='ms-2 fw-bold'><SiBrandfolder className='fs-5 me-1' /> Brands</h6>
                     </label>
                 </div>
 
                 <div className="form-check mt-3" onClick={() => filter('Products')}>
-                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option2" checked={productStatus} readOnly/>
+                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option2" checked={productStatus} readOnly />
                     <label className="form-check-label" htmlFor="exampleRadios3">
                         <h6 className='ms-2 fw-bold'><TiShoppingCart className='fs-5 me-1' /> Products</h6>
                     </label>
                 </div>
 
                 <div className="form-check mt-3" onClick={() => filter('Blogs')}>
-                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option2" checked={blogStatus} readOnly/>
+                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option2" checked={blogStatus} readOnly />
                     <label className="form-check-label" htmlFor="exampleRadios4">
                         <h6 className='ms-2 fw-bold'><FaBlog className='fs-5 me-1' /> Blogs</h6>
                     </label>

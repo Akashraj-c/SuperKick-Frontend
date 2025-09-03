@@ -26,7 +26,7 @@ const AdminHeader = () => {
 
     return (
         <>
-            <div className='d-flex justify-content-between align-items-center px-2 px-lg-5 ' style={{ height: '100px' , backgroundColor: 'rgba(240, 225, 209, 1)'}}>
+            <div className='d-flex justify-content-between align-items-center px-2 px-lg-5 shadow' style={{ height: '100px' , backgroundColor: 'rgba(240, 225, 209, 1)'}}>
                 <div className='d-none d-lg-flex'>
                     <img src='https://seeklogo.com/images/N/nike-jordan-air-shoe-logo-3F633DDA45-seeklogo.com.png' alt="no img" style={{ width: '100px' }} />
                 </div>

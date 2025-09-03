@@ -1,14 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { getAllBrandApi } from '../../services/allApi'
+import { getHomeBrandsApi } from '../../services/allApi'
 import { searhKeyContext } from '../../context/Contextshare'
+import { GoChevronUp } from "react-icons/go";
+import { GoChevronDown } from "react-icons/go";
 
 const HomeSidebar = () => {
-    const [allBrands, setAllBrands] = useState([])
     const { searchKey, setSearchKey } = useContext(searhKeyContext)
+
+    const [brandMenuCollapse, setBrandMenuCollapse] = useState(true)
+    const [categoryMenuCollapse, setCategoryMenuCollapse] = useState(true)
+    const [subCategoryMenuCollapse, setSubCategoryMenuCollapse] = useState(true)
+    const [sizeMenuCollapse, setSizeMenuCollapse] = useState(true)
+    const [allBrands, setAllBrands] = useState([])
 
     // Get all brands
     const GetAllBrands = async () => {
-        const result = await getAllBrandApi(searchKey)
+        const result = await getHomeBrandsApi()
         // console.log(result);
         if (result.status == 200) {
             setAllBrands(result.data)
@@ -31,10 +38,18 @@ const HomeSidebar = () => {
                 </div>
 
                 {/* brands */}
-                <div className='d-flex flex-column mb-4 border-bottom pb-5 w-100 mt-4 mt-lg-0'>
-                    <p className='fs-5'>Brands</p>
+                <div className='d-flex flex-column mb-4 border-bottom  pb-3 w-100 mt-4 mt-lg-0'>
+                    <div className='d-flex justify-content-between align-items-center'>
+                        <p className='fs-5'>Brands</p>
+                        {brandMenuCollapse ?
+                            <p className='fs-5' onClick={() => setBrandMenuCollapse(!brandMenuCollapse)}><GoChevronUp /></p>
+                            :
+                            <p className='fs-5' onClick={() => setBrandMenuCollapse(!brandMenuCollapse)}><GoChevronDown /></p>
+                        }
+                    </div>
+
                     {allBrands?.map((item, index) => (
-                        <div key={index} className="form-check mb-3">
+                        <div key={index} className={brandMenuCollapse ? "form-check mb-3" : "d-none"}>
                             <input className="form-check-input" value={item?.brandname} type="checkbox" id={item?.brandname} />
                             <label className="form-check-label" htmlFor={item?.brandname}>
                                 {item?.brandname}
@@ -44,39 +59,84 @@ const HomeSidebar = () => {
                 </div>
 
                 {/* Categories */}
-                <div className={location.pathname == '/sneakers' ? ' d-none' : 'd-flex flex-column  mb-4 border-bottom pb-5 w-100'}>
-                    <p className='fs-5'>Categories</p>
-                    {location.pathname == '/newarrival' ? <div className="form-check">
-                        <input className="form-check-input" value="Categories" type="checkbox" id="Categories" />
-                        <label className="form-check-label" htmlFor="Categories">
-                            Sneakers
-                        </label>
+                {location.pathname == '/newarrival' && <div className='d-flex flex-column mb-4 border-bottom pb-3 w-100'>
+                    <div className='d-flex justify-content-between align-items-center'>
+                        <p className='fs-5'>Categories</p>
+                        {categoryMenuCollapse ?
+                            <p className='fs-5' onClick={() => setCategoryMenuCollapse(!categoryMenuCollapse)}><GoChevronUp /></p>
+                            :
+                            <p className='fs-5' onClick={() => setCategoryMenuCollapse(!categoryMenuCollapse)}><GoChevronDown /></p>
+                        }
                     </div>
-                        :
-                        <div className="form-check">
-                            <input className="form-check-input" value="Categories" type="checkbox" id="Categories" />
-                            <label className="form-check-label" htmlFor="Categories">
-                                Shirt
+                    {['Shoes', 'Apparels'].map((item, index) => (
+                        <div key={index} className={categoryMenuCollapse ? "form-check mb-3" : "d-none"}>
+                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <label className="form-check-label" htmlFor={item}>
+                                {item}
                             </label>
-                        </div>}
+                        </div>
+                    ))}
+                </div>}
+
+                {/* subcategories */}
+                <div className='d-flex flex-column  mb-4 border-bottom pb-3 w-100'>
+                    <div className='d-flex justify-content-between align-items-center'>
+                        <p className='fs-5'>Sub Categories</p>
+                        {subCategoryMenuCollapse ?
+                            <p className='fs-5' onClick={() => setSubCategoryMenuCollapse(!subCategoryMenuCollapse)}><GoChevronUp /></p>
+                            :
+                            <p className='fs-5' onClick={() => setSubCategoryMenuCollapse(!subCategoryMenuCollapse)}><GoChevronDown /></p>
+                        }
+                    </div>
+
+                    {['sneakers', 'slides'].map((item, index) => (
+                        <div key={index} className={subCategoryMenuCollapse && location.pathname != '/apparels' ? "form-check mb-3" : "d-none"}>
+                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <label className="form-check-label" htmlFor={item}>
+                                {item}
+                            </label>
+                        </div>
+                    ))}
+
+                    {['T-shirt', 'Hoodies', 'Jackets', 'Sweatshirt', 'Shirt'].map((item, index) => (
+                        <div key={index} className={subCategoryMenuCollapse && location.pathname != '/sneakers' ? "form-check mb-3" : "d-none"}>
+                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <label className="form-check-label" htmlFor={item}>
+                                {item}
+                            </label>
+                        </div>
+                    ))}
                 </div>
 
                 {/* Size */}
-                <div className='d-flex flex-column border-bottom pb-5 w-100'>
-                    <p className='fs-5'>Size</p>
-                    {location.pathname == '/sneakers' ? <div className="form-check">
-                        <input className="form-check-input" value="sneakers" type="checkbox" id="sneakers" />
-                        <label className="form-check-label" htmlFor="sneakers">
-                            UK 4
-                        </label>
+                <div className='d-flex flex-column border-bottom pb-3 w-100'>
+                    <div className='d-flex justify-content-between align-items-center'>
+                        <p className='fs-5'>Size</p>
+                        {sizeMenuCollapse ?
+                            <p className='fs-5' onClick={() => setSizeMenuCollapse(!sizeMenuCollapse)}><GoChevronUp /></p>
+                            :
+                            <p className='fs-5' onClick={() => setSizeMenuCollapse(!sizeMenuCollapse)}><GoChevronDown /></p>
+                        }
                     </div>
-                        :
-                        <div className="form-check">
-                            <input className="form-check-input" value="sneakers" type="checkbox" id="sneakers" />
-                            <label className="form-check-label" htmlFor="sneakers">
-                                L
+
+                    {[4, 5, 6, 7, 8, 9, 10, 11].map((item, index) => (
+                        <div key={index} className={location.pathname != '/apparels' && sizeMenuCollapse ? "form-check mb-3" : "d-none"}>
+                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <label className="form-check-label" htmlFor={item}>
+                                UK {item}
                             </label>
-                        </div>}
+                        </div>
+                    ))}
+
+                    {['S', 'M', 'L', 'XL'].map((item, index) => (
+                        <div key={index} className={location.pathname != '/sneakers' && sizeMenuCollapse ? "form-check mb-3" : "d-none"}>
+                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <label className="form-check-label" htmlFor={item}>
+                                {item}
+                            </label>
+                        </div>
+                    ))}
+
                 </div>
             </div>
         </>
