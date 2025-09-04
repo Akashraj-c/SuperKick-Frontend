@@ -35,6 +35,14 @@ export const getAProductDetailsApi = async (id) => {  //Get details of a particu
     return await commonApi('GET', `${serverUrl}/AProductDetails/${id}`)
 }
 
+export const getAllMensProductApi = async (searchKey) => {  //Get All Mens product
+    return await commonApi('GET', `${serverUrl}/menproducts?search=${searchKey}`)
+}
+
+export const getAllWomensProductApi = async (searchKey) => {  //Get All Womens product
+    return await commonApi('GET', `${serverUrl}/womenproducts?search=${searchKey}`)
+}
+
 // -----------------------Admin--------------------------
 
 export const addBrandApi = async (reqBody, reqHeader) => {  // Add brands

@@ -68,7 +68,7 @@ const HomeApparels = () => {
 
                     </div>
                 </div>
-                <div className='d-flex justify-content-center align-items-center mt-5'>
+                <div className='d-flex justify-content-center align-items-center mt-5' style={{ userSelect: 'none' }}>
                     <Link to={'/apparels'} className='text-decoration-none text-black'><h5>LOAD MORE...</h5></Link>
                     <h3 style={{ marginTop: '-5px' }}><CgChevronDoubleRight className='arrowEffect text-primary' /></h3>
                 </div>

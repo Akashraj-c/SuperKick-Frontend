@@ -28,7 +28,7 @@ const HomeSneakers = () => {
     return (
 
         <div>
-            <div className='d-flex align-items-center mb-5' style={{ paddingLeft: '55px', paddingTop: '65px' }}>
+            <div className='d-flex align-items-center mb-5' style={{ paddingLeft: '55px', paddingTop: '65px', userSelect: 'none' }}>
                 <div className='d-flex justify-content-center align-items-center me-4' style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: 'rgba(199, 199, 203, 0.47)' }}>
                     <GiConverseShoe className='fs-1' />
                 </div>
@@ -43,7 +43,7 @@ const HomeSneakers = () => {
                 <div className="row">
 
                     {allSneakers?.slice(0, 8).map((item, index) => (
-                        <div key={index} className="col-md-3 mb-5 col-6" style={{ cursor: 'pointer' }}>
+                        <div key={index} className="col-md-3 mb-5 col-6" style={{ cursor: 'pointer' ,userSelect:'none'}}>
                             <div className='d-flex flex-column align-items-center maincardDiv' style={{ borderRadius: '20px' }}>
                                 <Link to={`/productdetails/${item?._id}`} className='text-dark text-decoration-none'>
                                     <div className=' mb-3 mt-2 cardImg'>
@@ -69,7 +69,7 @@ const HomeSneakers = () => {
                 </div>
             </div>
 
-            <div className='d-flex justify-content-center align-items-center mt-5'>
+            <div className='d-flex justify-content-center align-items-center mt-5' style={{userSelect:'none'}}>
                 <Link to={'/sneakers'} className='text-decoration-none text-black'><h5>LOAD MORE...</h5></Link>
                 <h3 style={{ marginTop: '-5px' }}><CgChevronDoubleRight className='arrowEffect text-primary' /></h3>
             </div>

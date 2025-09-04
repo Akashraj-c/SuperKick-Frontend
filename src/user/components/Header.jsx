@@ -13,7 +13,7 @@ const Header = () => {
   const [menuCollapse, setMenuCollapse] = useState(false)
 
   return (
-    <div className='w-100 z-1' style={{ position: 'fixed', top: '0px' }}>
+    <div className='w-100 z-1' style={{ position: 'fixed', top: '0px',userSelect:'none' }}>
 
       <header style={{ width: '100%', height: '100px' }}>
         <div style={{ position: '', backgroundColor: 'white', zIndex: '1' }} className="container-fluid">

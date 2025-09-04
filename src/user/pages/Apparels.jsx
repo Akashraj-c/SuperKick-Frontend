@@ -53,11 +53,11 @@ const Apparels = () => {
       {/* Header */}
       <Header />
 
-      <div style={{ marginTop: '140px' }} >
+      <div style={{ marginTop: '140px', userSelect: 'none' }} >
         <p className='px-5 d-lg-flex d-none' style={{ color: 'rgba(94, 89, 89, 0.53)', fontSize: '14px' }}><Link to={'/'} className='text-decoration-none' style={{ color: 'rgba(94, 89, 89, 0.53)' }}>HOME</Link> / APPAREL </p>
       </div>
 
-      <div className='d-flex justify-content-between align-items-center px-lg-5 px-2 mt-4 ' >
+      <div className='d-flex justify-content-between align-items-center px-lg-5 px-2 mt-4 ' style={{ userSelect: 'none' }}>
         <div>
           <h3>Apparel</h3>
           <h6 style={{ color: 'rgba(94, 89, 89, 0.53)' }}>Showing All Results</h6>
@@ -79,7 +79,7 @@ const Apparels = () => {
         </div>
       </div>
 
-      <div className='container-fluid '>
+      <div className='container-fluid' style={{ userSelect: 'none' }}>
         <div className='row d-flex'>
           <div className='col-md-3 px-5 d-lg-flex d-none flex-column align-items-center border-end filterCol' style={{ height: '100vh', overflowY: 'auto', position: "sticky", top: '0' }}>
             <HomeSidebar />

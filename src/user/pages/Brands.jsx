@@ -6,6 +6,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { IoMdSearch } from 'react-icons/io';
 import { getAllBrandApi } from '../../services/allApi';
 import { searhKeyContext } from '../../context/Contextshare';
+import { Link } from 'react-router-dom';
 
 const Brands = () => {
   const { searchKey, setSearchKey } = useContext(searhKeyContext)
@@ -47,7 +48,7 @@ const Brands = () => {
       {/* Header */}
       <Header />
 
-      <div className='d-lg-flex container justify-content-lg-between justify-content-end px-5 w-100' style={{ marginTop: '150px' }} >
+      <div className='d-lg-flex container justify-content-lg-between justify-content-end px-5 w-100' style={{ marginTop: '150px', userSelect: 'none' }} >
         <div className='w-100 d-flex align-items-center'>
           <input type="text" onChange={(e) => setSearchKey(e.target.value)} placeholder='search brand...' className='form-control w-25 ' name='Brand' />
           <IoMdSearch style={{ marginLeft: '-30px' }} className='fs-5' />
@@ -62,12 +63,12 @@ const Brands = () => {
         </div>
       </div>
 
-      <div className="container mt-5">
+      <div className="container mt-5" style={{ userSelect: 'none' }}>
         <div className="row px-5">
           {allBrands?.length > 0 ?
             allBrands.map((items, index) => (
               <div key={index} className="col-md-4 col-4 mb-4">
-                <h6>{items?.brandname}</h6>
+                <Link to={`/selectedbrandproducts/${items?.brandname}`} className='text-dark text-decoration-none'> <h6>{items?.brandname}</h6></Link>
               </div>
             ))
             :

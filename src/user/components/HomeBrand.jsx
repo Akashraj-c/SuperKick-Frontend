@@ -18,10 +18,10 @@ const HomeBrand = () => {
     useEffect(() => {
         getHomeBrand()
     }, [])
-    
+
     return (
         <>
-            <div style={{ backgroundColor: '#f3f4f5', marginTop: '50px' }}>
+            <div style={{ backgroundColor: '#f3f4f5', marginTop: '50px', userSelect: 'none' }}>
                 <div className='d-flex justify-content-between align-items-center px-lg-5 px-3 pt-lg-5 pt-4 brand' style={{ color: '#565759ff' }}>
                     <h6>SHOP FROM GLOBAL BRANDS</h6>
                     <Link to={'/brands'} className='text-decoration-none'><h6 className='text-black fw-bold '>View All <GoArrowRight /></h6></Link>
@@ -30,7 +30,7 @@ const HomeBrand = () => {
                     <div className='childScroll w-100 d-flex ' >
                         {allBrands?.map((item, index) => (
                             <div key={index} className=' d-flex justify-content-center align-items-center' style={{ width: '100px', height: '100px', borderRadius: '50%' }}>
-                                <img src={item?.imageurl} alt="no img" style={{ width: '100px' }} />
+                                <Link to={`/selectedbrandproducts/${item?.brandname}`}><img src={item?.imageurl} alt="no img" style={{ width: '100px' }} /></Link>
                             </div>
                         ))}
                     </div>

@@ -5,6 +5,7 @@ import { LiaRupeeSignSolid } from 'react-icons/lia';
 import { useParams } from 'react-router-dom';
 import { getAProductDetailsApi } from '../../services/allApi';
 import { serverUrl } from '../../services/serverUrl';
+import Footer from '../../components/Footer';
 
 const ProductDetails = () => {
     const { id } = useParams()
@@ -35,10 +36,10 @@ const ProductDetails = () => {
     return (
         <>
             <Header />
-            <div className="container" style={{ marginTop: '115px' }}>
+            <div className="container" style={{ marginTop: '115px', userSelect: 'none' }}>
                 <div className="row p-2">
                     <div className="col-md-7 d-flex border rounded p-2">
-                        <div className='d-flex flex-column gap-2 align-items-center me-2' style={{width:'130px'}}>
+                        <div className='d-flex flex-column gap-2 align-items-center me-2' style={{ width: '130px' }}>
                             {allImages.slice(0, 4).map((images, index) => (
                                 <div key={index} className='w-100 shadow rounded' >
                                     <img onClick={() => setMainImg(images)} className='w-100 d-flex justify-content-center align-items-center' src={`${serverUrl}/uploads/${images}`} alt="no img" />
@@ -63,7 +64,7 @@ const ProductDetails = () => {
                         </div>
                         <div className='mt-4'>
                             <h5 className='text-secondary text-bolder'>{AproductDetails?.category == 'shoes' ? "Shoe Size (UK)" : "Available sizes"}</h5>
-                            
+
                             <div className='d-flex mt-3 '>
 
                                 {AproductDetails?.size &&
@@ -85,6 +86,7 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

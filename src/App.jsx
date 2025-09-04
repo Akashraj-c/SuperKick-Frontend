@@ -15,6 +15,9 @@ import AdminHome from './Admin/pages/AdminHome'
 import Adminbrands from './Admin/pages/Adminbrands'
 import AdminProducts from './Admin/pages/AdminProducts'
 import AdminBlogs from './Admin/pages/AdminBlogs'
+import MenProducts from './user/pages/MenProducts'
+import WomenProducts from './user/pages/WomenProducts'
+import SelectedBrandProducts from './user/pages/SelectedBrandProducts'
 
 function App() {
 
@@ -32,6 +35,9 @@ function App() {
         <Route path='/wishlist' element={<WishList />} />
         <Route path='/blogs' element={<Blogs />} />
         <Route path='/productdetails/:id' element={<ProductDetails />} />
+        <Route path='/menproducts' element={<MenProducts />} />
+        <Route path='/womenproducts' element={<WomenProducts />} />
+        <Route path='/selectedbrandproducts/:brandName' element={<SelectedBrandProducts />} />
 
         {/* Admin */}
         <Route path='/adminhome' element={<AdminHome />} />

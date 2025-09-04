@@ -61,7 +61,7 @@ const HomeSidebar = () => {
 
     return (
         <>
-            <div className='w-100'>
+            <div className='w-100' style={{ userSelect: 'none' }}>
                 <div className='w-100 text-center mb-4 text-white shadow py-2 d-none d-lg-flex justify-content-center' style={{ backgroundColor: 'rgba(180, 186, 180, 1)' }}>
                     {location.pathname == '/newarrival' ?
                         <h4>Choose Your Style</h4>
@@ -71,7 +71,7 @@ const HomeSidebar = () => {
                 </div>
 
                 {/* brands */}
-                <div className='d-flex flex-column mb-4 border-bottom  pb-3 w-100 mt-4 mt-lg-0'>
+                {!location.pathname.startsWith('/selectedbrandproducts') && <div className='d-flex flex-column mb-4 border-bottom  pb-3 w-100 mt-4 mt-lg-0'>
                     <div className='d-flex justify-content-between align-items-center'>
                         <p className='fs-5'>Brands</p>
                         {brandMenuCollapse ?
@@ -89,10 +89,10 @@ const HomeSidebar = () => {
                             </label>
                         </div>
                     ))}
-                </div>
+                </div>}
 
                 {/* Categories */}
-                {location.pathname == '/newarrival' && <div className='d-flex flex-column mb-4 border-bottom pb-3 w-100'>
+                {(location.pathname == '/newarrival' || location.pathname.startsWith('/selectedbrandproducts')) && <div className='d-flex flex-column mb-4 border-bottom pb-3 w-100'>
                     <div className='d-flex justify-content-between align-items-center'>
                         <p className='fs-5'>Categories</p>
                         {categoryMenuCollapse ?
