@@ -10,43 +10,71 @@ import '../../style/NewArrival.css'
 import HomeSidebar from '../components/HomeSidebar';
 import { getAllWomensProductApi } from '../../services/allApi';
 import { serverUrl } from '../../services/serverUrl';
-import { searhKeyContext } from '../../context/Contextshare';
+import { searhKeyContext, sideBarFilterContext } from '../../context/Contextshare';
 
 const WomenProducts = () => {
     const { searchKey, setSearchKey } = useContext(searhKeyContext)
-    
-        const [filterCollapse, setFilterCollpase] = useState(false)
-        const [allWomensProduct, setAllWomensProduct] = useState([])
-        const [tempArray, setTempArray] = useState([])
-        const [filterButtonData, setFilterBottomData] = useState('Relevance')
-    
-        // get All Sneakers
-        const getAllWomensProduct = async () => {
-            const result = await getAllWomensProductApi(searchKey)
-            // console.log(result);
-            if (result.status == 200) {
-                setAllWomensProduct(result.data)
-                setTempArray(result.data)
-            }
+    const { filters, setFilters } = useContext(sideBarFilterContext)
+
+    const [filterCollapse, setFilterCollpase] = useState(false)
+    const [allWomensProduct, setAllWomensProduct] = useState([])
+    const [tempArray, setTempArray] = useState([])
+    const [filterButtonData, setFilterBottomData] = useState('Relevance')
+
+    // get All Sneakers
+    const getAllWomensProduct = async () => {
+        const result = await getAllWomensProductApi(searchKey)
+        // console.log(result);
+        if (result.status == 200) {
+            setAllWomensProduct(result.data)
+            setTempArray(result.data)
         }
-    
-        // filter dropdown button
-        const filterButton = (data) => {
-            setFilterBottomData(data)
-            if (data == 'L-H') {
-                setAllWomensProduct([...tempArray].sort((a, b) => a.price - b.price))
-            }
-            else if (data == 'H-L') {
-                setAllWomensProduct([...tempArray].sort((a, b) => b.price - a.price))
-            }
-            else {
-                setAllWomensProduct(tempArray)
-            }
+    }
+
+    // filter dropdown button
+    const filterButton = (data) => {
+        setFilterBottomData(data)
+        if (data == 'L-H') {
+            setAllWomensProduct([...tempArray].sort((a, b) => a.price - b.price))
         }
-    
-        useEffect(() => {
-            getAllWomensProduct()
-        }, [searchKey])
+        else if (data == 'H-L') {
+            setAllWomensProduct([...tempArray].sort((a, b) => b.price - a.price))
+        }
+        else {
+            setAllWomensProduct(tempArray)
+        }
+    }
+
+    useEffect(() => {
+        getAllWomensProduct()
+    }, [searchKey])
+
+    // sidebar Filtering
+    useEffect(() => {
+        let filtered = [...tempArray];
+
+        if (filters.brands.length > 0) {
+            filtered = filtered.filter(item => filters.brands.includes(item.brand));
+        }
+        if (filters.categories.length > 0) {
+            filtered = filtered.filter(item => filters.categories.includes(item.category));
+        }
+        if (filters.subcategories.length > 0) {
+            filtered = filtered.filter(item => filters.subcategories.includes(item.subcategory));
+        }
+        if (filters.sizes.length > 0) {
+            filtered = filtered.filter(item => {
+                if (item.size && typeof item.size == "object") {
+                    return Object.keys(item.size).some((key) =>
+                        filters.sizes.includes(String(key))
+                    );
+                }
+                return false;
+            });
+        }
+
+        setAllWomensProduct(filtered);
+    }, [filters, tempArray]);
 
     return (
         <>

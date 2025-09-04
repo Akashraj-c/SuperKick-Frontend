@@ -50,6 +50,7 @@ const SelectedBrandProducts = () => {
         getAllProducts()
     }, [searchKey])
 
+    // sidebar Filtering
     useEffect(() => {
         let filtered = [...tempArray];
 
@@ -63,11 +64,19 @@ const SelectedBrandProducts = () => {
             filtered = filtered.filter(item => filters.subcategories.includes(item.subcategory));
         }
         if (filters.sizes.length > 0) {
-            filtered = filtered.filter(item => filters.sizes.includes(item.size));
+            filtered = filtered.filter(item => {
+                if (item.size && typeof item.size == "object") {
+                    return Object.keys(item.size).some((key) =>
+                        filters.sizes.includes(String(key))
+                    );
+                }
+                return false;
+            });
         }
 
         setAllProducts(filtered);
     }, [filters, tempArray]);
+
 
     return (
         <>

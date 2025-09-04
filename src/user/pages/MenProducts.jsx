@@ -10,10 +10,11 @@ import '../../style/NewArrival.css'
 import HomeSidebar from '../components/HomeSidebar';
 import { getAllMensProductApi } from '../../services/allApi';
 import { serverUrl } from '../../services/serverUrl';
-import { searhKeyContext } from '../../context/Contextshare';
+import { searhKeyContext, sideBarFilterContext } from '../../context/Contextshare';
 
 const MenProducts = () => {
     const { searchKey, setSearchKey } = useContext(searhKeyContext)
+    const { filters, setFilters } = useContext(sideBarFilterContext)
 
     const [filterCollapse, setFilterCollpase] = useState(false)
     const [allMensProduct, setAllMensProduct] = useState([])
@@ -47,6 +48,33 @@ const MenProducts = () => {
     useEffect(() => {
         getAllMensProduct()
     }, [searchKey])
+
+    // sidebar Filtering
+    useEffect(() => {
+        let filtered = [...tempArray];
+
+        if (filters.brands.length > 0) {
+            filtered = filtered.filter(item => filters.brands.includes(item.brand));
+        }
+        if (filters.categories.length > 0) {
+            filtered = filtered.filter(item => filters.categories.includes(item.category));
+        }
+        if (filters.subcategories.length > 0) {
+            filtered = filtered.filter(item => filters.subcategories.includes(item.subcategory));
+        }
+        if (filters.sizes.length > 0) {
+            filtered = filtered.filter(item => {
+                if (item.size && typeof item.size == "object") {
+                    return Object.keys(item.size).some((key) =>
+                        filters.sizes.includes(String(key))
+                    );
+                }
+                return false;
+            });
+        }
+
+        setAllMensProduct(filtered);
+    }, [filters, tempArray]);
 
     return (
         <>

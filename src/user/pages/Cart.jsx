@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../components/Header'
-import { HiTrash } from "react-icons/hi2";
+import { cartContext } from '../../context/Contextshare';
 
 const Cart = () => {
+  const { addToCart, setAddToCart } = useContext(cartContext)
+
   return (
     <>
       <Header />
-      <div className="conatiner-fluid " style={{overflowX:'hidden',marginTop:'130px'}}>
+      <div className="conatiner-fluid " style={{ overflowX: 'hidden', marginTop: '130px' }}>
         <div className="row">
           <div className="col-md-8">
             <div className='d-flex flex-column justify-content-center align-items-center w-100'>
@@ -69,7 +71,7 @@ const Cart = () => {
 
             </div>
           </div>
-          <div className="col-md-4 position-fixed" style={{right:'0px',top:'110px',}}>
+          <div className="col-md-4 position-fixed" style={{ right: '0px', top: '110px', }}>
             <div className='border rounded p-2 mt-5 d-flex flex-column shadow align-items-center'>
               <h6>Total Items : </h6>
               <h6>Total Amount : </h6>

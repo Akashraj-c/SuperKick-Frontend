@@ -152,7 +152,7 @@ const HomeSidebar = () => {
                         }
                     </div>
 
-                    {[4, 5, 6, 7, 8, 9, 10, 11].map((item, index) => (
+                    {[ 6, 7, 8, 9, 10, 11].map((item, index) => (
                         <div key={index} className={location.pathname != '/apparels' && sizeMenuCollapse ? "form-check mb-3" : "d-none"}>
                             <input onChange={(e) => handleSelectedFilter(e, 'size')} className="form-check-input" value={item} type="checkbox" id={item} />
                             <label className="form-check-label" htmlFor={item}>

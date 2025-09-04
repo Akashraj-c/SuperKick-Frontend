@@ -9,18 +9,21 @@ import '../../style/NewArrival.css'
 import { FaBarsProgress } from "react-icons/fa6";
 import HomeSidebar from '../components/HomeSidebar';
 import { getAllProductApi } from '../../services/allApi';
-import { searhKeyContext, sideBarFilterContext } from '../../context/Contextshare';
+import { cartContext, searhKeyContext, sideBarFilterContext } from '../../context/Contextshare';
 import { serverUrl } from '../../services/serverUrl';
 
 const NewArrival = () => {
   const { searchKey, setSearchKey } = useContext(searhKeyContext)
   const { filters, setFilters } = useContext(sideBarFilterContext)
   // console.log(filters);
+  const { addToCart, setAddToCart } = useContext(cartContext)
+  // console.log(addToCart);
 
   const [filterCollapse, setFilterCollpase] = useState(false)
   const [allProducts, setAllProducts] = useState([])
   const [tempArray, setTempArray] = useState([])
   const [filterButtonData, setFilterBottomData] = useState('Relevance')
+  const [Cart, setCart] = useState('')
 
   // get All products
   const getAllProducts = async () => {
@@ -48,6 +51,12 @@ const NewArrival = () => {
     getAllProducts()
   }, [searchKey])
 
+  // cart
+  useEffect(() => {
+    setAddToCart(Cart)
+  }, [Cart])
+
+  // sidebar Filtering
   useEffect(() => {
     let filtered = [...tempArray];
 
@@ -61,7 +70,14 @@ const NewArrival = () => {
       filtered = filtered.filter(item => filters.subcategories.includes(item.subcategory));
     }
     if (filters.sizes.length > 0) {
-      filtered = filtered.filter(item => filters.sizes.includes(item.size));
+      filtered = filtered.filter(item => {
+        if (item.size && typeof item.size == "object") {
+          return Object.keys(item.size).some((key) =>
+            filters.sizes.includes(String(key))
+          );
+        }
+        return false;
+      });
     }
 
     setAllProducts(filtered);
@@ -130,7 +146,7 @@ const NewArrival = () => {
                         <div className='d-flex justify-content-around mb-1'>
                           <p></p>
                           <h6 style={{ textTransform: 'uppercase' }}>{item?.brand}</h6>
-                          <MdBookmarkBorder className='fs-5' />
+                          <MdBookmarkBorder onClick={() => setCart(item)} className='fs-5' />
                         </div>
                         <Link to={`/productdetails/${item?._id}`} className='text-dark text-decoration-none'>
                           <h6>{item?.name.slice(0, 20)}...</h6>
