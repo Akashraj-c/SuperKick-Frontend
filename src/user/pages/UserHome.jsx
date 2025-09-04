@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../components/Header'
 import dropCult from '../../assets/drop.svg'
 import RippleGrid from '../../ReactBits/RippleGrid/RippleGrid';
@@ -9,6 +9,7 @@ import HomeSneakers from '../components/HomeSneakers';
 import Gender from '../components/Gender';
 import HomeApparels from '../components/HomeApparels';
 import Footer from '../../components/Footer';
+import { searhKeyContext } from '../../context/Contextshare';
 
 const UserHome = () => {
   return (

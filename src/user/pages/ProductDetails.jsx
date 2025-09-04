@@ -9,17 +9,23 @@ import { serverUrl } from '../../services/serverUrl';
 const ProductDetails = () => {
     const { id } = useParams()
 
-    const [productDetails, setProductDetails] = useState('')
+    const [AproductDetails, setAProductDetails] = useState('')
     const [allImages, setAllImages] = useState([])
+    const [mainImg, setMainImg] = useState('')
 
     // get details of a particular product
     const getAProduct = async () => {
         const result = await getAProductDetailsApi(id)
         console.log(result);
         if (result.status == 200) {
-            setProductDetails(result.data)
+            setAProductDetails(result.data)
             setAllImages(result.data.uploadedImg)
         }
+    }
+
+    const handleSize = (size, qty) => {
+        console.log(size, qty);
+
     }
 
     useEffect(() => {
@@ -32,38 +38,44 @@ const ProductDetails = () => {
             <div className="container" style={{ marginTop: '115px' }}>
                 <div className="row p-2">
                     <div className="col-md-7 d-flex border rounded p-2">
-                        <div className='w-25 d-flex flex-column gap-4 '>
-                            {allImages.slice(1, 5).map((images, index) => (
-                                <div key={index} className='w-75 shadow rounded' >
-                                    <img className='w-100 d-flex justify-content-center align-items-center' src={`${serverUrl}/uploads/${images}`} alt="no img" />
+                        <div className='d-flex flex-column gap-2 align-items-center me-2' style={{width:'130px'}}>
+                            {allImages.slice(0, 4).map((images, index) => (
+                                <div key={index} className='w-100 shadow rounded' >
+                                    <img onClick={() => setMainImg(images)} className='w-100 d-flex justify-content-center align-items-center' src={`${serverUrl}/uploads/${images}`} alt="no img" />
                                 </div>
                             ))}
                         </div>
 
                         <div className='shadow rounded'>
-                            <img className='w-100' src={`${serverUrl}/uploads/${allImages[0]}`} alt="no img" />
+                            <img className='w-100 rounded' src={mainImg ? `${serverUrl}/uploads/${mainImg}` : `${serverUrl}/uploads/${allImages[0]}`} alt="no img" />
                         </div>
                     </div>
 
                     <div className="col-md-5 border px-5 rounded">
                         <div className='d-flex justify-content-between mt-3 mb-2'>
-                            <h5 className='text-secondary'>{productDetails?.brand}</h5>
+                            <h5 className='text-secondary'>{AproductDetails?.brand}</h5>
                             <FaRegHeart />
                         </div>
                         <div>
-                            <h3 className='fw-bolder'>{productDetails?.name}</h3>
-                            <h6 className='text-secondary'>{productDetails?.color}</h6>
-                            <h6 className='fw-bolder'> <LiaRupeeSignSolid />{productDetails?.price} <span className='text-secondary fw-light'>MRP (Inclusive to all taxes)</span></h6>
+                            <h3 className='fw-bolder'>{AproductDetails?.name}</h3>
+                            <h6 className='text-secondary'>{AproductDetails?.color}</h6>
+                            <h6 className='fw-bolder'> <LiaRupeeSignSolid />{AproductDetails?.price} <span className='text-secondary fw-light'>MRP (Inclusive to all taxes)</span></h6>
                         </div>
                         <div className='mt-4'>
-                            <h5 className='text-secondary text-bolder'>Shoe Size (UK)</h5>
-                            <div className='d-flex mt-3'>
-                                {/* <div className='border px-4 border-dark  me-3'>
-                                    <h5 className='mt-1'>1</h5>
-                                </div> */}
+                            <h5 className='text-secondary text-bolder'>{AproductDetails?.category == 'shoes' ? "Shoe Size (UK)" : "Available sizes"}</h5>
+                            
+                            <div className='d-flex mt-3 '>
 
-                                <button className='border px-4 bg-white fs-5 border-dark  me-3'>1</button>
-                                {/* <button className='border px-4 bg-white fs-5 border-dark  me-3'>2</button> */}
+                                {AproductDetails?.size &&
+                                    Object.entries(AproductDetails.size).map(([label, qty]) => (
+                                        <div>
+                                            <button onClick={() => handleSize(label, qty - 1)} key={label} className={`border px-4 py-2 bg-white fs-6 border-dark me-3 mb-2 ${qty == 0 ? "opacity-50 disabled" : ""}`} disabled={qty == 0}>
+                                                {label}
+                                            </button>
+                                            {qty == 0 && <p className='text-danger'>out of <br /> stock</p>}
+                                        </div>
+                                    ))}
+
                             </div>
                         </div>
                         <div className='mt-3'>

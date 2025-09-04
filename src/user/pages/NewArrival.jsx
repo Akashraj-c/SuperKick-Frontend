@@ -9,11 +9,13 @@ import '../../style/NewArrival.css'
 import { FaBarsProgress } from "react-icons/fa6";
 import HomeSidebar from '../components/HomeSidebar';
 import { getAllProductApi } from '../../services/allApi';
-import { searhKeyContext } from '../../context/Contextshare';
+import { searhKeyContext, sideBarFilterContext } from '../../context/Contextshare';
 import { serverUrl } from '../../services/serverUrl';
 
 const NewArrival = () => {
   const { searchKey, setSearchKey } = useContext(searhKeyContext)
+  const { filters, setFilters } = useContext(sideBarFilterContext)
+  // console.log(filters);
 
   const [filterCollapse, setFilterCollpase] = useState(false)
   const [allProducts, setAllProducts] = useState([])
@@ -28,7 +30,7 @@ const NewArrival = () => {
     setTempArray(result.data)
   }
 
-  // filter button
+  // filter dropdown button
   const filterButton = (data) => {
     setFilterBottomData(data)
     if (data == 'L-H') {
@@ -45,6 +47,26 @@ const NewArrival = () => {
   useEffect(() => {
     getAllProducts()
   }, [searchKey])
+
+  useEffect(() => {
+    let filtered = [...tempArray];
+
+    if (filters.brands.length > 0) {
+      filtered = filtered.filter(item => filters.brands.includes(item.brand));
+    }
+    if (filters.categories.length > 0) {
+      filtered = filtered.filter(item => filters.categories.includes(item.category));
+    }
+    if (filters.subcategories.length > 0) {
+      filtered = filtered.filter(item => filters.subcategories.includes(item.subcategory));
+    }
+    if (filters.sizes.length > 0) {
+      filtered = filtered.filter(item => filters.sizes.includes(item.size));
+    }
+
+    setAllProducts(filtered);
+  }, [filters, tempArray]);
+  console.log(tempArray);
 
   return (
     <>
@@ -127,7 +149,7 @@ const NewArrival = () => {
           </div>
         </div>
       </div>
-
+                
       {/* Footer */}
       <Footer />
     </>

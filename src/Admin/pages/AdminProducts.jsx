@@ -374,13 +374,13 @@ const AdminProducts = () => {
                     <div className="mb-2">
                         <Form.Select value={productDetails?.category} aria-label="Select category" onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}>
                             <option>Select Category</option>
-                            <option value="shoes">Shoes</option>
-                            <option value="apparel">Apparel</option>
+                            <option value="Shoes">Shoes</option>
+                            <option value="Apparels">Apparel</option>
                         </Form.Select>
                     </div>
 
                     {/* Sub Category */}
-                    {productDetails?.category == 'apparel' ? <div className="mb-2">
+                    {productDetails?.category == 'Apparels' ? <div className="mb-2">
                         <Form.Select value={productDetails?.subcategory} aria-label="Select category" onChange={(e) => setProductDetails({ ...productDetails, subcategory: e.target.value })}>
                             <option>Select Sub Category</option>
                             <option value="Hoodies">Hoodies</option>
@@ -394,8 +394,8 @@ const AdminProducts = () => {
                         <div className="mb-2">
                             <Form.Select value={productDetails?.subcategory} aria-label="Select category" onChange={(e) => setProductDetails({ ...productDetails, subcategory: e.target.value })}>
                                 <option>Select Sub Category</option>
-                                <option value="sneakers">Sneakers</option>
-                                <option value="slides">Slides</option>
+                                <option value="Sneakers">Sneakers</option>
+                                <option value="Slides">Slides</option>
 
                             </Form.Select>
                         </div>
@@ -404,7 +404,7 @@ const AdminProducts = () => {
                     {/* Gender */}
                     <div className="mb-2">
                         <Form.Select value={productDetails?.gender} aria-label="Select Gender" onChange={(e) => setProductDetails({ ...productDetails, gender: e.target.value })}>
-                            <option>Select Category</option>
+                            <option>Select Gender</option>
                             <option value="Men">Men</option>
                             <option value="Women">Women</option>
                             <option value="Unisex">Unisex</option>

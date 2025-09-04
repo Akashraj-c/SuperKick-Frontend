@@ -1,17 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { getHomeBrandsApi } from '../../services/allApi'
-import { searhKeyContext } from '../../context/Contextshare'
+import { sideBarFilterContext } from '../../context/Contextshare'
 import { GoChevronUp } from "react-icons/go";
 import { GoChevronDown } from "react-icons/go";
 
 const HomeSidebar = () => {
-    const { searchKey, setSearchKey } = useContext(searhKeyContext)
+    const { filters, setFilters } = useContext(sideBarFilterContext)
+    // console.log(filters);
 
     const [brandMenuCollapse, setBrandMenuCollapse] = useState(true)
     const [categoryMenuCollapse, setCategoryMenuCollapse] = useState(true)
     const [subCategoryMenuCollapse, setSubCategoryMenuCollapse] = useState(true)
     const [sizeMenuCollapse, setSizeMenuCollapse] = useState(true)
     const [allBrands, setAllBrands] = useState([])
+    const [selectedBrands, setSelectedBrands] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+    const [selectedSizes, setSelectedSizes] = useState([]);
 
     // Get all brands
     const GetAllBrands = async () => {
@@ -21,6 +26,34 @@ const HomeSidebar = () => {
             setAllBrands(result.data)
         }
     }
+
+    // handle filtering
+    const handleSelectedFilter = (e, type) => {
+        const { value, checked } = e.target
+        console.log(value, checked);
+
+        if (type == 'brand') {
+            setSelectedBrands((previous) => checked ? [...previous, value] : previous.filter((item) => item != value))
+        }
+        else if (type == 'category') {
+            setSelectedCategories((previous) => checked ? [...previous, value] : previous.filter((item) => item != value))
+        }
+        else if (type == 'subcategory') {
+            setSelectedSubCategories((previous) => checked ? [...previous, value] : previous.filter((item) => item != value))
+        }
+        else if (type == 'size') {
+            setSelectedSizes((previous) => checked ? [...previous, value] : previous.filter((item) => item != value))
+        }
+    }
+
+    useEffect(() => {
+        setFilters({
+            brands: selectedBrands,
+            categories: selectedCategories,
+            subcategories: selectedSubCategories,
+            sizes: selectedSizes
+        })
+    }, [selectedSizes, selectedCategories, selectedSubCategories, selectedBrands])
 
     useEffect(() => {
         GetAllBrands()
@@ -50,7 +83,7 @@ const HomeSidebar = () => {
 
                     {allBrands?.map((item, index) => (
                         <div key={index} className={brandMenuCollapse ? "form-check mb-3" : "d-none"}>
-                            <input className="form-check-input" value={item?.brandname} type="checkbox" id={item?.brandname} />
+                            <input onChange={(e) => handleSelectedFilter(e, 'brand')} className="form-check-input" value={item?.brandname} type="checkbox" id={item?.brandname} />
                             <label className="form-check-label" htmlFor={item?.brandname}>
                                 {item?.brandname}
                             </label>
@@ -70,7 +103,7 @@ const HomeSidebar = () => {
                     </div>
                     {['Shoes', 'Apparels'].map((item, index) => (
                         <div key={index} className={categoryMenuCollapse ? "form-check mb-3" : "d-none"}>
-                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <input onChange={(e) => handleSelectedFilter(e, 'category')} className="form-check-input" value={item} type="checkbox" id={item} />
                             <label className="form-check-label" htmlFor={item}>
                                 {item}
                             </label>
@@ -89,18 +122,18 @@ const HomeSidebar = () => {
                         }
                     </div>
 
-                    {['sneakers', 'slides'].map((item, index) => (
+                    {['Sneakers', 'Slides'].map((item, index) => (
                         <div key={index} className={subCategoryMenuCollapse && location.pathname != '/apparels' ? "form-check mb-3" : "d-none"}>
-                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <input onChange={(e) => handleSelectedFilter(e, 'subcategory')} className="form-check-input" value={item} type="checkbox" id={item} />
                             <label className="form-check-label" htmlFor={item}>
                                 {item}
                             </label>
                         </div>
                     ))}
 
-                    {['T-shirt', 'Hoodies', 'Jackets', 'Sweatshirt', 'Shirt'].map((item, index) => (
+                    {['T-Shirt', 'Hoodies', 'Jacket', 'Sweatshirt', 'Shirt'].map((item, index) => (
                         <div key={index} className={subCategoryMenuCollapse && location.pathname != '/sneakers' ? "form-check mb-3" : "d-none"}>
-                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <input onChange={(e) => handleSelectedFilter(e, 'subcategory')} className="form-check-input" value={item} type="checkbox" id={item} />
                             <label className="form-check-label" htmlFor={item}>
                                 {item}
                             </label>
@@ -121,7 +154,7 @@ const HomeSidebar = () => {
 
                     {[4, 5, 6, 7, 8, 9, 10, 11].map((item, index) => (
                         <div key={index} className={location.pathname != '/apparels' && sizeMenuCollapse ? "form-check mb-3" : "d-none"}>
-                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <input onChange={(e) => handleSelectedFilter(e, 'size')} className="form-check-input" value={item} type="checkbox" id={item} />
                             <label className="form-check-label" htmlFor={item}>
                                 UK {item}
                             </label>
@@ -130,7 +163,7 @@ const HomeSidebar = () => {
 
                     {['S', 'M', 'L', 'XL'].map((item, index) => (
                         <div key={index} className={location.pathname != '/sneakers' && sizeMenuCollapse ? "form-check mb-3" : "d-none"}>
-                            <input className="form-check-input" value={item} type="checkbox" id={item} />
+                            <input onChange={(e) => handleSelectedFilter(e, 'size')} className="form-check-input" value={item} type="checkbox" id={item} />
                             <label className="form-check-label" htmlFor={item}>
                                 {item}
                             </label>
@@ -138,6 +171,7 @@ const HomeSidebar = () => {
                     ))}
 
                 </div>
+
             </div>
         </>
     )
