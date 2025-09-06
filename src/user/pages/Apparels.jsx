@@ -87,7 +87,7 @@ const Apparels = () => {
 
       <div className='d-flex justify-content-between align-items-center px-lg-5 px-2 mt-4 ' style={{ userSelect: 'none' }}>
         <div>
-          <h3>Apparel</h3>
+          <h3>Apparels</h3>
           <h6 style={{ color: 'rgba(94, 89, 89, 0.53)' }}>Showing All Results</h6>
         </div>
 

@@ -9,26 +9,24 @@ import '../../style/NewArrival.css'
 import { FaBarsProgress } from "react-icons/fa6";
 import HomeSidebar from '../components/HomeSidebar';
 import { getAllProductApi } from '../../services/allApi';
-import { cartContext, searhKeyContext, sideBarFilterContext } from '../../context/Contextshare';
+import { searhKeyContext, sideBarFilterContext } from '../../context/Contextshare';
 import { serverUrl } from '../../services/serverUrl';
+import { Slide, ToastContainer } from 'react-toastify';
 
 const NewArrival = () => {
   const { searchKey, setSearchKey } = useContext(searhKeyContext)
   const { filters, setFilters } = useContext(sideBarFilterContext)
   // console.log(filters);
-  const { addToCart, setAddToCart } = useContext(cartContext)
-  // console.log(addToCart);
 
   const [filterCollapse, setFilterCollpase] = useState(false)
   const [allProducts, setAllProducts] = useState([])
   const [tempArray, setTempArray] = useState([])
   const [filterButtonData, setFilterBottomData] = useState('Relevance')
-  const [Cart, setCart] = useState('')
 
   // get All products
   const getAllProducts = async () => {
     const result = await getAllProductApi(searchKey)
-    console.log(result);
+    // console.log(result);
     setAllProducts(result.data)
     setTempArray(result.data)
   }
@@ -50,11 +48,6 @@ const NewArrival = () => {
   useEffect(() => {
     getAllProducts()
   }, [searchKey])
-
-  // cart
-  useEffect(() => {
-    setAddToCart(Cart)
-  }, [Cart])
 
   // sidebar Filtering
   useEffect(() => {
@@ -136,7 +129,7 @@ const NewArrival = () => {
                 {allProducts?.map((item, index) => (
                   <div key={index} className="col-md-3 mb-3 col-6 " style={{ cursor: 'pointer' }}>
 
-                    <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
+                    <div className='d-flex flex-column NewmaincardDiv' style={{ borderRadius: '20px' }}>
                       <Link to={`/productdetails/${item?._id}`} className='text-dark text-decoration-none'>
                         <div className=' mb-3 mt-2 NewcardImg'>
                           <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${item?.uploadedImg[0]}`} alt="no img" />
@@ -146,7 +139,7 @@ const NewArrival = () => {
                         <div className='d-flex justify-content-around mb-1'>
                           <p></p>
                           <h6 style={{ textTransform: 'uppercase' }}>{item?.brand}</h6>
-                          <MdBookmarkBorder onClick={() => setCart(item)} className='fs-5' />
+                          <MdBookmarkBorder className='fs-5' />
                         </div>
                         <Link to={`/productdetails/${item?._id}`} className='text-dark text-decoration-none'>
                           <h6>{item?.name.slice(0, 20)}...</h6>
@@ -167,6 +160,9 @@ const NewArrival = () => {
 
       {/* Footer */}
       <Footer />
+
+      {/* Toast conatiner */}
+      <ToastContainer position="top-right" autoClose={800} transition={Slide} theme="light" />
     </>
   )
 }

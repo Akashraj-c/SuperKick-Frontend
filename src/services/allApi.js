@@ -43,6 +43,14 @@ export const getAllWomensProductApi = async (searchKey) => {  //Get All Womens p
     return await commonApi('GET', `${serverUrl}/womenproducts?search=${searchKey}`)
 }
 
+export const addWishListApi = async (reqBody, reqHeader) => {  //Add products to wishlist
+    return await commonApi('POST', `${serverUrl}/addWishList`, reqBody, reqHeader)
+}
+
+export const getAllWishListApi = async (reqHeader) => {
+    return await commonApi('GET', `${serverUrl}/getallproducts`, " ", reqHeader)
+}
+
 // -----------------------Admin--------------------------
 
 export const addBrandApi = async (reqBody, reqHeader) => {  // Add brands
