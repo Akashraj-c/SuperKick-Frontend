@@ -52,7 +52,7 @@ const AdminSidebar = () => {
     }, [])
 
     return (
-        <div style={{ backgroundColor: 'rgba(240, 225, 209, 1)', height: '100vh', marginLeft: '-15px', position: "sticky", top: '0' }} className='d-flex flex-column align-items-center shadow'>
+        <div style={{ backgroundColor: 'rgba(248, 254, 255, 1)', height: '100vh', marginLeft: '-15px', position: "sticky", top: '0' }} className='d-flex flex-column align-items-center shadow  border border-info'>
             <div className='d-flex flex-column align-items-center mt-5'>
                 <img src={logo} alt="no img" style={{ width: '150px' }} />
                 <FaBars className='d-lg-none' onClick={() => setSidebarCollapse(!sidebarCollapse)} />

@@ -361,7 +361,7 @@ const AdminProducts = () => {
 
             {/* modal to add and edit product */}
             <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} size='lg' >
-                <Modal.Header closeButton style={{ backgroundColor: 'rgba(101, 100, 103, 1)' }}>
+                <Modal.Header closeButton style={{ backgroundColor: 'rgba(78, 30, 176, 1)' }}>
                     {AproductData == 'add' ?
                         <Modal.Title className='text-white fs-4'>ADD PROUDCT</Modal.Title>
                         :
@@ -511,8 +511,8 @@ const AdminProducts = () => {
 
             {/* Delete Product Confirmation Modal */}
             <Modal show={show1} onHide={handleClose1} backdrop="static" keyboard={false} style={{ marginTop: '100px' }}>
-                <Modal.Header closeButton className='bg-secondary'>
-                    <Modal.Title className='fw-bold fs-5'>{AproductData.name}</Modal.Title>
+                <Modal.Header closeButton style={{ backgroundColor: 'rgba(78, 30, 176, 1)' }}>
+                    <Modal.Title className='fw-bold fs-5 text-white'>{AproductData.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>Are you sure you want to delete this Product?</p>

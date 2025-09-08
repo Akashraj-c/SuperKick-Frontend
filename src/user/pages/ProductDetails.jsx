@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { LiaRupeeSignSolid } from 'react-icons/lia';
 import { useParams } from 'react-router-dom';
-import { addWishListApi, getAProductDetailsApi } from '../../services/allApi';
+import { addWishListApi, getAProductDetailsApi, removeProductApi } from '../../services/allApi';
 import { serverUrl } from '../../services/serverUrl';
 import Footer from '../../components/Footer';
 import { Slide, toast, ToastContainer } from 'react-toastify';
@@ -15,6 +16,7 @@ const ProductDetails = () => {
     const [allImages, setAllImages] = useState([])
     const [mainImg, setMainImg] = useState('')
     const [token, setToken] = useState('')
+    const [wishlisted, setWishlisted] = useState(false)
 
     // get details of a particular product
     const getAProduct = async () => {
@@ -32,22 +34,29 @@ const ProductDetails = () => {
 
     // Add Product to wishlist
     const handleWishList = async (productId) => {
-        const reqHeader = {
-            'Authorization': `Bearer ${token}`
-        }
-        const reqBody = { productId }
-
-        const result = await addWishListApi(reqBody, reqHeader)
-        // console.log(result);
-
-        if (result.status == 200) {
-            toast.success('Your item has been added')
-        }
-        else if (result.status == 409) {
-            toast(result.response.data)
+        if (!token) {
+            toast('Please login to add this item to your wishlist')
         }
         else {
-            toast.error('Something went wrong')
+
+            const reqHeader = {
+                'Authorization': `Bearer ${token}`
+            }
+            const reqBody = { productId }
+
+            const result = await addWishListApi(reqBody, reqHeader)
+            // console.log(result);
+
+            if (result.status == 200) {
+                toast.success('Your item has been added')
+                setWishlisted(true)
+            }
+            else if (result.status == 409) {
+                toast(result.response.data)
+            }
+            else {
+                toast.error('Something went wrong')
+            }
         }
     }
 
@@ -84,7 +93,11 @@ const ProductDetails = () => {
                     <div className="col-md-5 border px-5 rounded">
                         <div className='d-flex justify-content-between mt-3 mb-2'>
                             <h5 className='text-secondary'>{AproductDetails?.brand}</h5>
-                            <FaRegHeart onClick={() => handleWishList(AproductDetails?._id)} />
+                            {!wishlisted ?
+                                <FaRegHeart onClick={() => handleWishList(AproductDetails?._id)} style={{ cursor: 'pointer' }} />
+                                :
+                                <FaHeart className='text-danger' style={{ cursor: 'pointer' }} />
+                            }
                         </div>
                         <div>
                             <h3 className='fw-bolder'>{AproductDetails?.name}</h3>

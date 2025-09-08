@@ -74,7 +74,7 @@ const Brands = () => {
             :
             <div className='w-100 d-flex align-items-center justify-content-center'>
               <div className='w-50'>
-                <img src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png" alt="no img" width={'100%'} />
+                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'50%'} />
               </div>
             </div>
           }

@@ -18,15 +18,25 @@ import AdminBlogs from './Admin/pages/AdminBlogs'
 import MenProducts from './user/pages/MenProducts'
 import WomenProducts from './user/pages/WomenProducts'
 import SelectedBrandProducts from './user/pages/SelectedBrandProducts'
+import Preloader from './components/Preloader'
+import { useEffect, useState } from 'react'
+import 'quill/dist/quill.snow.css';
 
 function App() {
+  const [isloading, setIsloading] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsloading(true)
+    }, 1000)
+  }, [])
 
   return (
     <>
       <Routes>
         <Route path='/register' element={<Auth register />} />
         <Route path='/login' element={<Auth />} />
-        <Route path='/' element={<UserHome />} />
+        <Route path='/' element={isloading ? <UserHome /> : <Preloader />} />
         <Route path='/newarrival' element={<NewArrival />} />
         <Route path='/sneakers' element={<Sneakers />} />
         <Route path='/brands' element={<Brands />} />

@@ -47,10 +47,13 @@ export const addWishListApi = async (reqBody, reqHeader) => {  //Add products to
     return await commonApi('POST', `${serverUrl}/addWishList`, reqBody, reqHeader)
 }
 
-export const getAllWishListApi = async (reqHeader) => {
+export const getAllWishListApi = async (reqHeader) => {  //Get all wishlist products
     return await commonApi('GET', `${serverUrl}/getallproducts`, " ", reqHeader)
 }
 
+export const removeProductApi = async (id) => {
+    return await commonApi('DELETE', `${serverUrl}/removeproduct/${id}`)
+}
 // -----------------------Admin--------------------------
 
 export const addBrandApi = async (reqBody, reqHeader) => {  // Add brands

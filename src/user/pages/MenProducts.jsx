@@ -122,29 +122,37 @@ const MenProducts = () => {
                         <div className="container- ">
                             <div className="row">
 
-                                {allMensProduct.map((Item, index) => (
-                                    <div key={index} className="col-md-3 mb-3 col-6 " style={{ cursor: 'pointer' }}>
-                                        <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
-                                            <Link to={`/productdetails/${Item?._id}`} className='text-dark text-decoration-none'>
-                                                <div className=' mb-3 mt-2 NewcardImg'>
-                                                    <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${Item.uploadedImg[0]}`} alt="no img" />
-                                                </div>
-                                            </Link>
-                                            <div className='w-100 text-center mt-2'>
-                                                <div className='d-flex justify-content-around mb-1'>
-                                                    <p></p>
-                                                    <h6 style={{ textTransform: 'uppercase' }}>{Item?.brand}</h6>
-                                                    <MdBookmarkBorder className='fs-5' />
-                                                </div>
+                                {allMensProduct?.length > 0 ?
+                                    allMensProduct.map((Item, index) => (
+                                        <div key={index} className="col-md-3 mb-3 col-6 " style={{ cursor: 'pointer' }}>
+                                            <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
                                                 <Link to={`/productdetails/${Item?._id}`} className='text-dark text-decoration-none'>
-                                                    <h6>{Item?.name.slice(0, 20)}...</h6>
-                                                    <p>{Item?.color.slice(0, 25)}</p>
-                                                    <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {Item?.price}</p>
+                                                    <div className=' mb-3 mt-2 NewcardImg'>
+                                                        <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${Item.uploadedImg[0]}`} alt="no img" />
+                                                    </div>
                                                 </Link>
+                                                <div className='w-100 text-center mt-2'>
+                                                    <div className='d-flex justify-content-around mb-1'>
+                                                        <p></p>
+                                                        <h6 style={{ textTransform: 'uppercase' }}>{Item?.brand}</h6>
+                                                        <MdBookmarkBorder className='fs-5' />
+                                                    </div>
+                                                    <Link to={`/productdetails/${Item?._id}`} className='text-dark text-decoration-none'>
+                                                        <h6>{Item?.name.slice(0, 20)}...</h6>
+                                                        <p>{Item?.color.slice(0, 25)}</p>
+                                                        <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {Item?.price}</p>
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
+                                    ))
+                                    :
+                                    <div className='w-100 d-flex align-items-center justify-content-center'>
+                                        <div className='w-50'>
+                                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'50%'} />
+                                        </div>
                                     </div>
-                                ))}
+                                }
 
                             </div>
                         </div>
