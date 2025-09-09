@@ -57,12 +57,14 @@ const WishList = () => {
     <>
       {/* Header */}
       <Header />
-
-      <div className="container" style={{ marginTop: '130px' }}>
+      <div style={{ marginTop: '140px', userSelect: 'none' }} >
+        <p className='px-5 d-lg-flex d-none' style={{ color: 'rgba(94, 89, 89, 0.53)', fontSize: '14px' }}><Link to={'/'} className='text-decoration-none' style={{ color: 'rgba(94, 89, 89, 0.53)' }}>HOME</Link> / WISHLIST </p>
+      </div>
+      <div className="container mt-" >
 
         {/* Message for users who don't have token */}
         {!token ?
-          <div className="row py-3 ">
+          <div className="row py-3">
             <div className="col-md-4"></div>
             <div className="col-md-4">
               <div className='d-flex flex-column align-items-center shadow p-5' style={{ borderRadius: '30px' }}>
