@@ -47,8 +47,11 @@ const Brands = () => {
     <>
       {/* Header */}
       <Header />
+      <div style={{ marginTop: '140px', userSelect: 'none' }} >
+        <p className='px-5 d-lg-flex d-none' style={{ color: 'rgba(94, 89, 89, 0.53)', fontSize: '14px' }}><Link to={'/'} className='text-decoration-none' style={{ color: 'rgba(94, 89, 89, 0.53)' }}>HOME</Link> / BRANDS </p>
+      </div>
 
-      <div className='d-lg-flex container justify-content-lg-between justify-content-end px-5 w-100' style={{ marginTop: '150px', userSelect: 'none' }} >
+      <div className='d-lg-flex container justify-content-lg-between justify-content-end px-5 w-100' style={{ marginTop: '50px', userSelect: 'none' }} >
         <div className='w-100 d-flex align-items-center'>
           <input type="text" onChange={(e) => setSearchKey(e.target.value)} placeholder='search brand...' className='form-control w-25 ' name='Brand' />
           <IoMdSearch style={{ marginLeft: '-30px' }} className='fs-5' />

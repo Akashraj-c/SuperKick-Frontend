@@ -1,9 +1,15 @@
 .infoDiv {
-  background-image: linear-gradient(to top right, rgb(117, 108, 108), rgb(30, 29, 29), rgb(58, 56, 56), rgb(11, 11, 11), rgb(117, 108, 108));
-  box-shadow: 5px 5px 10px rgb(210, 56, 56);
+  background-image: linear-gradient(to top right, rgb(117, 108, 108), rgb(35, 38, 82), rgb(24, 30, 73), rgb(31, 32, 90), rgb(117, 108, 108));
+  transition: all 1s;
 }
 
-.mainDiv::-webkit-scrollbar{
+.infoDiv:hover {
+  background-image: linear-gradient(to top right, rgb(117, 108, 108), rgb(56, 61, 125), rgb(24, 30, 73),  rgb(44, 47, 92), rgb(117, 108, 108));
+  box-shadow: 5px 5px 10px rgb(6, 28, 140);
+  transform: scale(1.05);
+}
+
+.mainDiv::-webkit-scrollbar {
   visibility: hidden;
-  scroll-behavior:smooth;
+  scroll-behavior: smooth;
 }

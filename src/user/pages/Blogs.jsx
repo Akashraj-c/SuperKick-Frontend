@@ -1,18 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { CiCalendar } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { getAllBlogApi } from '../../services/allApi';
+import { serverUrl } from '../../services/serverUrl';
 
 const Blogs = () => {
+  const [AllBlogs, setAllBlogs] = useState([])
+
+  // Get All Blogs
+  const getAllBlogs = async () => {
+    const result = await getAllBlogApi()
+    // console.log(result);
+    setAllBlogs(result.data)
+  }
+
+  useEffect(() => {
+    getAllBlogs()
+  }, [])
+
   return (
     <>
       {/* Header */}
       <Header />
 
-      <div style={{ marginTop: '135px', userSelect: 'none' }} >
+      <div style={{ marginTop: '140px', userSelect: 'none' }} >
         <p className='px-5 d-lg-flex d-none' style={{ color: 'rgba(94, 89, 89, 0.53)', fontSize: '14px' }}><Link to={'/'} className='text-decoration-none' style={{ color: 'rgba(94, 89, 89, 0.53)' }}>HOME</Link> / BLOGS </p>
       </div>
 
@@ -20,101 +35,124 @@ const Blogs = () => {
         <h3 className='fw-bold'>Blogs</h3>
       </div>
 
-      <Tabs defaultActiveKey="AllBlogs" id="uncontrolled-tab-example" className="mb-3 mt-4 px-5" >
-
+      <Tabs defaultActiveKey="AllBlogs" id="uncontrolled-tab-example" className="mb-3 mt-4 px-5" style={{ userSelect: 'none' }}>
+        {/* all blogs */}
         <Tab eventKey="AllBlogs" title="All">
           <div className='container mt-4' style={{ userSelect: 'none' }}>
             <div className="row mt-4">
-              <div className="col-md-4 mb-4" style={{ borderRadius: '20px' }}>
-                <div className='w-100'>
-                  <img src="https://www.superkicks.in/cdn/shop/articles/3_520x500_520x500_520x500_520x500_520x500_0e705a26-f970-40c4-9ca9-e7db8c5b6b88.jpg?v=1736863966" alt="no img" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
-                </div>
 
-                <div className='d-flex justify-content-end me-2' style={{ marginTop: '-45px' }}>
-                  <h6 className='p-2 w-25 opacity-75 text-center fw-bold' style={{ borderRadius: '30px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>News</h6>
-                </div>
+              {AllBlogs?.length > 0 ?
+                AllBlogs?.map((item, index) => (
 
-                <div className='px-3 py-3  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
-                  <h6 className='fw-bold'>Air Force 1: The Untouchable Classic That Never Fades</h6>
-                  <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>April 03, 2025</p>
-                </div>
-              </div>
+                  <div key={index} className="col-md-4 mb-4" style={{ borderRadius: '20px', cursor: 'pointer' }}>
+                    <Link to={`/blogdetails/${item?._id}`} className='text-decoration-none'>
+                      <div className='w-100'>
+                        <img src={`${serverUrl}/uploads/${item?.image}`} alt="no img" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
+                      </div>
 
-              <div className="col-md-4" style={{ borderRadius: '20px' }}>
-                <div className='w-100'>
-                  <img src="https://www.superkicks.in/cdn/shop/articles/Banner_520x500_520x500_8a4dcdd1-1f11-4ae0-a5cc-aa46acb09804.png?v=1736863733" alt="" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
-                </div>
-                <div className='px-3 py-3  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
-                  <h6 className='fw-bold'>Air Force 1: The Untouchable Classic That Never Fades</h6>
-                  <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>April 03, 2025</p>
-                </div>
-              </div>
+                      <div className='d-flex justify-content-end me-2' style={{ marginTop: '-45px' }}>
+                        <h6 className='p-2 opacity-75 text-center fw-bold' style={{ borderRadius: '30px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>{item?.category}</h6>
+                      </div>
 
-              <div className="col-md-4" style={{ borderRadius: '20px' }}>
-                <div className='w-100'>
-                  <img src="https://www.superkicks.in/cdn/shop/articles/3_520x500_520x500_520x500_520x500_520x500_0e705a26-f970-40c4-9ca9-e7db8c5b6b88.jpg?v=1736863966" alt="" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
+                      <div className='px-3 py-3  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
+                        <h6 className='fw-bold'>{item?.title}</h6>
+                        <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>{new Date(item.updatedAt).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "2-digit"
+                        })}</p>
+                      </div>
+                    </Link>
+                  </div>
+                ))
+
+                :
+                <div className='w-100 d-flex align-items-center justify-content-center'>
+                  <div className='w-50'>
+                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'50%'} />
+                  </div>
                 </div>
-                <div className='px-3 py-2  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
-                  <h6 className='fw-bold'>Air Force 1: The Untouchable Classic That Never Fades</h6>
-                  <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>April 03, 2025</p>
-                </div>
-              </div>
+              }
 
             </div>
           </div>
         </Tab>
 
+        {/* Community blogs */}
         <Tab eventKey="Community" title="Community">
           <div className='container mt-4' style={{ userSelect: 'none' }}>
             <div className="row mt-4">
 
-              <div className="col-md-4 mb-4" style={{ borderRadius: '20px' }}>
-                <div className='w-100'>
-                  <img src="https://www.superkicks.in/cdn/shop/articles/3_520x500_520x500_520x500_520x500_520x500_0e705a26-f970-40c4-9ca9-e7db8c5b6b88.jpg?v=1736863966" alt="" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
-                </div>
+              {AllBlogs?.filter((item) => item?.category == 'Community').length > 0 ?
+                AllBlogs?.filter((item) => item?.category == 'Community').map((items) => (
+                  <div className="col-md-4 mb-4" style={{ borderRadius: '20px', cursor: 'pointer' }}>
+                    <Link to={`/blogdetails/${items?._id}`} className='text-decoration-none'>
+                      <div className='w-100'>
+                        <img src={`${serverUrl}/uploads/${items?.image}`} alt="no img" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
+                      </div>
 
-                <div className='d-flex justify-content-end me-2' style={{ marginTop: '-45px' }}>
-                  <h6 className='p-2 w-25 opacity-75 text-center fw-bold' style={{ borderRadius: '30px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>Community</h6>
-                </div>
+                      <div className='d-flex justify-content-end me-2' style={{ marginTop: '-45px' }}>
+                        <h6 className='p-2 w-25 opacity-75 text-center fw-bold' style={{ borderRadius: '30px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>{items?.category}</h6>
+                      </div>
 
-                <div className='px-3 py-3  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
-                  <h6 className='fw-bold'>Air Force 1: The Untouchable Classic That Never Fades</h6>
-                  <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>April 03, 2025</p>
+                      <div className='px-3 py-3  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
+                        <h6 className='fw-bold'>{items?.title}</h6>
+                        <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>{new Date(items.updatedAt).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "2-digit"
+                        })}</p>
+                      </div>
+                    </Link>
+                  </div>
+                ))
+                :
+                <div className='w-100 d-flex align-items-center justify-content-center'>
+                  <div className='w-50'>
+                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'50%'} />
+                  </div>
                 </div>
-              </div>
-
-              <div className="col-md-4" style={{ borderRadius: '20px' }}>
-                <div className='w-100'>
-                  <img src="https://www.superkicks.in/cdn/shop/articles/Banner_520x500_520x500_8a4dcdd1-1f11-4ae0-a5cc-aa46acb09804.png?v=1736863733" alt="" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
-                </div>
-                <div className='px-3 py-2  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
-                  <h6 className='fw-bold'>Air Force 1: The Untouchable Classic That Never Fades</h6>
-                  <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>April 03, 2025</p>
-                </div>
-              </div>
+              }
 
             </div>
           </div>
         </Tab>
 
+        {/* News blogs */}
         <Tab eventKey="News" title="News" >
           <div className='container mt-4' style={{ userSelect: 'none' }}>
             <div className="row mt-4">
 
-              <div className="col-md-4 mb-4" style={{ borderRadius: '20px' }}>
-                <div className='w-100'>
-                  <img src="https://www.superkicks.in/cdn/shop/articles/3_520x500_520x500_520x500_520x500_520x500_0e705a26-f970-40c4-9ca9-e7db8c5b6b88.jpg?v=1736863966" alt="" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
-                </div>
+              {AllBlogs?.filter((item) => item?.category == 'News').length > 0 ?
+                AllBlogs?.filter((item) => item?.category == 'News').map((items) => (
+                  <div className="col-md-4 mb-4" style={{ borderRadius: '20px', cursor: 'pointer' }}>
+                    <Link to={`/blogdetails/${items?._id}`} className='text-decoration-none'>
+                      <div className='w-100'>
+                        <img src={`${serverUrl}/uploads/${items?.image}`} alt="no img" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
+                      </div>
 
-                <div className='d-flex justify-content-end me-2' style={{ marginTop: '-45px' }}>
-                  <h6 className='p-2 w-25 opacity-75 text-center fw-bold' style={{ borderRadius: '30px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>News</h6>
-                </div>
+                      <div className='d-flex justify-content-end me-2' style={{ marginTop: '-45px' }}>
+                        <h6 className='p-2 w-25 opacity-75 text-center fw-bold' style={{ borderRadius: '30px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>{items?.category}</h6>
+                      </div>
 
-                <div className='px-3 py-3  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
-                  <h6 className='fw-bold'>Air Force 1: The Untouchable Classic That Never Fades</h6>
-                  <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>April 03, 2025</p>
+                      <div className='px-3 py-3  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
+                        <h6 className='fw-bold'>{items?.title}</h6>
+                        <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>{new Date(items.updatedAt).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "2-digit"
+                        })}</p>
+                      </div>
+                    </Link>
+                  </div>
+                ))
+                :
+                <div className='w-100 d-flex align-items-center justify-content-center'>
+                  <div className='w-50'>
+                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'50%'} />
+                  </div>
                 </div>
-              </div>
+              }
 
             </div>
           </div>

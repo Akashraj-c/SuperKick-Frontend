@@ -15,9 +15,9 @@ const AdminHome = () => {
                         <AdminSidebar />
                     </div>
 
-                    <div className="col-md-9 px-5 ms-lg-5">
+                    <div className="col-md-9 ms-lg-5">
 
-                        <div className="container">
+                        <div className="container-fluid">
                             <div className="row mt-3">
                                 <div className="col-md-4 mt-3">
                                     <div className='rounded text-center py-3 infoDiv' >

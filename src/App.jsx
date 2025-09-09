@@ -21,6 +21,7 @@ import SelectedBrandProducts from './user/pages/SelectedBrandProducts'
 import Preloader from './components/Preloader'
 import { useEffect, useState } from 'react'
 import 'quill/dist/quill.snow.css';
+import BlogDetails from './user/pages/BlogDetails'
 
 function App() {
   const [isloading, setIsloading] = useState(false)
@@ -48,6 +49,7 @@ function App() {
         <Route path='/menproducts' element={<MenProducts />} />
         <Route path='/womenproducts' element={<WomenProducts />} />
         <Route path='/selectedbrandproducts/:brandName' element={<SelectedBrandProducts />} />
+        <Route path='/blogdetails/:id' element={<BlogDetails />} />
 
         {/* Admin */}
         <Route path='/adminhome' element={<AdminHome />} />
