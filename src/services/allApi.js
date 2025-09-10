@@ -3,61 +3,66 @@ import { serverUrl } from "./serverUrl"
 
 // --------------------------User--------------------------
 
-export const registerApi = async (reqBody) => {  //user registration
+export const registerApi = async (reqBody) => { //user registration
     return await commonApi('POST', `${serverUrl}/register`, reqBody)
 }
 
-export const loginApi = async (reqBody) => {  //user login
+export const loginApi = async (reqBody) => { //user login
     return await commonApi('POST', `${serverUrl}/login`, reqBody)
 }
 
-export const googleLoginApi = async (reqBody) => {  //Google login
+export const googleLoginApi = async (reqBody) => { //Google login
     return await commonApi('POST', `${serverUrl}/googleLogin`, reqBody)
 }
 
-export const getHomeBrandsApi = async () => {  //Get Brands at userHome page
+export const getHomeBrandsApi = async () => { //Get Brands at userHome page
     return await commonApi('GET', `${serverUrl}/gethomebrands`)
 }
 
-export const getAllSneakersApi = async (searchKey) => {  //Get all sneakers
+export const getAllSneakersApi = async (searchKey) => { //Get all sneakers
     return await commonApi('GET', `${serverUrl}/allSneakers?search=${searchKey}`)
 }
 
-export const getAllApparelsApi = async (searchKey) => {  //Get all Apparels
+export const getAllApparelsApi = async (searchKey) => { //Get all Apparels
     return await commonApi('GET', `${serverUrl}/allApparels?search=${searchKey}`)
 }
 
-export const getAllHomeBrandsApi = async () => {  //Get all brands at sidebar
+export const getAllHomeBrandsApi = async () => { //Get all brands at sidebar
     return await commonApi('GET', `${serverUrl}/allhomebrands`)
 }
 
-export const getAProductDetailsApi = async (id) => {  //Get details of a particular product
+export const getAProductDetailsApi = async (id) => { //Get details of a particular product
     return await commonApi('GET', `${serverUrl}/AProductDetails/${id}`)
 }
 
-export const getAllMensProductApi = async (searchKey) => {  //Get All Mens product
+export const getAllMensProductApi = async (searchKey) => { //Get All Mens product
     return await commonApi('GET', `${serverUrl}/menproducts?search=${searchKey}`)
 }
 
-export const getAllWomensProductApi = async (searchKey) => {  //Get All Womens product
+export const getAllWomensProductApi = async (searchKey) => { //Get All Womens product
     return await commonApi('GET', `${serverUrl}/womenproducts?search=${searchKey}`)
 }
 
-export const addWishListApi = async (reqBody, reqHeader) => {  //Add products to wishlist
+export const addWishListApi = async (reqBody, reqHeader) => { //Add products to wishlist
     return await commonApi('POST', `${serverUrl}/addWishList`, reqBody, reqHeader)
 }
 
-export const getAllWishListApi = async (reqHeader) => {  //Get all wishlist products
+export const getAllWishListApi = async (reqHeader) => { //Get all wishlist products
     return await commonApi('GET', `${serverUrl}/getallproducts`, " ", reqHeader)
 }
 
-export const removeProductApi = async (id) => {  //Remove a product from wishlist
+export const removeProductApi = async (id) => { //Remove a product from wishlist
     return await commonApi('DELETE', `${serverUrl}/removeproduct/${id}`)
 }
 
 export const getABlogDetailsApi = async (id) => { //A blog details
     return await commonApi('GET', `${serverUrl}/getABlog/${id}`)
 }
+
+export const addCommentsApi = async (reqBody, reqHeader) => { //Add new comment
+    return await commonApi('POST', `${serverUrl}/addcomment`, reqBody, reqHeader)
+}
+
 
 // -----------------------Admin--------------------------
 
@@ -89,6 +94,14 @@ export const deleteABlogApi = async (id, reqHeader) => { //Delete a blog
     return await commonApi('DELETE', `${serverUrl}/deleteblog/${id}`, "", reqHeader)
 }
 
+export const getAllCommentsApi = async () => { //get All Comments
+    return await commonApi('GET', `${serverUrl}/getallcomments`)
+}
+
+export const deleteCommentsApi = async (id) => { //Delete a Comments
+    return await commonApi('DELETE', `${serverUrl}/deletecomment/${id}`)
+}
+
 // --------------------------Common--------------------------
 
 export const getAllBrandApi = async (searchKey) => {  //    Get all brands
@@ -101,4 +114,8 @@ export const getAllProductApi = async (searchKey) => {  //Get all products
 
 export const getAllBlogApi = async () => {  //Get all blogs
     return await commonApi('GET', `${serverUrl}/getallblogs`)
+}
+
+export const getCommentsApi = async (id) => { //get All Comments of a particular blog
+    return await commonApi('GET', `${serverUrl}/allcomments/${id}`)
 }

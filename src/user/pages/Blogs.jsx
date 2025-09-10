@@ -84,8 +84,8 @@ const Blogs = () => {
             <div className="row mt-4">
 
               {AllBlogs?.filter((item) => item?.category == 'Community').length > 0 ?
-                AllBlogs?.filter((item) => item?.category == 'Community').map((items) => (
-                  <div className="col-md-4 mb-4" style={{ borderRadius: '20px', cursor: 'pointer' }}>
+                AllBlogs?.filter((item) => item?.category == 'Community').map((items, index) => (
+                  <div key={index} className="col-md-4 mb-4" style={{ borderRadius: '20px', cursor: 'pointer' }}>
                     <Link to={`/blogdetails/${items?._id}`} className='text-decoration-none'>
                       <div className='w-100'>
                         <img src={`${serverUrl}/uploads/${items?.image}`} alt="no img" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />
@@ -124,8 +124,8 @@ const Blogs = () => {
             <div className="row mt-4">
 
               {AllBlogs?.filter((item) => item?.category == 'News').length > 0 ?
-                AllBlogs?.filter((item) => item?.category == 'News').map((items) => (
-                  <div className="col-md-4 mb-4" style={{ borderRadius: '20px', cursor: 'pointer' }}>
+                AllBlogs?.filter((item) => item?.category == 'News').map((items, index) => (
+                  <div key={index} className="col-md-4 mb-4" style={{ borderRadius: '20px', cursor: 'pointer' }}>
                     <Link to={`/blogdetails/${items?._id}`} className='text-decoration-none'>
                       <div className='w-100'>
                         <img src={`${serverUrl}/uploads/${items?.image}`} alt="no img" className='w-100' style={{ borderRadius: '20px 20px 0px 0px ' }} />

@@ -7,7 +7,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { toast, ToastContainer } from 'react-toastify';
-import { addBlogApi, deleteABlogApi, getAllBlogApi } from '../../services/allApi';
+import { addBlogApi, deleteABlogApi, getAllBlogApi, getAllCommentsApi } from '../../services/allApi';
+import { Link } from 'react-router-dom';
 
 const AdminBlogs = () => {
 
@@ -23,6 +24,7 @@ const AdminBlogs = () => {
     const [preview, setPreview] = useState("")
     const [token, setToken] = useState("")
     const [AllBlogs, setAllBlogs] = useState([])
+    const [allComments, setAllComments] = useState([])
     const [updateStatus, setUpdateStatus] = useState('')
     const [show, setShow] = useState(false); // add new blog modal
 
@@ -99,6 +101,13 @@ const AdminBlogs = () => {
         }
     }
 
+    // get All Comments
+    const getAllComments = async () => {
+        const result = await getAllCommentsApi()
+        console.log(result);
+        setAllComments(result.data)
+    }
+
     useEffect(() => {
         if (sessionStorage.getItem('token')) {
             const tok = sessionStorage.getItem('token')
@@ -106,6 +115,7 @@ const AdminBlogs = () => {
         }
 
         getAllBlogs()
+        getAllComments()
     }, [updateStatus])
 
     return (
@@ -130,7 +140,7 @@ const AdminBlogs = () => {
 
                         {/* Table */}
                         {AllBlogs?.length > 0 ?
-                            <div style={{overflowX:"auto"}}>
+                            <div style={{ overflowX: "auto" }}>
                                 <table className="table table-hover border">
                                     <thead>
                                         <tr className='text-center'>
@@ -149,7 +159,7 @@ const AdminBlogs = () => {
                                                 <th scope="row">{index + 1}</th>
                                                 <td className='border'>{item?.title}</td>
                                                 <td className='border'>{item?.category}</td>
-                                                <td className='border'>{ }</td>
+                                                <td className='border'><Link to={`/allcomments/${item?._id}`}>{allComments.filter((items) => items.blogId == item?._id).length}</Link></td>
                                                 <td className='border'>{new Date(item.updatedAt).toLocaleDateString("en-US", {
                                                     year: "numeric",
                                                     month: "long",
