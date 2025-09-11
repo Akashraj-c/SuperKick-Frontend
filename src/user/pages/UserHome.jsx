@@ -10,6 +10,8 @@ import Gender from '../components/Gender';
 import HomeApparels from '../components/HomeApparels';
 import Footer from '../../components/Footer';
 import { searhKeyContext } from '../../context/Contextshare';
+import WhySuperKicks from '../components/WhySuperKicks';
+import Homeblog from '../components/Homeblog';
 
 const UserHome = () => {
   return (
@@ -57,6 +59,12 @@ const UserHome = () => {
 
       {/* Apparel Section */}
       <HomeApparels />
+
+      {/* Why superkicks */}
+      <WhySuperKicks />
+
+      {/* Blogs */}
+      <Homeblog/>
 
       {/* Footer */}
       <Footer />

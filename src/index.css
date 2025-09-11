@@ -91,6 +91,19 @@
   border-radius: 0px 15px 15px 50px;
 }
 
+/* home blog */
+.blogDiv{
+  overflow: hidden;
+}
+
+.blogImg{
+  transition: all 1s;
+}
+
+.blogImg:hover{
+  transform:scale(1.1);
+}
+
 /* Preloader */
 .preLoader{
   margin-top: 200px;

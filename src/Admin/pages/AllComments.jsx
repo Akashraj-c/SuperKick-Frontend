@@ -21,7 +21,7 @@ const AllComments = () => {
         setShow(true);
     }
 
-    // get All Comments
+    // get All Comments 
     const getAllComments = async () => {
         const result = await getCommentsApi(id)
         // console.log(result);
