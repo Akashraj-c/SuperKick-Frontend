@@ -4,7 +4,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { LiaRupeeSignSolid } from 'react-icons/lia';
 import { useParams } from 'react-router-dom';
-import { addWishListApi, getAProductDetailsApi, removeProductApi } from '../../services/allApi';
+import { addCartApi, addWishListApi, getAProductDetailsApi, removeProductApi } from '../../services/allApi';
 import { serverUrl } from '../../services/serverUrl';
 import Footer from '../../components/Footer';
 import { Slide, toast, ToastContainer } from 'react-toastify';
@@ -17,6 +17,8 @@ const ProductDetails = () => {
     const [mainImg, setMainImg] = useState('')
     const [token, setToken] = useState('')
     const [wishlisted, setWishlisted] = useState(false)
+    const [selectedSize, setSelectedSize] = useState("")
+    // console.log(selectedSize);
 
     // get details of a particular product
     const getAProduct = async () => {
@@ -28,8 +30,16 @@ const ProductDetails = () => {
         }
     }
 
+    // handle product size
     const handleSize = (size, qty) => {
-        console.log(size, qty);
+        // console.log(size, qty);
+        setSelectedSize(size)
+        if (selectedSize == size) {
+            setSelectedSize("")
+        }
+        else {
+            setSelectedSize(size)
+        }
     }
 
     // Add Product to wishlist
@@ -60,6 +70,39 @@ const ProductDetails = () => {
         }
     }
 
+    // Add products to cart
+    const handleCart = async (productId) => {
+        if (!token) {
+            toast.info('Only Logined user can add products to cart')
+        }
+        else if (!selectedSize) {
+            toast.info('please select a size')
+        }
+        else {
+            const size = selectedSize
+
+            const reqBody = { productId, size }
+            const reqHeader = {
+                "Authorization": `Bearer ${token}`
+            }
+
+            const result = await addCartApi(reqBody, reqHeader)
+            console.log(result);
+
+            if (result.status == 200) {
+                toast.success('Your product has been added to cart')
+                setSelectedSize("")
+            }
+            else if (result.status == 402) {
+                toast.info(result.response.data)
+            }
+            else {
+                toast.error('Something went wrong')
+            }
+
+        }
+    }
+
     useEffect(() => {
         if (sessionStorage.getItem('token')) {
             const tok = sessionStorage.getItem('token')
@@ -80,7 +123,7 @@ const ProductDetails = () => {
                         <div className='d-flex flex-column gap-2 align-items-center me-2' style={{ width: '130px' }}>
                             {allImages.slice(0, 4).map((images, index) => (
                                 <div key={index} className='w-100 shadow rounded' >
-                                    <img onClick={() => setMainImg(images)} className='w-100 d-flex justify-content-center align-items-center' src={`${serverUrl}/uploads/${images}`} alt="no img" />
+                                    <img onClick={() => setMainImg(images)} className='w-100 d-flex justify-content-center align-items-center' src={`${serverUrl}/uploads/${images}`} alt="no img" style={{ cursor: 'pointer' }} />
                                 </div>
                             ))}
                         </div>
@@ -112,9 +155,11 @@ const ProductDetails = () => {
                                 {AproductDetails?.size &&
                                     Object.entries(AproductDetails.size).map(([label, qty]) => (
                                         <div key={label}>
-                                            <button onClick={() => handleSize(label, qty - 1)} className={`border px-4 py-2 bg-white fs-6 border-dark me-3 mb-2 ${qty == 0 ? "opacity-50 disabled" : ""}`} disabled={qty == 0}>
+
+                                            <button onClick={() => handleSize(label, qty - 1)} className={`border px-4 py-2 bg-white fs-6 border-dark me-3 mb-2 ${qty == 0 ? "opacity-50 disabled" : ""} ${selectedSize == label ? "text-secondary  border-secondary opacity-75" : ""}`} disabled={qty == 0}>
                                                 {label}
                                             </button>
+
                                             {qty == 0 && <p className='text-danger'>out of <br /> stock</p>}
                                         </div>
                                     ))}
@@ -122,7 +167,7 @@ const ProductDetails = () => {
                             </div>
                         </div>
                         <div className='mt-3'>
-                            <button className='btn btn-dark w-100 py-2 fs-5'>Add to Cart</button>
+                            <button className='btn btn-dark w-100 py-2 fs-5' onClick={() => handleCart(AproductDetails?._id)}>Add to Cart</button>
                         </div>
 
                     </div>

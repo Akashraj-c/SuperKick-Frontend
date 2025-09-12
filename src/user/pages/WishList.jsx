@@ -68,8 +68,8 @@ const WishList = () => {
             <div className="col-md-4"></div>
             <div className="col-md-4">
               <div className='d-flex flex-column align-items-center shadow p-5' style={{ borderRadius: '30px' }}>
-                <h4><AiFillThunderbolt className='text-warning' /></h4>
-                <h6 className='text-center mt-3'>You are not logged in. Please log in to see your wishlist.</h6>
+                <h2><AiFillThunderbolt className='text-warning' /></h2>
+                <h6 className='text-center mt-3'>You are not logged in. Please <Link to={'/login'}>login</Link> to see your wishlist.</h6>
               </div>
             </div>
             <div className="col-md-4"></div>

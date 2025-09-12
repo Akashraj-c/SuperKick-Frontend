@@ -63,6 +63,17 @@ export const addCommentsApi = async (reqBody, reqHeader) => { //Add new comment
     return await commonApi('POST', `${serverUrl}/addcomment`, reqBody, reqHeader)
 }
 
+export const addCartApi = async (reqBody, reqHeader) => { //Add products to cart
+    return await commonApi('POST', `${serverUrl}/addcart`, reqBody, reqHeader)
+}
+
+export const getallCartApi = async (reqHeader) => { // get all cart products
+    return await commonApi('GET', `${serverUrl}/allcart`, "", reqHeader)
+}
+
+export const removeproductCartApi = async (id) => {  //Remove product from cart
+    return await commonApi('DELETE', `${serverUrl}/removecart/${id}`)
+}
 
 // -----------------------Admin--------------------------
 
