@@ -7,6 +7,7 @@ import { IoMdSearch } from 'react-icons/io';
 import { getAllBrandApi } from '../../services/allApi';
 import { searhKeyContext } from '../../context/Contextshare';
 import { Link } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
 
 const Brands = () => {
   const { searchKey, setSearchKey } = useContext(searhKeyContext)
@@ -14,14 +15,18 @@ const Brands = () => {
   const [allBrands, setAllBrands] = useState([])
   const [tempArray, setTempArray] = useState([])
   const [selectedFilter, setSelectedFilter] = useState('Relevance')
+  const [isLoading, setIsLoading] = useState(true)
 
   // Get all brands
   const GetAllBrands = async () => {
     const result = await getAllBrandApi(searchKey)
     // console.log(result);
     if (result.status == 200) {
-      setAllBrands(result.data)
-      setTempArray(result.data)
+      setTimeout(() => {
+        setAllBrands(result.data)
+        setTempArray(result.data)
+        setIsLoading(false)
+      }, 500)
     }
   }
 
@@ -66,23 +71,29 @@ const Brands = () => {
         </div>
       </div>
 
-      <div className="container mt-5" style={{ userSelect: 'none' }}>
-        <div className="row px-5">
-          {allBrands?.length > 0 ?
-            allBrands.map((items, index) => (
-              <div key={index} className="col-md-4 col-4 mb-4">
-                <Link to={`/selectedbrandproducts/${items?.brandname}`} className='text-dark text-decoration-none'> <h6>{items?.brandname}</h6></Link>
-              </div>
-            ))
-            :
-            <div className='w-100 d-flex align-items-center justify-content-center'>
-              <div className='w-50'>
-                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'50%'} />
-              </div>
-            </div>
-          }
+      {isLoading ?
+        <div className='col-md-9 mainCol d-flex justify-content-center mt-5 px-5 py-5 w-100'>
+          <Spinner animation="border" variant="primary" />
         </div>
-      </div>
+        :
+        <div className="container mt-5" style={{ userSelect: 'none' }}>
+          <div className="row px-5">
+            {allBrands?.length > 0 ?
+              allBrands.map((items, index) => (
+                <div key={index} className="col-md-4 col-4 mb-4">
+                  <Link to={`/selectedbrandproducts/${items?.brandname}`} className='text-dark text-decoration-none'> <h6>{items?.brandname}</h6></Link>
+                </div>
+              ))
+              :
+              <div className='w-100 d-flex align-items-center justify-content-center'>
+                <div className='w-50'>
+                  <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'50%'} />
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
 
       {/* Footer */}
       <Footer />

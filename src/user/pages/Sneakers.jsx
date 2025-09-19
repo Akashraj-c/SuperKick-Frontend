@@ -8,26 +8,47 @@ import { MdBookmarkBorder } from 'react-icons/md';
 import { FaBarsProgress } from "react-icons/fa6";
 import '../../style/NewArrival.css'
 import HomeSidebar from '../components/HomeSidebar';
-import { getAllSneakersApi } from '../../services/allApi';
+import { addCartApi, getAllSneakersApi } from '../../services/allApi';
 import { serverUrl } from '../../services/serverUrl';
 import { searhKeyContext, sideBarFilterContext } from '../../context/Contextshare';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { Slide, toast, ToastContainer } from 'react-toastify';
+import { IoArrowForwardCircleSharp } from 'react-icons/io5';
+import Spinner from 'react-bootstrap/Spinner';
 
 const Sneakers = () => {
   const { searchKey, setSearchKey } = useContext(searhKeyContext)
   const { filters, setFilters } = useContext(sideBarFilterContext)
 
+  const [token, setToken] = useState(() => sessionStorage.getItem('token'))
   const [filterCollapse, setFilterCollpase] = useState(false)
   const [allSneakers, setAllSneakers] = useState([])
   const [tempArray, setTempArray] = useState([])
   const [filterButtonData, setFilterBottomData] = useState('Relevance')
+  const [aProduct, setAProduct] = useState('')
+  const [productId, setProductId] = useState("")
+  const [selectedSize, setSelectedSize] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+  const [show, setShow] = useState(false); //modal for size
+
+  const handleClose = () => setShow(false);
+  const handleShow = (item, id) => {
+    setShow(true);
+    setProductId(id)
+    setAProduct(item)
+  }
 
   // get All Sneakers
   const getAllSneakers = async () => {
     const result = await getAllSneakersApi(searchKey)
     // console.log(result);
     if (result.status == 200) {
-      setAllSneakers(result.data)
-      setTempArray(result.data)
+      setTimeout(() => {
+        setAllSneakers(result.data)
+        setTempArray(result.data)
+        setIsLoading(false)
+      }, 500)
     }
   }
 
@@ -45,8 +66,56 @@ const Sneakers = () => {
     }
   }
 
+  // Add products to cart
+  const handleCart = async () => {
+    if (!token) {
+      toast.info('Only Logined user can add products to cart')
+    }
+    else if (!selectedSize) {
+      toast.info('please select a size')
+    }
+    else {
+      const size = selectedSize
+
+      const reqBody = { productId, size }
+      const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
+
+      const result = await addCartApi(reqBody, reqHeader)
+      console.log(result);
+
+      if (result.status == 200) {
+        toast.success('Your product has been added to cart')
+        setSelectedSize("")
+        handleClose()
+      }
+      else if (result.status == 402) {
+        toast.info(result.response.data)
+        setSelectedSize("")
+      }
+      else {
+        toast.error('Something went wrong')
+      }
+
+    }
+  }
+
+  // handle product size
+  const handleSize = (size, qty) => {
+    // console.log(size, qty);
+    setSelectedSize(size)
+    if (selectedSize == size) {
+      setSelectedSize("")
+    }
+    else {
+      setSelectedSize(size)
+    }
+  }
+
   useEffect(() => {
     getAllSneakers()
+    window.scrollTo(0, 0)
   }, [searchKey])
 
   // sidebar Filtering
@@ -119,48 +188,111 @@ const Sneakers = () => {
             <HomeSidebar />
           </div>}
 
-          <div className='col-md-9 mainCol' >
-            <div className="container- ">
-              <div className="row">
+          {isLoading ?
+            <div className='col-md-9 mainCol d-flex justify-content-center mt-5'>
+              <Spinner animation="border" variant="primary" />
+            </div>
+            :
+            <div className='col-md-9 mainCol' >
+              <div className="container- ">
+                <div className="row">
 
-                {allSneakers?.length > 0 ?
-                  allSneakers?.map((Item, index) => (
-                    <div key={index} className="col-md-3 mb-3 col-6 " style={{ cursor: 'pointer' }}>
+                  {allSneakers?.length > 0 ?
+                    allSneakers?.map((Item, index) => (
+                      <div key={index} className="col-md-3 mb-3 col-6 " style={{ cursor: 'pointer' }}>
 
-                      <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
-                        <Link to={`/productdetails/${Item?._id}`} className='text-dark text-decoration-none'>
-                          <div className=' mb-3 mt-2 NewcardImg'>
-                            <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${Item.uploadedImg[0]}`} alt="no img" />
-                          </div>
-                        </Link>
-                        <div className='w-100 text-center mt-2'>
-                          <div className='d-flex justify-content-around mb-1'>
-                            <p></p>
-                            <h6 style={{ textTransform: 'uppercase' }}>{Item?.brand}</h6>
-                            <MdBookmarkBorder className='fs-5' />
-                          </div>
+                        <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
                           <Link to={`/productdetails/${Item?._id}`} className='text-dark text-decoration-none'>
-                            <h6>{Item?.name.slice(0, 20)}...</h6>
-                            <p>{Item?.color.slice(0, 25)}</p>
-                            <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {Item?.price}</p>
+                            <div className=' mb-3 mt-2 NewcardImg'>
+                              <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${Item.uploadedImg[0]}`} alt="no img" />
+                            </div>
                           </Link>
+                          <div className='w-100 text-center mt-2'>
+                            <div className='d-flex justify-content-around mb-1'>
+                              <p></p>
+                              <h6 style={{ textTransform: 'uppercase' }}>{Item?.brand}</h6>
+                              <MdBookmarkBorder onClick={() => handleShow(Item, Item?._id)} className='fs-5' />
+                            </div>
+                            <Link to={`/productdetails/${Item?._id}`} className='text-dark text-decoration-none'>
+                              <h6>{Item?.name.slice(0, 20)}...</h6>
+                              <p>{Item?.color.slice(0, 25)}</p>
+                              <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {Item?.price}</p>
+                            </Link>
+                          </div>
                         </div>
                       </div>
+                    ))
+                    :
+                    <div className='w-100 d-flex align-items-center justify-content-center'>
+                      <div className='w-50'>
+                        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'50%'} />
+                      </div>
                     </div>
-                  ))
-                  :
-                  <div className='w-100 d-flex align-items-center justify-content-center'>
-                    <div className='w-50'>
-                      <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'50%'} />
-                    </div>
-                  </div>
-                }
+                  }
 
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      {/* modal for size */}
+      <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} size='lg' style={{ marginTop: '80px' }}>
+        <Modal.Header closeButton closeVariant='white' style={{ backgroundColor: 'rgba(14, 11, 52, 1)' }}>
+          <Modal.Title className='text-white'>Superkicks</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className='mt-4'>
+            <div className="conatiner-fluid">
+              <div className="row">
+                <div className="col-md-4 col- d-flex justify-content-center align-items-center">
+                  {aProduct &&
+                    <div className='border border-primary shadow' style={{ borderRadius: '20px' }}>
+                      <img src={`${serverUrl}/uploads/${aProduct?.uploadedImg[0]}`} alt="" style={{ borderRadius: '20px', width: '100%' }} className='shadow' />
+                    </div>
+                  }
+                </div>
+                {/* <div className="col-md-1"></div> */}
+                <div className="col-md-6 mt-3 mt-md-0">
+                  <h6>{aProduct?.brand}</h6>
+                  <h5>{aProduct?.name}</h5>
+                  <p>{aProduct?.color}</p>
+                  <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {aProduct?.price}</p>
+
+                  <div className='d-flex mt-3'>
+                    {aProduct?.size &&
+                      Object.entries(aProduct?.size).map(([label, qty]) => (
+                        <div key={label}>
+
+                          <button onClick={() => handleSize(label, qty - 1)} className={`border px-md-4 px-3 py-2 bg-white fs-6 border-dark me-3 mb-2 ${qty == 0 ? "opacity-50 disabled" : ""} ${selectedSize == label ? "text-secondary  border-secondary opacity-75" : ""}`} disabled={qty == 0}>
+                            {label}
+                          </button>
+
+                          {qty == 0 && <p className='text-danger'>out of <br /> stock</p>}
+                        </div>
+                      ))}
+                  </div>
+
+                  <div className='mt-2'>
+                    <Link to={`/productdetails/${aProduct?._id}`}><h6>view Product <IoArrowForwardCircleSharp /></h6></Link>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="success" onClick={handleCart}>ADD TO CART</Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Toast conatiner */}
+      <ToastContainer position="top-center" autoClose={800} transition={Slide} theme="light" />
 
       {/* Footer */}
       <Footer />

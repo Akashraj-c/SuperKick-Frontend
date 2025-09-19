@@ -20,23 +20,31 @@
 
 /* filter scroll bar */
 .filterCol::-webkit-scrollbar {
-  width: 5px;               
+    width: 5px;
 }
 
 .filterCol::-webkit-scrollbar-thumb {
-  background: #d2d1d1;          
-  border-radius: 10px;
+    background: #d2d1d1;
+    border-radius: 10px;
 }
 
 .filterCol::-webkit-scrollbar-thumb:hover {
-  background: #bbb8b8;         
+    background: #bbb8b8;
 }
 
 /* main column scrollbar */
-.mainCol::-webkit-scrollbar{
+.mainCol::-webkit-scrollbar {
     visibility: hidden;
 }
 
+/* product details */
+.productdetailsTrending {
+    overflow-x: auto;
+}
+
+.productdetailsTrending::-webkit-scrollbar {
+    visibility: hidden;
+}
 
 /* responsive */
 @media(max-width:750px) {

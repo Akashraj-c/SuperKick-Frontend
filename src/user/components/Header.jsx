@@ -32,12 +32,12 @@ const Header = () => {
                   <MdOutlineSearch className='fs-4' style={{ marginLeft: '-40px' }} />
                 </div>
                 <ul className='list-unstyled d-lg-flex d-none justify-content-evenly '>
-                  <Link to={'/'} className='fw-bold text-decoration-none text-black'><li>HOME</li></Link>
-                  <Link to={'/newarrival'} className='fw-bold text-decoration-none text-black'><li className='fw-bold'>NEW ARRIVALS</li></Link>
-                  <Link to={'/sneakers'} className='fw-bold text-decoration-none text-black'><li className='fw-bold'>SNEAKERS</li></Link>
-                  <Link to={'/apparels'} className='fw-bold text-decoration-none text-black'><li className='fw-bold'>APPARELS</li></Link>
-                  <Link to={'/brands'} className='fw-bold text-decoration-none text-black'><li className='fw-bold'>BRANDS</li></Link>
-                  <Link to={'/blogs'} className='fw-bold text-decoration-none text-black'><li className='fw-bold'>BLOGS</li></Link>
+                  <Link to={'/'} className={location.pathname == '/' ? 'fw-bold text-decoration-none text-danger' : 'fw-bold text-decoration-none text-black'}><li>HOME</li></Link>
+                  <Link to={'/newarrival'} className={location.pathname == '/newarrival' ? 'fw-bold text-decoration-none text-danger' : 'fw-bold text-decoration-none text-black'}><li className='fw-bold'>NEW ARRIVALS</li></Link>
+                  <Link to={'/sneakers'} className={location.pathname == '/sneakers' ? 'fw-bold text-decoration-none text-danger' : 'fw-bold text-decoration-none text-black'}><li className='fw-bold'>SNEAKERS</li></Link>
+                  <Link to={'/apparels'} className={location.pathname == '/apparels' ? 'fw-bold text-decoration-none text-danger' : 'fw-bold text-decoration-none text-black'}><li className='fw-bold'>APPARELS</li></Link>
+                  <Link to={'/brands'} className={location.pathname == '/brands' ? 'fw-bold text-decoration-none text-danger' : 'fw-bold text-decoration-none text-black'}><li className='fw-bold'>BRANDS</li></Link>
+                  <Link to={'/blogs'} className={location.pathname == '/blogs' ? 'fw-bold text-decoration-none text-danger' : 'fw-bold text-decoration-none text-black'}><li className='fw-bold'>BLOGS</li></Link>
                 </ul>
 
                 {/* Menu Collpase */}

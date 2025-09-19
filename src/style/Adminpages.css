@@ -4,7 +4,7 @@
 }
 
 .infoDiv:hover {
-  background-image: linear-gradient(to top right, rgb(117, 108, 108), rgb(56, 61, 125), rgb(24, 30, 73),  rgb(44, 47, 92), rgb(117, 108, 108));
+  background-image: linear-gradient(to top right, rgb(117, 108, 108), rgb(56, 61, 125), rgb(24, 30, 73), rgb(44, 47, 92), rgb(117, 108, 108));
   box-shadow: 5px 5px 10px rgb(6, 28, 140);
   transform: scale(1.05);
 }

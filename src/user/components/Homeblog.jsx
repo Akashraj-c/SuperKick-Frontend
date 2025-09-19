@@ -42,7 +42,7 @@ const Homeblog = () => {
                                 <div className='blogDiv '>
                                     <img src={`${serverUrl}/uploads/${items?.image}`} alt="no img" className='w-100 blogImg' />
                                 </div>
-                                <h2 className='text-white position-absolute px-1 ms-2' style={{ marginTop: '-80px' }}>Top Picks: Best Basketball Sneakers for Men This Season</h2>
+                                <h2 className='text-white position-absolute px-1 ms-2' style={{ marginTop: '-80px' }}>{items?.title.slice(0,50)}</h2>
                                 <div className='mt-2'>
                                     <p style={{ textAlign: 'justify' }} className='px-2'>{items?.description.slice(0, 260)}...</p>
                                 </div>

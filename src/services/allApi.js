@@ -75,6 +75,10 @@ export const removeproductCartApi = async (id) => {  //Remove product from cart
     return await commonApi('DELETE', `${serverUrl}/removecart/${id}`)
 }
 
+export const getPrdtTrendingApi = async (category) => { // Get trending products at product details page
+    return await commonApi('GET', `${serverUrl}/gettrendingprdt?category=${category}`)
+}
+
 // -----------------------Admin--------------------------
 
 export const addBrandApi = async (reqBody, reqHeader) => {  //Add brands
