@@ -234,25 +234,25 @@ const ProductDetails = () => {
                             <button className='btn btn-dark w-100 py-2 fs-5' onClick={() => handleCart(AproductDetails?._id)}>Add to Cart</button>
                         </div>
                         <div className='d-flex mt-4 align-items-center justify-content-center'>
-                            <div className='px-3 pt-2 rounded me-3' style={{ backgroundColor: 'rgba(240, 242, 240, 1)' }}>
-                                <div className='d-flex justify-content-center align-items-center' style={{ width: '100px', height: '100px', borderRadius: '50%' ,backgroundColor:'rgba(229, 226, 223, 1)'}}>
-                                    <h2><MdOutlineVerifiedUser className='text-secondary'/></h2>
+                            <div className='px-3 pt-2 rounded me-3 shadow' style={{ backgroundColor: 'rgba(240, 242, 240, 1)' }}>
+                                <div className='d-flex justify-content-center align-items-center shadow' style={{ width: '100px', height: '100px', borderRadius: '50%', backgroundColor: 'rgba(229, 226, 223, 1)' }}>
+                                    <h2><MdOutlineVerifiedUser className='text-secondary' /></h2>
                                 </div>
-                                <p className='text-center mt-1' style={{fontSize:'15px'}}>Pre <br /> Authenticated</p>
+                                <p className='text-center mt-1' style={{ fontSize: '15px' }}>Pre <br /> Authenticated</p>
                             </div>
 
-                             <div className='px-3 pt-2 rounded me-3' style={{ backgroundColor: 'rgba(240, 242, 240, 1)' }}>
-                                <div className='d-flex justify-content-center align-items-center' style={{ width: '100px', height: '100px', borderRadius: '50%' ,backgroundColor:'rgba(229, 226, 223, 1)'}}>
-                                    <h2><SiSongkick className='text-secondary'/></h2>
+                            <div className='px-3 pt-2 rounded me-3 shadow' style={{ backgroundColor: 'rgba(240, 242, 240, 1)' }}>
+                                <div className='d-flex justify-content-center align-items-center shadow' style={{ width: '100px', height: '100px', borderRadius: '50%', backgroundColor: 'rgba(229, 226, 223, 1)' }}>
+                                    <h2><SiSongkick className='text-secondary' /></h2>
                                 </div>
-                                <p className='text-center mt-1' style={{fontSize:'15px'}}>Superkicks <br /> Verified</p>
+                                <p className='text-center mt-1' style={{ fontSize: '15px' }}>Superkicks <br /> Verified</p>
                             </div>
 
-                            <div className='px-3 pt-2 rounded' style={{ backgroundColor: 'rgba(240, 242, 240, 1)' }}>
-                                <div className='d-flex justify-content-center align-items-center' style={{ width: '100px', height: '100px', borderRadius: '50%' ,backgroundColor:'rgba(229, 226, 223, 1)'}}>
-                                    <h2><BsHouseHeart className='text-secondary'/></h2>
+                            <div className='px-3 pt-2 rounded shadow' style={{ backgroundColor: 'rgba(240, 242, 240, 1)' }}>
+                                <div className='d-flex justify-content-center align-items-center shadow' style={{ width: '100px', height: '100px', borderRadius: '50%', backgroundColor: 'rgba(229, 226, 223, 1)' }}>
+                                    <h2><BsHouseHeart className='text-secondary' /></h2>
                                 </div>
-                                <p className='text-center mt-1' style={{fontSize:'15px'}}>Our <br /> Promise</p>
+                                <p className='text-center mt-1' style={{ fontSize: '15px' }}>Our <br /> Promise</p>
                             </div>
                         </div>
                     </div>

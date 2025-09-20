@@ -22,6 +22,7 @@ import Preloader from './components/Preloader'
 import { useEffect, useState } from 'react'
 import BlogDetails from './user/pages/BlogDetails'
 import AllComments from './Admin/pages/AllComments'
+import Profile from './user/pages/Profile'
 
 function App() {
   const [isloading, setIsloading] = useState(false)
@@ -38,6 +39,7 @@ function App() {
         <Route path='/register' element={<Auth register />} />
         <Route path='/login' element={<Auth />} />
         <Route path='/' element={isloading ? <UserHome /> : <Preloader />} />
+        <Route path='/profile' element={<Profile />} />
         <Route path='/newarrival' element={<NewArrival />} />
         <Route path='/sneakers' element={<Sneakers />} />
         <Route path='/brands' element={<Brands />} />

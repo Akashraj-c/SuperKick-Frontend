@@ -1,16 +1,38 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { MdOutlineSearch } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 import { FaBars } from "react-icons/fa6";
 import CurvedLoop from '../../ReactBits/CurvedLoop/CurvedLoop';
 import { searhKeyContext } from '../../context/Contextshare';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import { IoIosLogOut } from 'react-icons/io';
+import { TbLogin2 } from 'react-icons/tb';
 
 const Header = () => {
   const { searchKey, setSearchKey } = useContext(searhKeyContext)
+  const navigate = useNavigate()
 
   const [menuCollapse, setMenuCollapse] = useState(false)
+  const [token, setToken] = useState('')
+
+  // handle logout
+  const handleLogout = () => {
+    if (sessionStorage.getItem('token')) {
+      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('existingUser')
+      navigate('/login')
+    }
+  }
+
+  useEffect(() => {
+    if (sessionStorage.getItem('token')) {
+      const tok = sessionStorage.getItem('token')
+      setToken(tok)
+    }
+  }, [])
 
   return (
     <div className='w-100 z-1' style={{ position: 'fixed', top: '0px', userSelect: 'none' }}>
@@ -63,15 +85,29 @@ const Header = () => {
             <div className="col-md-2">
               <ul className='list-unstyled d-lg-flex d-none justify-content-end align-items-center'>
                 <Link to={'/wishlist'}><li className='fw-bold me-4 fs-5 text-black'><FaRegHeart /></li></Link>
-                <Link to={'/cart'}><li className='fw-bold me-4 fs-5 text-black'><FaCartPlus /></li></Link>
-                <li className='fw-bold fs-5'><FaRegUser /></li>
+                <Link to={'/cart'}><li className='fw-bold me-3 fs-5 text-black'><FaCartPlus /></li></Link>
+                <DropdownButton id="dropdown-basic-button" variant='transparent' title={<h5><FaRegUser /></h5>} style={{ backgroundColor: 'transparent' }} className="no-caret mt-1">
+                  <Link to={'/profile'} className='text-decoration-none'><Dropdown.Item href="#/action-1" className='text-center fw-bold'>Profile</Dropdown.Item></Link>
+                  {token ?
+                    <Dropdown.Item href="#/action-2" style={{ backgroundColor: 'transparent' }}><button className='btn w-100 border border-danger fw-bold shadow' onClick={handleLogout}>Logout <IoIosLogOut className='text-danger fs-5' /></button></Dropdown.Item>
+                    :
+                    <Link to={'/login'}><Dropdown.Item href="#/action-2" style={{ backgroundColor: 'transparent' }}><button className='btn w-100 border border-primary fw-bold shadow'>Login <TbLogin2 className='text-primary fs-5' /></button></Dropdown.Item></Link>
+                  }
+                </DropdownButton>
               </ul>
 
               {/*Menu collapse */}
               {menuCollapse && <ul className='list-unstyled d-flex d-lg-none align-items-center justify-content-between mt-4' style={{ padding: '0px 70px 0px 70px' }}>
                 <Link to={'/wishlist'}><li className='fw-bold me-4 fs-5 text-black'><FaRegHeart /></li></Link>
-                <Link to={'/cart'}><li className='fw-bold me-4 fs-5 text-black'><FaCartPlus /></li></Link>
-                <li className='fw-bold fs-5'><FaRegUser /></li>
+                <Link to={'/cart'}><li className='fw-bold me-3 fs-5 text-black'><FaCartPlus /></li></Link>
+                <DropdownButton id="dropdown-basic-button" variant='transparent' title={<h5><FaRegUser /></h5>} style={{ backgroundColor: 'transparent' }} className="no-caret mt-1">
+                  <Link to={'/profile'} className='text-decoration-none'><Dropdown.Item href="#/action-1" className='text-center fw-bold'>Profile</Dropdown.Item></Link>
+                  {token ?
+                    <Dropdown.Item href="#/action-2" style={{ backgroundColor: 'transparent' }}><button className='btn w-100 border border-danger fw-bold shadow' onClick={handleLogout}>Logout <IoIosLogOut className='text-danger fs-5' /></button></Dropdown.Item>
+                    :
+                    <Link to={'/login'}><Dropdown.Item href="#/action-2" style={{ backgroundColor: 'transparent' }}><button className='btn w-100 border border-primary fw-bold shadow'>Login <TbLogin2 className='text-primary fs-5' /></button></Dropdown.Item></Link>
+                  }
+                </DropdownButton>
               </ul>}
             </div>
 
