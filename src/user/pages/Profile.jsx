@@ -6,16 +6,40 @@ import { IoBagHandleOutline, IoLocationOutline, IoLogOutOutline } from 'react-ic
 import { IoIosArrowForward } from 'react-icons/io'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiFillThunderbolt } from 'react-icons/ai'
+import Modal from 'react-bootstrap/Modal';
+import { Slide, toast, ToastContainer } from 'react-toastify'
+import { addAddressApi, editaddressApi, getAddressApi } from '../../services/allApi'
+import { MdOutlineEditLocation } from 'react-icons/md'
 
 const Profile = () => {
     const navigate = useNavigate()
 
     const [existingUser, setExistingUSer] = useState(() => JSON.parse(sessionStorage.getItem('existingUser')))
-    const [token, setToken] = useState('')
+    const [token, setToken] = useState(() => sessionStorage.getItem('token'))
     const [myOrder, setMyOrder] = useState(true)
     const [address, setAddress] = useState(false)
-    console.log(myOrder);
-    console.log(address);
+    const [addressDetails, setAddressDetails] = useState({
+        pincode: "",
+        city: "",
+        state: "",
+        buildingnumber: "",
+        completeaddress: "",
+        fullname: "",
+        phonenumber: ""
+    })
+    const [addressData, setAddressData] = useState([])
+    const [editAddress, setEditAddress] = useState('')
+    const [addressId, setAddressId] = useState("")
+    const [updateStatus, setUpdateStatus] = useState('')
+    const [show, setShow] = useState(false);
+    console.log(addressData);
+
+    const handleClose = () => setShow(false);
+    const handleShow = (item) => {
+        setShow(true);
+        setEditAddress(item)
+        setAddressId(item?._id)
+    }
 
     // handle logout
     const handleLogout = () => {
@@ -26,13 +50,92 @@ const Profile = () => {
         }
     }
 
-    useEffect(() => {
-        if (sessionStorage.getItem('token')) {
-            const tok = sessionStorage.getItem('token')
-            setToken(tok)
+    // handle reset address
+    const handleReset = () => {
+        setAddressDetails({
+            pincode: "",
+            city: "",
+            state: "",
+            buildingnumber: "",
+            completeaddress: "",
+            fullname: "",
+            phonenumber: ""
+        })
+    }
+
+    // handle add address
+    const handleSubmit = async () => {
+        const { pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber } = addressDetails
+        if (!pincode || !city || !state || !buildingnumber || !completeaddress || !fullname || !phonenumber) {
+            toast.info('Please Fill the Form Completely')
         }
-        window.scrollTo(0,0)
-    }, [])
+        else {
+            const reqHeader = {
+                "Authorization": `Bearer ${token}`
+            }
+            const reqBody = { pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber }
+            const result = await addAddressApi(reqBody, reqHeader)
+            // console.log(result);
+            if (result.status == 200) {
+                setUpdateStatus(result.data)
+                handleReset()
+                handleClose()
+            }
+            else if (result.status == 402) {
+                toast.info(result.data.response)
+            }
+            else {
+                toast.error('Something went wrong')
+            }
+        }
+    }
+
+    // get address data
+    const getAddress = async () => {
+        const reqHeader = {
+            "Authorization": `Bearer ${token}`
+        }
+        const result = await getAddressApi(reqHeader)
+        // console.log(result);
+        if (result.status == 200) {
+            setAddressData(result.data)
+        }
+    }
+
+    // Edit address
+    const handleEditAddress = async () => {
+        const { pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber } = addressDetails
+        const reqHeader = {
+            "Authorization": `Bearer ${token}`
+        }
+        const reqBody = { pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber, addressId }
+
+        const result = await editaddressApi(reqBody, reqHeader)
+        // console.log(result);
+        if (result.status == 200) {
+            setUpdateStatus(result.data)
+            handleClose()
+        }
+    }
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+
+        getAddress() //get address
+
+        if (editAddress) {
+            setAddressDetails({
+                pincode: editAddress.pincode,
+                city: editAddress.city,
+                state: editAddress.state,
+                buildingnumber: editAddress.buildingnumber,
+                completeaddress: editAddress.completeaddress,
+                fullname: editAddress.fullname,
+                phonenumber: editAddress.phonenumber
+            })
+        }
+    }, [updateStatus, editAddress])
+
     return (
         <>
             {/* Header */}
@@ -129,15 +232,36 @@ const Profile = () => {
                                 </div>
                                 <div className='container'>
                                     <div className="row">
-                                        {/* empty orders message*/}
-                                        <div className='d-flex w-100 align-items-center mt-4 rounded py-4' style={{ backgroundColor: 'rgba(229, 228, 228, 1)' }}>
 
-                                            <div className='d-flex flex-column justify-content-center align-items-center py- w-100' >
-                                                <h4 className='fw-bold'>No Addresses Found</h4>
-                                                <p>Click to add a new delivery address.</p>
-                                                <button className='btn btn-primary py-4 fs-5'>Add New Address</button>
-                                            </div>
-                                        </div>
+                                        {addressData?.length > 0 ?
+                                            addressData?.map((item, index) => (
+                                                <div key={index} className='rounded mt-5 d-flex align-items-center justify-content-center'>
+
+                                                    <div className='w-50 border rounded'>
+                                                        <div className='d-flex justify-content-between align-items-cente py-2 rounde w-100 px-1' style={{ backgroundColor: 'rgba(241, 241, 241, 1)' }}>
+                                                            <h5 className='fw-bold'><IoLocationOutline /> Address</h5>
+                                                            <h5><MdOutlineEditLocation style={{ cursor: 'pointer' }} onClick={() => handleShow(item)} /></h5>
+                                                        </div>
+
+                                                        <div className='mt-2 px-2'>
+                                                            <h5 className='fw-bold'>{item?.fullname}</h5>
+                                                            <h6>{item?.buildingnumber}, {item?.completeaddress}</h6>
+                                                            <h6>{item?.city},{item?.state}</h6>
+                                                            <h6>{item?.pincode}</h6>
+                                                            <h6>{item?.phonenumber}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                            :
+                                            <div className='d-flex w-100 align-items-center mt-4 rounded py-4' style={{ backgroundColor: 'rgba(229, 228, 228, 1)' }}>
+
+                                                <div className='d-flex flex-column justify-content-center align-items-center py- w-100' >
+                                                    <h4 className='fw-bold'>No Addresses Found</h4>
+                                                    <p>Click to add a new delivery address.</p>
+                                                    <button className='btn btn-primary py-4 fs-5' onClick={handleShow}>Add New Address</button>
+                                                </div>
+                                            </div>}
                                     </div>
                                 </div>
                             </div>
@@ -157,6 +281,58 @@ const Profile = () => {
                     </div>
                 }
             </div >
+
+            {/* modal */}
+            <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+                <Modal.Header closeButton closeVariant='white' style={{ backgroundColor: 'rgba(14, 11, 52, 1)' }}>
+                    <Modal.Title className='text-white'>Add New Address</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form >
+                        <div className='mb-2'>
+                            <input value={addressDetails.pincode} onChange={(e) => setAddressDetails({ ...addressDetails, pincode: e.target.value })} type="number" placeholder='Enter Pincode' className='form-control' />
+                        </div>
+
+                        <div className='mb-2 d-flex justify-content-between'>
+                            <div>
+                                <input value={addressDetails.city} onChange={(e) => setAddressDetails({ ...addressDetails, city: e.target.value })} type="text" placeholder='City' className='form-control' />
+                            </div>
+                            <div>
+                                <input value={addressDetails.state} onChange={(e) => setAddressDetails({ ...addressDetails, state: e.target.value })} type="text" placeholder='State' className='form-control' />
+                            </div>
+                        </div>
+
+                        <div className='mb-2'>
+                            <input value={addressDetails.buildingnumber} onChange={(e) => setAddressDetails({ ...addressDetails, buildingnumber: e.target.value })} type="text" placeholder='Flat/Building Number' className='form-control' />
+                        </div>
+
+                        <div className='mb-2'>
+                            <textarea value={addressDetails.completeaddress} onChange={(e) => setAddressDetails({ ...addressDetails, completeaddress: e.target.value })} type="text" placeholder='Enter Complete Address' className='form-control' />
+                        </div>
+
+                        <div className='mb-2'>
+                            <input value={addressDetails.fullname} onChange={(e) => setAddressDetails({ ...addressDetails, fullname: e.target.value })} type="text" placeholder='Enter Full Name' className='form-control' />
+                        </div>
+
+                        <div className='mb-3'>
+                            <input value={addressDetails.phonenumber} onChange={(e) => setAddressDetails({ ...addressDetails, phonenumber: e.target.value })} type="number" placeholder='10-digit Mobile Number' className='form-control' />
+                        </div>
+
+                        <div>
+                            {editAddress ?
+                                <button type='button' onClick={handleEditAddress} className='btn btn-primary w-100'> Edit Address</button>
+                                :
+                                <button type='button' onClick={handleSubmit} className='btn btn-primary w-100'> Save Address</button>
+
+                            }
+                            <button type='button' onClick={handleReset} className='btn btn-danger mt-2 w-100'>Reset </button>
+                        </div>
+                    </form>
+                </Modal.Body>
+            </Modal>
+
+            {/* Toast conatiner */}
+            <ToastContainer position="top-center" autoClose={800} transition={Slide} theme="light" />
 
             {/* Footer */}
             < Footer />

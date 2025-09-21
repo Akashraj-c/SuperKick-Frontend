@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { getallCartApi, removeproductCartApi } from '../../services/allApi'
+import { getallCartApi, removeproductCartApi, updatePrdtQtyApi } from '../../services/allApi'
 import { AiFillThunderbolt } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import Footer from '../../components/Footer'
 import { FaCartPlus } from "react-icons/fa";
 import { serverUrl } from '../../services/serverUrl'
+import { MdKeyboardArrowDown } from 'react-icons/md'
+import { GoX } from 'react-icons/go'
+import { IoIosArrowUp } from 'react-icons/io'
 
 const Cart = () => {
   const [token, setToken] = useState(() => sessionStorage.getItem('token'))
   const [allproducts, setAllProducts] = useState([])
   const [updateStatus, setUpdateStatus] = useState("")
-  // const [loading, setLoading] = useState(true)
+  const [productDetailsCollapse, setProductDetailsCollapse] = useState(true)
+
+  // update quantity
+  const updateQty = async (id, qty) => {
+    console.log(id, qty);
+    const reqBody = { id, qty }
+    const result = await updatePrdtQtyApi(reqBody)
+    console.log(result);
+    if (result.status == 200) {
+      setUpdateStatus(result.data)
+    }
+  }
 
   // get all products
   const getallCartProducts = async () => {
@@ -41,7 +55,7 @@ const Cart = () => {
     if (sessionStorage.getItem('token')) {
       getallCartProducts()
     }
-
+    window.scrollTo(0, 0)
   }, [updateStatus])
 
   return (
@@ -78,9 +92,9 @@ const Cart = () => {
                             <p className=' rounded fw-bold me-1'>size : {items?.size}</p>
                           </Link>
                           <div className='d-flex align-items-center '>
-                            <h6 className='border rounded fw-bold d-flex justify-content-center' style={{ fontSize: '20px', backgroundColor: 'rgba(221, 214, 214, 0.6)', width: '25px' }}>-</h6>
+                            <h6 className='border rounded fw-bold d-flex justify-content-center' style={{ fontSize: '20px', backgroundColor: 'rgba(221, 214, 214, 0.6)', width: '25px', cursor: 'pointer', userSelect: 'none' }} onClick={() => { items?.quantuty > 1 && updateQty(items?._id, -1) }}>-</h6>
                             <h6 className='mx-2'>{items?.quantuty}</h6>
-                            <h6 className='border rounded fw-bold d-flex justify-content-center' style={{ fontSize: '20px', backgroundColor: 'rgba(221, 214, 214, 0.6)', width: '25px' }}>+</h6>
+                            <h6 className='border rounded fw-bold d-flex justify-content-center' style={{ fontSize: '20px', backgroundColor: 'rgba(221, 214, 214, 0.6)', width: '25px', cursor: 'pointer', userSelect: 'none' }} onClick={() => updateQty(items?._id, +1)}>+</h6>
                           </div>
 
                           <button className='btn btn-dark w-75 mt-2' onClick={() => handleRemove(items?._id)}> Remove</button>
@@ -90,12 +104,24 @@ const Cart = () => {
                   </div>
                 </div>
 
-                <div className="col-md-5 px-4" style={{ height: '100vh', position: 'sticky', top: '0' }}>
-                  <div className='border rounded p-2 d-flex flex-column shadow align-items-center'>
-                    <h6>Total Items : </h6>
-                    <h6>Total Amount : </h6>
-                    <h6>Total Items : </h6>
-                    <button className='btn btn-success w-50'>Checkout</button>
+                <div className="col-md-5 px-4 h-100" style={{ position: "fixe", top: '180px', right: '0' }}>
+                  <div className='border rounded py-5 d-flex flex-column shadow align-items-center  ' style={{ backgroundColor: "rgba(242, 244, 243, 1)" }}>
+                    <div>
+                      <h4 className='fw-bold mb-3'>SUMMARY</h4>
+                      <h6>Total Items : {allproducts.map((item) => item.quantuty).reduce((a, b) => a + b)}</h6>
+                      <h6>Total Amount :  <span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {allproducts?.reduce((sum, item) => sum + (item.productId?.price) * item.quantuty, 0)}</h6>
+                      <h6>Shipping Fee :  <span className='text-primary'>Free</span></h6>
+                      <h6 style={{ cursor: 'pointer' }} onClick={() => setProductDetailsCollapse(!productDetailsCollapse)} >Product details {productDetailsCollapse ? <MdKeyboardArrowDown /> : <IoIosArrowUp />}</h6>
+
+                      {productDetailsCollapse &&
+                        <div>
+                          {allproducts?.map((item) => (
+                            <h6 style={{ fontSize: '10px' }}>{item?.productId?.name} <GoX /> {item?.quantuty} = {item?.productId?.price * item?.quantuty}</h6>
+                          ))}
+                        </div>}
+
+                    </div>
+                    <button className='btn btn-success shadow py-2 w-75 mt-3 fs-5 fw-bold'>Checkout</button>
                   </div>
                 </div>
 

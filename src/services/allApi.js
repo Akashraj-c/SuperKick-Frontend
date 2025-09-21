@@ -79,6 +79,22 @@ export const getPrdtTrendingApi = async (category) => { // Get trending products
     return await commonApi('GET', `${serverUrl}/gettrendingprdt?category=${category}`)
 }
 
+export const updatePrdtQtyApi = async (reqBody) => { // update products quantity
+    return await commonApi('PUT', `${serverUrl}/updateQty`, reqBody)
+}
+
+export const addAddressApi = async (reqBody, reqHeader) => { // add user address
+    return await commonApi('POST', `${serverUrl}/addAddress`, reqBody, reqHeader)
+}
+
+export const getAddressApi = async (reqHeader) => { // get address
+    return await commonApi('GET', `${serverUrl}/getAddress`, "", reqHeader)
+}
+
+export const editaddressApi = async (reqBody, reqHeader) => {
+    return await commonApi('PUT', `${serverUrl}/editaddress`, reqBody, reqHeader)
+}
+
 // -----------------------Admin--------------------------
 
 export const addBrandApi = async (reqBody, reqHeader) => {  //Add brands
