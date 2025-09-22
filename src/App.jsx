@@ -23,6 +23,7 @@ import { useEffect, useState } from 'react'
 import BlogDetails from './user/pages/BlogDetails'
 import AllComments from './Admin/pages/AllComments'
 import Profile from './user/pages/Profile'
+import UserDetails from './Admin/pages/UserDetails'
 
 function App() {
   const [isloading, setIsloading] = useState(false)
@@ -59,6 +60,7 @@ function App() {
         <Route path='/adminproducts' element={<AdminProducts />} />
         <Route path='/adminblogs' element={<AdminBlogs />} />
         <Route path='/allcomments/:id' element={<AllComments />} />
+        <Route path='/allusers' element={<UserDetails />} />
       </Routes>
     </>
   )

@@ -15,6 +15,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { GoTrash } from "react-icons/go";
 import { FaPencilAlt } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import Footer from '../../components/Footer';
 
 const AdminProducts = () => {
     const { searchKey, setSearchKey } = useContext(searhKeyContext)
@@ -525,6 +526,9 @@ const AdminProducts = () => {
 
             {/* Toast container */}
             < ToastContainer position="top-center" autoClose={1000} theme="colored" />
+
+            {/* Footer */}
+            <Footer />
         </>
     )
 }

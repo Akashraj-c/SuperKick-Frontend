@@ -51,6 +51,11 @@ const Cart = () => {
     }
   }
 
+  // handle checkout
+  const handleCheckOut = async () => {
+
+  }
+
   useEffect(() => {
     if (sessionStorage.getItem('token')) {
       getallCartProducts()
@@ -115,13 +120,13 @@ const Cart = () => {
 
                       {productDetailsCollapse &&
                         <div>
-                          {allproducts?.map((item) => (
-                            <h6 style={{ fontSize: '10px' }}>{item?.productId?.name} <GoX /> {item?.quantuty} = {item?.productId?.price * item?.quantuty}</h6>
+                          {allproducts?.map((item, index) => (
+                            <h6 key={index} style={{ fontSize: '10px' }}>{item?.productId?.name} <GoX /> {item?.quantuty} = {item?.productId?.price * item?.quantuty}</h6>
                           ))}
                         </div>}
 
                     </div>
-                    <button className='btn btn-success shadow py-2 w-75 mt-3 fs-5 fw-bold'>Checkout</button>
+                    <button type='button' onClick={handleCheckOut} className='btn btn-success shadow py-2 w-75 mt-3 fs-5 fw-bold'>Checkout</button>
                   </div>
                 </div>
 

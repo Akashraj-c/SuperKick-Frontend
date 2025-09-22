@@ -133,6 +133,10 @@ export const deleteCommentsApi = async (id) => { //Delete a Comments
     return await commonApi('DELETE', `${serverUrl}/deletecomment/${id}`)
 }
 
+export const getAllUsersApi=async()=>{ //get all users at home page
+    return await commonApi('GET',`${serverUrl}/getAllUsers`)
+}
+
 // --------------------------Common--------------------------
 
 export const getAllBrandApi = async (searchKey) => {  //    Get all brands

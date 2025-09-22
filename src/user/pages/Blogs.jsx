@@ -108,7 +108,7 @@ const Blogs = () => {
                       </div>
 
                       <div className='px-3 py-3  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
-                        <h6 className='fw-bold'>{items?.title}</h6>
+                        <h6 className='fw-bold'>{items?.title.slice(0, 45)}...</h6>
                         <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>{new Date(items.updatedAt).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",
@@ -148,7 +148,7 @@ const Blogs = () => {
                       </div>
 
                       <div className='px-3 py-3  text-dark' style={{ borderRadius: '0px 0px 20px 20px', backgroundColor: 'rgba(229, 227, 235, 1)' }}>
-                        <h6 className='fw-bold'>{items?.title}</h6>
+                        <h6 className='fw-bold'>{items?.title.slice(0, 45)}...</h6>
                         <p className='text-secondary'><span className='fs-5 me-2'><CiCalendar /></span>{new Date(items.updatedAt).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",

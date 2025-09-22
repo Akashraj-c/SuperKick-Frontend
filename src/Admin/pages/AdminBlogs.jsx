@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import { toast, ToastContainer } from 'react-toastify';
 import { addBlogApi, deleteABlogApi, getAllBlogApi, getAllCommentsApi } from '../../services/allApi';
 import { Link } from 'react-router-dom';
+import Footer from '../../components/Footer';
 
 const AdminBlogs = () => {
 
@@ -230,6 +231,9 @@ const AdminBlogs = () => {
 
             {/* Toast container */}
             < ToastContainer position="top-center" autoClose={1000} theme="colored" />
+
+            {/* Footer */}
+            <Footer />
         </>
     )
 }

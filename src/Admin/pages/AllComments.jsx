@@ -6,6 +6,7 @@ import { GoTrash } from "react-icons/go";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import AdminHeader from '../components/AdminHeader';
+import Footer from '../../components/Footer';
 
 const AllComments = () => {
     const { id } = useParams() //for showing details
@@ -98,6 +99,9 @@ const AllComments = () => {
                     <Button variant="danger" onClick={handleDelete}>Delete</Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* Footer */}
+            <Footer />
         </>
     )
 }

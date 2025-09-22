@@ -34,7 +34,7 @@ const Homeblog = () => {
             </div>
             
             {/* main container */}
-            <div className="container-fluid mt-5 " >
+            <div className="container-fluid mt-5 mb-5" >
                 <div className="row mt-4 ">
                     {AllBlogs?.slice(0, 4).map((items, index) => (
                         <div key={index} className="col-md-6 position-relative">

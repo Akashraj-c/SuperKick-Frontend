@@ -12,6 +12,7 @@ import { GoTrash } from 'react-icons/go';
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbSettingsOff } from "react-icons/tb";
 import { searhKeyContext } from '../../context/Contextshare';
+import Footer from '../../components/Footer';
 
 const Adminbrands = () => {
     const { searchKey, setSearchKey } = useContext(searhKeyContext)
@@ -224,6 +225,9 @@ const Adminbrands = () => {
 
             {/* Toast conatiner */}
             < ToastContainer position="top-center" autoClose={1000} theme="colored" />
+
+            {/* Footer */}
+            <Footer />
         </>
     )
 }
