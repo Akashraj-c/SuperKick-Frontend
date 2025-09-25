@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { getallCartApi, removeproductCartApi, updatePrdtQtyApi } from '../../services/allApi'
+import { addAllOrderedProductsApi, checkOutApi, getAddressApi, getallCartApi, removeCartProductApi, removeproductCartApi, updatePrdtQtyApi, verifyCheckOutApi } from '../../services/allApi'
 import { AiFillThunderbolt } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import Footer from '../../components/Footer'
@@ -9,12 +9,18 @@ import { serverUrl } from '../../services/serverUrl'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { GoX } from 'react-icons/go'
 import { IoIosArrowUp } from 'react-icons/io'
+import { toast } from 'react-toastify'
 
 const Cart = () => {
   const [token, setToken] = useState(() => sessionStorage.getItem('token'))
   const [allproducts, setAllProducts] = useState([])
   const [updateStatus, setUpdateStatus] = useState("")
   const [productDetailsCollapse, setProductDetailsCollapse] = useState(true)
+  const [allCartIds, setAllCartIds] = useState([])
+  const [allProductIds, setAllProductIds] = useState([])
+  const [addressId, setAddressId] = useState("")
+  const [totalAmount, setTotalAmount] = useState('')
+  // console.log(totalAmount);
 
   // update quantity
   const updateQty = async (id, qty) => {
@@ -33,10 +39,13 @@ const Cart = () => {
       "Authorization": `Bearer ${token}`
     }
     const result = await getallCartApi(reqHeader)
-    console.log(result);
+    // console.log(result);
     if (result.status == 200) {
       // setTimeout(() => {
       setAllProducts(result.data)
+      setAllCartIds(result.data.map((item) => item._id))
+      setAllProductIds(result.data.map((item) => item.productId._id))
+      setTotalAmount(result.data.reduce((sum, item) => sum + (item.productId?.price) * item.quantuty, 0))
       // setLoading(false)
       // }, 1000)
     }
@@ -51,14 +60,86 @@ const Cart = () => {
     }
   }
 
-  // handle checkout
-  const handleCheckOut = async () => {
+  // get address data
+  const getAddress = async () => {
+    const reqHeader = {
+      "Authorization": `Bearer ${token}`
+    }
+    const result = await getAddressApi(reqHeader)
+    // console.log(result);
+    if (result.status == 200) {
+      setAddressId(result.data.map(item => item._id))
+    }
+  }
 
+  // handle checkout
+  const handleCheckOut = async (amount) => {
+    const reqBody = { amount, currency: 'INR' }
+    const result = await checkOutApi(reqBody) //create order 
+    // console.log(result);
+
+    if (result.status == 200) {
+      // Open Razorpay Checkout modal
+      const options = {
+        key: "rzp_test_RKvVLl8YaBZfyt", // key_id
+        amount: result.data.amount,
+        currency: result.data.currency,
+        order_id: result.data.id,
+        name: "SuperKicks",
+        description: "Test Transaction",
+
+        handler: async function (response) {
+          // console.log(response); // response gives orderid, paymentid, and signature
+          const verifyResult = await verifyCheckOutApi({ // send response to backend to verify the signature
+            order_id: response.razorpay_order_id,
+            payment_id: response.razorpay_payment_id,
+            signature: response.razorpay_signature
+          })
+          console.log(verifyResult);
+          if (verifyResult.status == 200) {
+            removeCartProducts() //remove all products from cart after payment
+            addAllOrderedProduct() //add all products to orders
+          }
+        },
+
+        theme: {
+          color: "#042636ff",
+        },
+      };
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    }
+
+    else {
+      toast.error('something went wrong')
+    }
+  }
+
+  // add all products to orderpage
+  const addAllOrderedProduct = async () => {
+    const address = addressId[0]
+    const reqHeader = { "Authorization": `Bearer ${token}` }
+    const reqBody = { allProductIds, allCartIds, address, totalAmount }
+    const result = await addAllOrderedProductsApi(reqBody, reqHeader)
+    console.log(result);
+
+  }
+
+  // remove all products from cart after payment
+  const removeCartProducts = async () => {
+    const reqHeader = { "Authorization": `Bearer ${token}` }
+    const reqBody = { allCartIds }
+    const result = await removeCartProductApi(reqBody, reqHeader)
+    console.log(result);
+    if (result.status == 200) {
+      setUpdateStatus(result.data)
+    }
   }
 
   useEffect(() => {
     if (sessionStorage.getItem('token')) {
       getallCartProducts()
+      getAddress()
     }
     window.scrollTo(0, 0)
   }, [updateStatus])
@@ -126,7 +207,20 @@ const Cart = () => {
                         </div>}
 
                     </div>
-                    <button type='button' onClick={handleCheckOut} className='btn btn-success shadow py-2 w-75 mt-3 fs-5 fw-bold'>Checkout</button>
+                    <button type='button' onClick={() => handleCheckOut(allproducts?.reduce((sum, item) => sum + (item.productId?.price) * item.quantuty, 0))} className='btn btn-success shadow py-2 w-75 mt-3 fs-5 fw-bold'>Checkout</button>
+
+                    {/* <div className='mt-3'>
+                      <input className="form-check-input border border-dark" type="checkbox" id='address' value={address.map((item) => item._id)} />
+                      <label className="form-check-label" htmlFor='address'>
+                        <div className='p-3 mt-2 ms-3 rounded' style={{ backgroundColor: 'rgba(229, 234, 238, 1)' }}>
+                          <h6 className='fw-bold'>{address?.map(item => item.fullname)}</h6>
+                          <h6>{address?.map(item => item.completeaddress)}</h6>
+                          <h6>{address?.map(item => item.city)},{address?.map(item => item.state)}</h6>
+                          <h6>{address?.map(item => item.pincode)}</h6>
+                          <h6>{address?.map(item => item.phonenumber)}</h6>
+                        </div>
+                      </label>
+                    </div> */}
                   </div>
                 </div>
 

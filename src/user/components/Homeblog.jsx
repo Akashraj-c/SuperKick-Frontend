@@ -32,17 +32,17 @@ const Homeblog = () => {
                     <h6 style={{ color: 'rgba(94, 89, 89, 0.53)' }}>Fashion Drops & Culture</h6>
                 </div>
             </div>
-            
+
             {/* main container */}
             <div className="container-fluid mt-5 mb-5" >
                 <div className="row mt-4 ">
                     {AllBlogs?.slice(0, 4).map((items, index) => (
                         <div key={index} className="col-md-6 position-relative">
                             <Link to={`/blogdetails/${items?._id}`} className='text-decoration-none text-dark'>
-                                <div className='blogDiv '>
-                                    <img src={`${serverUrl}/uploads/${items?.image}`} alt="no img" className='w-100 blogImg' />
+                                <div className='blogDiv border rounded p-1'>
+                                    <img src={`${serverUrl}/uploads/${items?.image}`} alt="no img" className='w-100 blogImg rounded' />
                                 </div>
-                                <h2 className='text-white position-absolute px-1 ms-2' style={{ marginTop: '-80px' }}>{items?.title.slice(0,50)}</h2>
+                                <h3 className='text-white position-absolute px-1 ms-3' style={{ marginTop: '-80px' }}>{items?.title.slice(0, 50)}...</h3>
                                 <div className='mt-2'>
                                     <p style={{ textAlign: 'justify' }} className='px-2'>{items?.description.slice(0, 260)}...</p>
                                 </div>

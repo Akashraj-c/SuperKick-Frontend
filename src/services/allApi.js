@@ -91,8 +91,24 @@ export const getAddressApi = async (reqHeader) => { // get address
     return await commonApi('GET', `${serverUrl}/getAddress`, "", reqHeader)
 }
 
-export const editaddressApi = async (reqBody, reqHeader) => {
+export const editaddressApi = async (reqBody, reqHeader) => { //edit address
     return await commonApi('PUT', `${serverUrl}/editaddress`, reqBody, reqHeader)
+}
+
+export const checkOutApi = async (reqBody) => { //create payment order
+    return await commonApi('POST', `${serverUrl}/create-order`, reqBody)
+}
+
+export const verifyCheckOutApi = async (reqBody) => { //verify payment
+    return await commonApi('POST', `${serverUrl}/verify-order`, reqBody)
+}
+
+export const removeCartProductApi = async (reqBody, reqHeader) => { //remove all products from cart after payment
+    return await commonApi("DELETE", `${serverUrl}/deleteCart`, reqBody, reqHeader)
+}
+
+export const addAllOrderedProductsApi = async (reqBody, reqHeader) => { //add ordered products to database
+    return await commonApi('POST', `${serverUrl}/addOrderedProducts`, reqBody, reqHeader)
 }
 
 // -----------------------Admin--------------------------
@@ -133,8 +149,8 @@ export const deleteCommentsApi = async (id) => { //Delete a Comments
     return await commonApi('DELETE', `${serverUrl}/deletecomment/${id}`)
 }
 
-export const getAllUsersApi=async()=>{ //get all users at home page
-    return await commonApi('GET',`${serverUrl}/getAllUsers`)
+export const getAllUsersApi = async () => { //get all users at home page
+    return await commonApi('GET', `${serverUrl}/getAllUsers`)
 }
 
 // --------------------------Common--------------------------
