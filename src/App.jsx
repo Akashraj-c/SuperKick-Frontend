@@ -24,6 +24,7 @@ import BlogDetails from './user/pages/BlogDetails'
 import AllComments from './Admin/pages/AllComments'
 import Profile from './user/pages/Profile'
 import UserDetails from './Admin/pages/UserDetails'
+import Order from './Admin/pages/Order'
 
 function App() {
   const [isloading, setIsloading] = useState(false)
@@ -61,6 +62,7 @@ function App() {
         <Route path='/adminblogs' element={<AdminBlogs />} />
         <Route path='/allcomments/:id' element={<AllComments />} />
         <Route path='/allusers' element={<UserDetails />} />
+        <Route path='/order' element={<Order />} />
       </Routes>
     </>
   )

@@ -3,13 +3,17 @@ import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { CgProfile } from 'react-icons/cg'
 import { IoBagHandleOutline, IoLocationOutline, IoLogOutOutline } from 'react-icons/io5'
-import { IoIosArrowForward } from 'react-icons/io'
+import { IoIosArrowDown, IoIosArrowForward, IoIosArrowUp } from 'react-icons/io'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiFillThunderbolt } from 'react-icons/ai'
 import Modal from 'react-bootstrap/Modal';
 import { Slide, toast, ToastContainer } from 'react-toastify'
-import { addAddressApi, editaddressApi, getAddressApi } from '../../services/allApi'
+import { addAddressApi, editaddressApi, getAddressApi, getAllOrderedProductsApi } from '../../services/allApi'
 import { MdOutlineEditLocation } from 'react-icons/md'
+import { serverUrl } from '../../services/serverUrl'
+import { FaIndianRupeeSign } from 'react-icons/fa6'
+import { RxCross2 } from 'react-icons/rx'
+import { Spinner } from 'react-bootstrap'
 
 const Profile = () => {
     const navigate = useNavigate()
@@ -32,7 +36,9 @@ const Profile = () => {
     const [addressId, setAddressId] = useState("")
     const [updateStatus, setUpdateStatus] = useState('')
     const [show, setShow] = useState(false);
-    console.log(addressData);
+    const [allOrders, setAllOrders] = useState([])
+    const [collapse, setCollapse] = useState(true)
+    const [loading, setLoading] = useState(true)
 
     const handleClose = () => setShow(false);
     const handleShow = (item) => {
@@ -44,8 +50,7 @@ const Profile = () => {
     // handle logout
     const handleLogout = () => {
         if (sessionStorage.getItem('token')) {
-            sessionStorage.removeItem('token')
-            sessionStorage.removeItem('existingUser')
+            sessionStorage.clear()
             navigate('/login')
         }
     }
@@ -118,10 +123,27 @@ const Profile = () => {
         }
     }
 
+    // get all ordered products
+    const getAllOrders = async () => {
+
+        const reqHeader = {
+            "Authorization": `Bearer ${token}`
+        }
+        const result = await getAllOrderedProductsApi(reqHeader)
+        // console.log(result);
+        if (result.status == 200) {
+            setTimeout(() => {
+                setAllOrders(result.data)
+                setLoading(false)
+            }, 500)
+        }
+    }
+
     useEffect(() => {
         window.scrollTo(0, 0)
 
         getAddress() //get address
+        getAllOrders()//get all ordered products
 
         if (editAddress) {
             setAddressDetails({
@@ -145,7 +167,7 @@ const Profile = () => {
                 {token ?
                     // main container
                     <div className="row px-5" style={{ marginTop: '170px' }}>
-                        <div className="col-md-3">
+                        <div className="col-md-3" style={{ position: 'sticky', top: '170px', height: '60vh', overflowY: 'auto' }}>
                             <div>
                                 {/* User Id */}
                                 <div className='d-flex align-items-center justify-content-center border border-primary rounded shadow' style={{ flexWrap: 'wrap' }}>
@@ -191,7 +213,7 @@ const Profile = () => {
                                 </div>
 
                                 {/* Logout */}
-                                <div className='ms-2 d-flex mt-4'>
+                                <div className='ms-2 d-flex my-4'>
                                     <button className='btn text-danger' onClick={handleLogout}><IoLogOutOutline className='fs-3 text-danger me-2' /> Logout</button>
                                 </div>
                             </div>
@@ -204,24 +226,65 @@ const Profile = () => {
                                 <div>
                                     <h5 className='fw-bold ms-5'>My Orders</h5>
                                 </div>
-                                <div className='container'>
-                                    <div className="row">
-                                        {/* empty orders message*/}
-                                        <div className='d-flex w-100 align-items-center mt-4 rounded py-4' style={{ backgroundColor: 'rgba(229, 228, 228, 1)' }}>
-                                            <div>
-                                                <img src="https://static.vecteezy.com/system/resources/previews/010/988/392/non_2x/empty-box-illustration-3d-free-png.png" alt=" no img" style={{ width: '200px' }} />
-                                            </div>
 
-                                            <div className='d-flex flex-column justify-content-center align-items-center py- w-100' >
-                                                <h4 className='fw-bold'>Yet Not Order Anything</h4>
-                                                <p>Start your first order to see it here.</p>
-                                                <Link to={'/'}><button className='btn btn-primary py-4 fs-5'>Explore Products</button></Link>
-                                            </div>
-                                        </div>
-
-
+                                {loading ?
+                                    <div className="d-flex flex-colum align-items-center justify-content-center" style={{ marginTop: '150px' }}>
+                                        <Spinner animation="border" variant="primary" />
                                     </div>
-                                </div>
+                                    :
+                                    <div className='container'>
+                                        <div className="row">
+                                            {allOrders.length < 0 ?
+                                                // empty orders message
+                                                <div className='d-flex w-100 align-items-center mt-4 rounded py-4' style={{ backgroundColor: 'rgba(229, 228, 228, 1)' }}>
+                                                    <div>
+                                                        <img src="https://static.vecteezy.com/system/resources/previews/010/988/392/non_2x/empty-box-illustration-3d-free-png.png" alt=" no img" style={{ width: '200px' }} />
+                                                    </div>
+
+                                                    <div className='d-flex flex-column justify-content-center align-items-center py- w-100' >
+                                                        <h4 className='fw-bold'>Yet Not Order Anything</h4>
+                                                        <p>Start your first order to see it here.</p>
+                                                        <Link to={'/'}><button className='btn btn-primary py-4 fs-5'>Explore Products</button></Link>
+                                                    </div>
+                                                </div>
+                                                :
+                                                allOrders?.map((item, index) => (
+                                                    <div key={index + 1} className=' mt-3 py-3'>
+                                                        <div className='border-bottom rounded px-2 d-flex justify-content-between' style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setCollapse(!collapse)}>
+                                                            <h6> <span className='fw-bold'>{index + 1}</span>, {new Date(item?.createdAt).toLocaleString("en-US", { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</h6>
+                                                            <h6><FaIndianRupeeSign />{item?.totalAmount} {collapse ? <IoIosArrowUp className='ms-4' /> : <IoIosArrowDown className='ms-4' />}</h6>
+                                                        </div>
+                                                        {collapse &&
+                                                            <div className="container-fluid">
+                                                                <div className="row">
+                                                                    {item?.products.map((product, index) => (
+                                                                        <div key={index} className='col-md-3 col-6'>
+                                                                            <div key={index} className='d-flex flex-column border me-2 mt-4' style={{ borderRadius: '20px' }}>
+                                                                                <Link to={`/productdetails/${product?.productId?._id}`} className='text-dark text-decoration-none d-flex align-items-center justify-content-center'>
+                                                                                    <div className=' mb-3 mt-2  border border-primary' style={{ width: '150px', height: '200px', position: 'relative', borderRadius: '20px' }}>
+                                                                                        <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${product?.productId?.uploadedImg[0]}`} alt="no img" />
+                                                                                        <h6 className='text-end w-25 rounded pe-2' style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: 'rgba(214, 217, 220, 1)' }}><RxCross2 style={{ fontSize: '12px' }} />{product?.quantity}</h6>
+                                                                                    </div>
+                                                                                </Link>
+                                                                                <div className='w-100 text-center'>
+                                                                                    <Link to={`/productdetails/${product?.productId?._id}`} className='text-dark text-decoration-none'>
+                                                                                        <h6 style={{ textTransform: 'uppercase', fontSize: '13px' }}>size : {product?.size}</h6>
+
+                                                                                        <h6 style={{ fontSize: '13px' }}>{product?.productId?.name.slice(0, 12)}...</h6>
+                                                                                        <h6 style={{ fontSize: '13px' }}><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '10px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR </span>{product?.productId?.price}</h6>
+                                                                                    </Link>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         }
 
@@ -237,10 +300,10 @@ const Profile = () => {
                                             addressData?.map((item, index) => (
                                                 <div key={index} className='rounded mt-5 d-flex align-items-center justify-content-center'>
 
-                                                    <div className='w-50 border rounded'>
-                                                        <div className='d-flex justify-content-between align-items-cente py-2 rounde w-100 px-1' style={{ backgroundColor: 'rgba(241, 241, 241, 1)' }}>
-                                                            <h5 className='fw-bold'><IoLocationOutline /> Address</h5>
-                                                            <h5><MdOutlineEditLocation style={{ cursor: 'pointer' }} onClick={() => handleShow(item)} /></h5>
+                                                    <div className='w-50 border border-primary rounded shadow'>
+                                                        <div className='d-flex justify-content-between align-items-cente  py-2 rounded w-100 px-1' style={{ backgroundColor: 'rgba(13, 32, 107, 1)' }}>
+                                                            <h5 className='fw-bold text-white'><IoLocationOutline /> Address</h5>
+                                                            <h5 className='text-white me-2'><MdOutlineEditLocation style={{ cursor: 'pointer' }} onClick={() => handleShow(item)} /></h5>
                                                         </div>
 
                                                         <div className='mt-2 px-2'>
@@ -266,6 +329,7 @@ const Profile = () => {
                                 </div>
                             </div>
                         }
+
                     </div>
                     :
                     // login message for users

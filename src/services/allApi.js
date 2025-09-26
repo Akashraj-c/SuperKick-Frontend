@@ -111,6 +111,14 @@ export const addAllOrderedProductsApi = async (reqBody, reqHeader) => { //add or
     return await commonApi('POST', `${serverUrl}/addOrderedProducts`, reqBody, reqHeader)
 }
 
+export const getAllOrderedProductsApi = async (reqHeader) => { //get all orders of a particular user
+    return await commonApi('GET', `${serverUrl}/getallorders`, "", reqHeader)
+}
+
+export const updateProductQuantityApi = async (reqBody) => { //update the product's size quantity after checkout
+    return await commonApi('PUT', `${serverUrl}/updateproductqty`, reqBody)
+}   
+
 // -----------------------Admin--------------------------
 
 export const addBrandApi = async (reqBody, reqHeader) => {  //Add brands
@@ -153,6 +161,9 @@ export const getAllUsersApi = async () => { //get all users at home page
     return await commonApi('GET', `${serverUrl}/getAllUsers`)
 }
 
+export const getAllOrdersApi = async (reqHeader) => { //get all orders of a particular user
+    return await commonApi('GET', `${serverUrl}/allorders`, "", reqHeader)
+}
 // --------------------------Common--------------------------
 
 export const getAllBrandApi = async (searchKey) => {  //    Get all brands

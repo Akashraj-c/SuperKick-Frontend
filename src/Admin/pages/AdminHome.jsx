@@ -4,7 +4,7 @@ import AdminSidebar from '../components/AdminSidebar'
 import '../../style/Adminpages.css'
 import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import Footer from '../../components/Footer'
-import { getAllProductApi, getAllUsersApi } from '../../services/allApi'
+import { getAllOrdersApi, getAllProductApi, getAllUsersApi } from '../../services/allApi'
 import { searhKeyContext } from '../../context/Contextshare'
 import { Link } from 'react-router-dom'
 
@@ -13,7 +13,8 @@ const AdminHome = () => {
 
     const [allUsers, setAllUsers] = useState([])
     const [allProducts, setAllProducts] = useState([])
-
+    const [allOrders, setAllOrders] = useState([])
+    const [token, setToken] = useState(() => sessionStorage.getItem('token'))
     // get all users
     const getAllUsers = async () => {
         const result = await getAllUsersApi()
@@ -28,6 +29,19 @@ const AdminHome = () => {
         const result = await getAllProductApi(searchKey)
         // console.log(result);
         setAllProducts(result.data)
+    }
+
+    // get all ordered products
+    const getAllOrders = async () => {
+
+        const reqHeader = {
+            "Authorization": `Bearer ${token}`
+        }
+        const result = await getAllOrdersApi(reqHeader)
+        console.log(result);
+        if (result.status == 200) {
+            setAllOrders(result.data)
+        }
     }
 
     // bar chart
@@ -126,7 +140,9 @@ const AdminHome = () => {
     useEffect(() => {
         getAllUsers()
         getAllProducts()
+        getAllOrders()
     }, [])
+
     return (
         <>
             {/* header */}
@@ -143,7 +159,7 @@ const AdminHome = () => {
                         <div className="container-fluid">
                             <div className="row mt-3">
                                 <div className="col-md-4 mt-3">
-                                    <Link  to={'/allusers'} className='text-decoration-none'>
+                                    <Link to={'/allusers'} className='text-decoration-none'>
                                         <div className='rounded text-center py-3 infoDiv' >
                                             <h4 className='fw-bold text-white'>Total Number of User</h4>
                                             <h1 className='fw-bold mt-3 text-white'>{allUsers?.length}</h1>
@@ -159,10 +175,12 @@ const AdminHome = () => {
                                     </Link>
                                 </div>
                                 <div className="col-md-4 mt-3">
-                                    <div className='rounded text-center py-3 infoDiv' >
-                                        <h4 className='fw-bold text-white'>Total Number of Products</h4>
-                                        <h1 className='fw-bold mt-3 text-white'>32</h1>
-                                    </div>
+                                    <Link to={'/order'} className='text-decoration-none'>
+                                        <div className='rounded text-center py-3 infoDiv' >
+                                            <h4 className='fw-bold text-white'>Total Number of Orders</h4>
+                                            <h1 className='fw-bold mt-3 text-white'>{allOrders?.length}</h1>
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
 

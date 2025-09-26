@@ -21,8 +21,7 @@ const Header = () => {
   // handle logout
   const handleLogout = () => {
     if (sessionStorage.getItem('token')) {
-      sessionStorage.removeItem('token')
-      sessionStorage.removeItem('existingUser')
+      sessionStorage.clear('token')
       navigate('/login')
     }
   }

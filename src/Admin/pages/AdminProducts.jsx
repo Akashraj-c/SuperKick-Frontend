@@ -43,6 +43,7 @@ const AdminProducts = () => {
     const [editProduct, setEditProduct] = useState(false)
     const [show, setShow] = useState(false);    // Add Product modal
     const [show1, setShow1] = useState(false); //Delete brand modal
+    console.log(allProducts);
 
     const handleClose = () => { // Add and edit Product modal close
         setShow(false);
@@ -149,7 +150,7 @@ const AdminProducts = () => {
     // get All products
     const getAllProducts = async () => {
         const result = await getAllProductApi(searchKey)
-        // console.log(result);
+        console.log(result);
         setAllProducts(result.data)
         setTempArray(result.data)
     }
@@ -337,11 +338,19 @@ const AdminProducts = () => {
                                                 <td className='border w-25'>{Item?.name}</td>
                                                 <td className='border'>{Item?.color.slice(0, 15)}</td>
                                                 <td className='border'>{Item?.price}</td>
-                                                <td className='border'>{Object.entries(Item.size).map(([size, qty]) => ( //object.enteries convert object --> array of  key value pairs eg: [[1:2],[2:4],[3:1]] 
-                                                    <div key={size}>
-                                                        <h6 className={qty == 0 ? 'text-danger' : 'text-black'}>Uk {size}: {qty}</h6>
-                                                    </div>
-                                                ))}</td>
+                                                {Item?.category == 'Shoes' ?
+                                                    <td className='border'>{Object.entries(Item.size).map(([size, qty]) => ( //object.enteries convert object --> array of  key value pairs eg: [[1:2],[2:4],[3:1]] 
+                                                        <div key={size}>
+                                                            <h6 className={qty == 0 ? 'text-danger' : 'text-black'}>UK {size}: {qty}</h6>
+                                                        </div>
+                                                    ))}</td>
+                                                    :
+                                                    <td className='border'>{Object.entries(Item.size).map(([size, qty]) => ( //object.enteries convert object --> array of  key value pairs eg: [[1:2],[2:4],[3:1]] 
+                                                        <div key={size}>
+                                                            <h6 className={qty == 0 ? 'text-danger' : 'text-black'}>{size}: {qty}</h6>
+                                                        </div>
+                                                    ))}</td>
+                                                }
 
                                                 <td className='text-center border' style={{ cursor: 'pointer' }}><FaPencilAlt className='text-secondary' onClick={() => handleShow(Item)} /></td>
 

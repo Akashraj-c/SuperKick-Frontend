@@ -11,13 +11,14 @@ import { Slide, toast, ToastContainer } from 'react-toastify';
 import { BsBagHeart } from "react-icons/bs";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { Spinner } from 'react-bootstrap';
 
 const WishList = () => {
   const [token, setToken] = useState(() => sessionStorage.getItem('token'))
   const [allProducts, setAllProducts] = useState([])
   // console.log(allProducts);
   const [updateStatus, setUpdateStatus] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [allSize, setAllSize] = useState()
   const [selectedSize, setSelectedSize] = useState("")
   const [productId, setProductId] = useState("")
@@ -86,7 +87,6 @@ const WishList = () => {
 
   // get All Products
   const getAllProducts = async () => {
-    setLoading(true)
 
     const reqHeader = {
       'Authorization': `Bearer ${token}`
@@ -97,7 +97,7 @@ const WishList = () => {
       setTimeout(() => {
         setAllProducts(result.data)
         setLoading(false)
-      }, 1000)
+      }, 500)
     }
   }
 
@@ -149,13 +149,7 @@ const WishList = () => {
             {/* spinner */}
             {loading ?
               <div className="d-flex flex-colum align-items-center justify-content-center" style={{ padding: '95px' }}>
-                <div className="spinner-grow spinner-grow-lg text-secondary me-2" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-
-                <div className="spinner-grow spinner-grow-sm text-secondary" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
+                <Spinner animation="border" variant="primary" />
               </div>
               :
               // All products

@@ -110,6 +110,7 @@ const MenProducts = () => {
 
     useEffect(() => {
         getAllMensProduct()
+        window.scrollTo(0, 0)
     }, [searchKey])
 
     // sidebar Filtering
