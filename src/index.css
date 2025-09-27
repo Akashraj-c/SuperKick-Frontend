@@ -7,16 +7,41 @@
 
 /* Auth */
 .Auth {
-    color: whitesmoke;
-    border: solid;
-    border-width: 0.4px;
-    border-color: rgb(58, 53, 122);
-    box-shadow: -5px -1px 50px 35px rgba(22, 9, 71, 0.5);
+  color: whitesmoke;
+  border: solid;
+  border-width: 0.4px;
+  border-color: rgb(58, 53, 122);
+  box-shadow: -5px -1px 50px 35px rgba(22, 9, 71, 0.5);
 }
 
-.Authinput::placeholder{
+.Authinput::placeholder {
   color: rgb(184, 180, 180);
   font-size: smaller;
+}
+
+/* Drop bg */
+.dropBg {
+  /* background: linear-gradient(to right, rgb(239, 208, 208), rgb(221, 225, 226), rgb(191, 211, 202)); */
+  background-image: linear-gradient(to right, rgba(215, 196, 196, 0.3), rgba(203, 218, 221, 0.4), rgba(197, 224, 212, 0.3)), url('https://img.freepik.com/free-vector/abstract-curvy-perspective-grid-line-pattern-white-background_1017-58776.jpg?semt=ais_hybrid&w=740&q=80');
+  background-position: center;
+
+}
+
+@media(max-width:750px) {
+  .dropBg {
+    height: 150px;
+    /* padding: 10px 0px 10px 0px; */
+    margin-bottom: 20px;
+  }
+
+  .dropimg {
+    width: 200px;
+  }
+
+  .dropimg+h6 {
+    padding-inline: 15px;
+    text-align: center;
+  }
 }
 
 /* home brand scroll */
@@ -38,8 +63,8 @@
 /* cards  */
 .cardImg {
   box-shadow: 5px -2px 10px rgb(240, 229, 229);
-  height: 340px;
-  width: 290px;
+  height: 320px;
+  width: 270px;
   border-radius: 20px;
   transition: all 0.8s
 }
@@ -92,20 +117,20 @@
 }
 
 /* home blog */
-.blogDiv{
+.blogDiv {
   overflow: hidden;
 }
 
-.blogImg{
+.blogImg {
   transition: all 1s;
 }
 
-.blogImg:hover{
-  transform:scale(1.1);
+.blogImg:hover {
+  transform: scale(1.1);
 }
 
 /* Preloader */
-.preLoader{
+.preLoader {
   margin-top: 200px;
 }
 
@@ -115,14 +140,15 @@
 
 /* responsive */
 @media(max-width:750px) {
+
   /* Preloader */
-.preLoader{
-  margin-top: 300px;
-}
+  .preLoader {
+    margin-top: 300px;
+  }
 
   /* Auth */
-  .AuthMain{
-    margin-top:-150px;
+  .AuthMain {
+    margin-top: -150px;
   }
 
   /* Home Brand section */

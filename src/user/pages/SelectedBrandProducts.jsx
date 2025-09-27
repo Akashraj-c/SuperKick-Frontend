@@ -15,6 +15,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Slide, toast, ToastContainer } from 'react-toastify';
 import { IoArrowForwardCircleSharp } from 'react-icons/io5';
+import { Spinner } from 'react-bootstrap';
 
 const SelectedBrandProducts = () => {
     const { searchKey, setSearchKey } = useContext(searhKeyContext)
@@ -32,6 +33,7 @@ const SelectedBrandProducts = () => {
     const [productId, setProductId] = useState("")
     const [selectedSize, setSelectedSize] = useState("")
     const [show, setShow] = useState(false); //modal for size
+    const [isLoading, setIsLoading] = useState(true)
 
     const handleClose = () => setShow(false);
     const handleShow = (item, id) => {
@@ -44,8 +46,11 @@ const SelectedBrandProducts = () => {
     const getAllProducts = async () => {
         const result = await getAllProductApi(searchKey)
         // console.log(result);
-        setAllProducts(result.data)
-        setTempArray(result.data)
+        setTimeout(() => {
+            setIsLoading(false)
+            setAllProducts(result.data)
+            setTempArray(result.data)
+        }, 500)
     }
 
     // filter dropdown button
@@ -110,6 +115,7 @@ const SelectedBrandProducts = () => {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         getAllProducts()
     }, [searchKey])
 
@@ -188,37 +194,49 @@ const SelectedBrandProducts = () => {
 
                     {/* products */}
                     <div className='col-md-9 mainCol' >
-                        <div className="container- ">
-                            <div className="row">
+                        {isLoading ?
+                            <div className='col-md-9 mainCol d-flex justify-content-center mt-5'>
+                                <Spinner animation="border" variant="primary" />
+                            </div>
+                            :
+                            <div className="container- ">
+                                <div className="row">
+                                    {allProducts.filter((item) => item.brand == brandName).length > 0 ?
+                                        allProducts?.filter((item) => item.brand == brandName).map((item, index) => (
+                                            <div key={index} className="col-md-3 mb-3 col-6 " style={{ cursor: 'pointer' }}>
 
-                                {allProducts?.filter((item) => item.brand == brandName).map((item, index) => (
-                                    <div key={index} className="col-md-3 mb-3 col-6 " style={{ cursor: 'pointer' }}>
+                                                <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
+                                                    <Link to={`/productdetails/${item?._id}`} className='text-dark text-decoration-none'>
+                                                        <div className=' mb-3 mt-2 NewcardImg'>
+                                                            <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${item?.uploadedImg[0]}`} alt="no img" />
+                                                        </div>
+                                                    </Link>
+                                                    <div className='w-100 text-center mt-2'>
+                                                        <div className='d-flex justify-content-around mb-1'>
+                                                            <p></p>
+                                                            <h6 style={{ textTransform: 'uppercase' }}>{item?.brand}</h6>
+                                                            <MdBookmarkBorder onClick={() => handleShow(item, item?._id)} className='fs-5' />
+                                                        </div>
+                                                        <Link to={`/productdetails/${item?._id}`} className='text-dark text-decoration-none'>
+                                                            <h6>{item?.name.slice(0, 20)}...</h6>
+                                                            <p>{item?.color.slice(0, 25)}</p>
+                                                            <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {item?.price}</p>
+                                                        </Link>
+                                                    </div>
+                                                </div>
 
-                                        <div className='d-flex flex-column r NewmaincardDiv' style={{ borderRadius: '20px' }}>
-                                            <Link to={`/productdetails/${item?._id}`} className='text-dark text-decoration-none'>
-                                                <div className=' mb-3 mt-2 NewcardImg'>
-                                                    <img style={{ height: '100%', width: '100%', borderRadius: '20px' }} src={`${serverUrl}/uploads/${item?.uploadedImg[0]}`} alt="no img" />
-                                                </div>
-                                            </Link>
-                                            <div className='w-100 text-center mt-2'>
-                                                <div className='d-flex justify-content-around mb-1'>
-                                                    <p></p>
-                                                    <h6 style={{ textTransform: 'uppercase' }}>{item?.brand}</h6>
-                                                    <MdBookmarkBorder onClick={() => handleShow(item, item?._id)} className='fs-5' />
-                                                </div>
-                                                <Link to={`/productdetails/${item?._id}`} className='text-dark text-decoration-none'>
-                                                    <h6>{item?.name.slice(0, 20)}...</h6>
-                                                    <p>{item?.color.slice(0, 25)}</p>
-                                                    <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {item?.price}</p>
-                                                </Link>
+                                            </div>
+                                        ))
+                                        :
+                                        <div className='w-100 d-flex align-items-center justify-content-center'>
+                                            <div className='w-50  d-flex align-items-center justify-content-center'>
+                                                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/search-not-found-5342748-4468820.png" alt="no img" width={'40%'} />
                                             </div>
                                         </div>
-
-                                    </div>
-                                ))}
-
+                                    }
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -279,7 +297,6 @@ const SelectedBrandProducts = () => {
 
             {/* Toast conatiner */}
             <ToastContainer position="top-center" autoClose={800} transition={Slide} theme="light" />
-
 
             {/* Footer */}
             <Footer />

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import Header from '../components/Header'
 import dropCult from '../../assets/drop.svg'
-import RippleGrid from '../../ReactBits/RippleGrid/RippleGrid';
 import HomeCarousel from '../components/HomeCarousel';
 import HomeBrand from '../components/HomeBrand';
 import HomeTrending from '../components/HomeTrending';
@@ -9,7 +8,6 @@ import HomeSneakers from '../components/HomeSneakers';
 import Gender from '../components/Gender';
 import HomeApparels from '../components/HomeApparels';
 import Footer from '../../components/Footer';
-import { searhKeyContext } from '../../context/Contextshare';
 import WhySuperKicks from '../components/WhySuperKicks';
 import Homeblog from '../components/Homeblog';
 
@@ -23,24 +21,9 @@ const UserHome = () => {
       <HomeCarousel />
 
       {/* Ripple Grid  */}
-      <div>
-
-        <RippleGrid
-          enableRainbow={false}
-          gridColor="#f30909ff"
-          rippleIntensity={0.05}
-          gridSize={5}
-          gridThickness={100}
-          vignetteStrength={5}
-          mouseInteraction={true}
-          mouseInteractionRadius={1.2}
-          opacity={0.6}
-          gridRotation={10}
-        />
-
-        <div className='d-flex flex-column w-100 align-items-center justify-content-center' style={{ marginTop: '-180px', position: 'relative' }}>
+      <div className='border '>
+        <div className='d-flex flex-column w-100 align-items-center justify-content-center py-5 dropBg'>
           <img className='dropimg' src={dropCult} alt="no img" />
-
           <h6 className='mt-4 fw-light' style={{ fontSize: '18px' }}>Hottest Drip Around The World.Refreshed Daily.</h6>
         </div>
       </div>
@@ -64,7 +47,7 @@ const UserHome = () => {
       <WhySuperKicks />
 
       {/* Blogs */}
-      <Homeblog/>
+      <Homeblog />
 
       {/* Footer */}
       <Footer />

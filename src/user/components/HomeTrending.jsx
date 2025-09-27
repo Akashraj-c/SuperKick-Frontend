@@ -118,8 +118,8 @@ const HomeTrending = () => {
                                             <MdBookmarkBorder onClick={() => handleShow(item, item?._id)} className='fs-5' />
                                         </div>
                                         <Link to={`/productdetails/${item?._id}`} className='text-dark text-decoration-none'>
-                                            <h6>{item?.name}</h6>
-                                            <p>{item?.color}</p>
+                                            <h6>{item?.name.slice(0, 20)}...</h6>
+                                            <p>{item?.color.slice(0, 25)}</p>
                                             <p><span className='border p-1 rounded fw-bold me-1' style={{ fontSize: '11px', backgroundColor: 'rgba(221, 214, 214, 0.6)' }}>INR</span> {item?.price}</p>
                                         </Link>
                                     </div>
