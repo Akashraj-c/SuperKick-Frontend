@@ -60,7 +60,10 @@ const Auth = ({ register }) => {
 
             if (result.status == 200) {
                 toast.success('You have successfully logged in')
-
+                setuserDetails({
+                    email: "",
+                    password: ""
+                })
                 setTimeout(() => {
                     if (result.data.existingUser.email == 'superkicksadmin@gmail.com') {
                         navigate('/adminhome')
@@ -72,10 +75,6 @@ const Auth = ({ register }) => {
 
                 sessionStorage.setItem('existingUser', JSON.stringify(result.data.existingUser))
                 sessionStorage.setItem('token', result.data.token)
-                setuserDetails({
-                    email: "",
-                    password: ""
-                })
             }
             else if (result.status == 401) {
                 toast.error(result.response.data)

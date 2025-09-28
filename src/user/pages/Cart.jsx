@@ -9,7 +9,7 @@ import { serverUrl } from '../../services/serverUrl'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { GoX } from 'react-icons/go'
 import { IoIosArrowUp } from 'react-icons/io'
-import { toast } from 'react-toastify'
+import { Slide, toast, ToastContainer } from 'react-toastify'
 import { Spinner } from 'react-bootstrap'
 
 const Cart = () => {
@@ -77,45 +77,51 @@ const Cart = () => {
 
   // handle checkout
   const handleCheckOut = async (amount) => {
-    const reqBody = { amount, currency: 'INR' }
-    const result = await checkOutApi(reqBody) //create order 
-    // console.log(result);
 
-    if (result.status == 200) {
-      // Open Razorpay Checkout modal
-      const options = {
-        key: "rzp_test_RKvVLl8YaBZfyt", // key_id
-        amount: result.data.amount,
-        currency: result.data.currency,
-        order_id: result.data.id,
-        name: "SuperKicks",
-        description: "Test Transaction",
-
-        handler: async function (response) {
-          // console.log(response); // response gives orderid, paymentid, and signature
-          const verifyResult = await verifyCheckOutApi({ // send response to backend to verify the signature
-            order_id: response.razorpay_order_id,
-            payment_id: response.razorpay_payment_id,
-            signature: response.razorpay_signature
-          })
-          console.log(verifyResult);
-          if (verifyResult.status == 200) {
-            removeCartProducts() //remove all products from cart after payment
-            addAllOrderedProduct() //add all products to orders
-            updateQuantity()
-          }
-        },
-
-        theme: {
-          color: "#042636ff",
-        },
-      };
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+    if (addressId == "") {
+      toast.info('Address missing!. Please add your address to continue.')
     }
-
     else {
-      toast.error('something went wrong')
+      const reqBody = { amount, currency: 'INR' }
+      const result = await checkOutApi(reqBody) //create order 
+      // console.log(result);
+
+      if (result.status == 200) {
+        // Open Razorpay Checkout modal
+        const options = {
+          key: "rzp_test_RKvVLl8YaBZfyt", // key_id
+          amount: result.data.amount,
+          currency: result.data.currency,
+          order_id: result.data.id,
+          name: "SuperKicks",
+          description: "Test Transaction",
+
+          handler: async function (response) {
+            // console.log(response); // response gives orderid, paymentid, and signature
+            const verifyResult = await verifyCheckOutApi({ // send response to backend to verify the signature
+              order_id: response.razorpay_order_id,
+              payment_id: response.razorpay_payment_id,
+              signature: response.razorpay_signature
+            })
+            console.log(verifyResult);
+            if (verifyResult.status == 200) {
+              removeCartProducts() //remove all products from cart after payment
+              addAllOrderedProduct() //add all products to orders
+              updateQuantity()
+            }
+          },
+
+          theme: {
+            color: "#042636ff",
+          },
+        };
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      }
+
+      else {
+        toast.error('something went wrong')
+      }
     }
   }
 
@@ -261,6 +267,9 @@ const Cart = () => {
           }
         </div>
       }
+
+      {/* Toast conatiner */}
+      <ToastContainer position="top-center" autoClose={800} transition={Slide} theme="light" />
 
       {/* footer */}
       <Footer />

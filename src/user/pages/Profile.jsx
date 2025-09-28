@@ -3,12 +3,12 @@ import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { CgProfile } from 'react-icons/cg'
 import { IoBagHandleOutline, IoLocationOutline, IoLogOutOutline } from 'react-icons/io5'
-import { IoIosArrowDown, IoIosArrowForward, IoIosArrowUp } from 'react-icons/io'
+import { IoIosArrowDown, IoIosArrowForward, IoIosArrowUp, IoMdTrash } from 'react-icons/io'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiFillThunderbolt } from 'react-icons/ai'
 import Modal from 'react-bootstrap/Modal';
 import { Slide, toast, ToastContainer } from 'react-toastify'
-import { addAddressApi, editaddressApi, getAddressApi, getAllOrderedProductsApi } from '../../services/allApi'
+import { addAddressApi, deleteAddressApi, editaddressApi, getAddressApi, getAllOrderedProductsApi } from '../../services/allApi'
 import { MdOutlineEditLocation } from 'react-icons/md'
 import { serverUrl } from '../../services/serverUrl'
 import { FaIndianRupeeSign } from 'react-icons/fa6'
@@ -107,6 +107,16 @@ const Profile = () => {
         }
     }
 
+    // Delete address
+    const handleDelete = async (id) => {
+        console.log(id);
+        const result = await deleteAddressApi(id)
+        console.log(result);
+        if (result.status == 200) {
+            setUpdateStatus(result.data)
+        }
+    }
+
     // Edit address
     const handleEditAddress = async () => {
         const { pincode, city, state, buildingnumber, completeaddress, fullname, phonenumber } = addressDetails
@@ -130,7 +140,7 @@ const Profile = () => {
             "Authorization": `Bearer ${token}`
         }
         const result = await getAllOrderedProductsApi(reqHeader)
-        // console.log(result);
+        console.log(result);
         if (result.status == 200) {
             setTimeout(() => {
                 setAllOrders(result.data)
@@ -234,21 +244,8 @@ const Profile = () => {
                                     :
                                     <div className='container'>
                                         <div className="row">
-                                            {allOrders.length < 0 ?
-                                                // empty orders message
-                                                <div className='d-flex w-100 align-items-center mt-4 rounded py-4' style={{ backgroundColor: 'rgba(229, 228, 228, 1)' }}>
-                                                    <div>
-                                                        <img src="https://static.vecteezy.com/system/resources/previews/010/988/392/non_2x/empty-box-illustration-3d-free-png.png" alt=" no img" style={{ width: '200px' }} />
-                                                    </div>
-
-                                                    <div className='d-flex flex-column justify-content-center align-items-center py- w-100' >
-                                                        <h4 className='fw-bold'>Yet Not Order Anything</h4>
-                                                        <p>Start your first order to see it here.</p>
-                                                        <Link to={'/'}><button className='btn btn-primary py-4 fs-5'>Explore Products</button></Link>
-                                                    </div>
-                                                </div>
-                                                :
-                                                allOrders?.map((item, index) => (
+                                            {allOrders?.filter((item) => item.userId == existingUser.email).length > 0 ?
+                                                allOrders?.filter((item) => item.userId == existingUser.email).map((item, index) => (
                                                     <div key={index + 1} className=' mt-3 py-3'>
                                                         <div className='border-bottom rounded px-2 d-flex justify-content-between' style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setCollapse(!collapse)}>
                                                             <h6> <span className='fw-bold'>{index + 1}</span>, {new Date(item?.createdAt).toLocaleString("en-US", { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</h6>
@@ -281,7 +278,20 @@ const Profile = () => {
                                                             </div>
                                                         }
                                                     </div>
-                                                ))}
+                                                ))
+                                                :
+                                                <div className='d-flex w-100 align-items-center mt-4 rounded py-4' style={{ backgroundColor: 'rgba(229, 228, 228, 1)' }}>
+                                                    <div>
+                                                        <img src="https://static.vecteezy.com/system/resources/previews/010/988/392/non_2x/empty-box-illustration-3d-free-png.png" alt=" no img" style={{ width: '200px' }} />
+                                                    </div>
+
+                                                    <div className='d-flex flex-column justify-content-center align-items-center py- w-100' >
+                                                        <h4 className='fw-bold'>Yet Not Order Anything</h4>
+                                                        <p>Start your first order to see it here.</p>
+                                                        <Link to={'/newarrival'}><button className='btn btn-primary py-4 fs-5'>Explore Products</button></Link>
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                 }
@@ -303,7 +313,10 @@ const Profile = () => {
                                                     <div className='w-50 border border-primary rounded shadow'>
                                                         <div className='d-flex justify-content-between align-items-cente  py-2 rounded w-100 px-1' style={{ backgroundColor: 'rgba(13, 32, 107, 1)' }}>
                                                             <h5 className='fw-bold text-white'><IoLocationOutline /> Address</h5>
-                                                            <h5 className='text-white me-2'><MdOutlineEditLocation style={{ cursor: 'pointer' }} onClick={() => handleShow(item)} /></h5>
+                                                            <div className='d-flex align-items-center me-2'>
+                                                                <h5 className='text-white me-3'><MdOutlineEditLocation style={{ cursor: 'pointer' }} onClick={() => handleShow(item)} /></h5>
+                                                                <h5><IoMdTrash onClick={() => handleDelete(item?._id)} className='text-danger' style={{ cursor: 'pointer' }} /></h5>
+                                                            </div>
                                                         </div>
 
                                                         <div className='mt-2 px-2'>
@@ -383,11 +396,10 @@ const Profile = () => {
                         </div>
 
                         <div>
-                            {editAddress ?
-                                <button type='button' onClick={handleEditAddress} className='btn btn-primary w-100'> Edit Address</button>
-                                :
+                            {editAddress != "" ?
                                 <button type='button' onClick={handleSubmit} className='btn btn-primary w-100'> Save Address</button>
-
+                                :
+                                <button type='button' onClick={handleEditAddress} className='btn btn-primary w-100'> Edit Address</button>
                             }
                             <button type='button' onClick={handleReset} className='btn btn-danger mt-2 w-100'>Reset </button>
                         </div>

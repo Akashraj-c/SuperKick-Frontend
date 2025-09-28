@@ -95,6 +95,10 @@ export const editaddressApi = async (reqBody, reqHeader) => { //edit address
     return await commonApi('PUT', `${serverUrl}/editaddress`, reqBody, reqHeader)
 }
 
+export const deleteAddressApi = async (id) => {
+    return await commonApi('DELETE', `${serverUrl}/deleteaddress/${id}`)
+}
+
 export const checkOutApi = async (reqBody) => { //create payment order
     return await commonApi('POST', `${serverUrl}/create-order`, reqBody)
 }
@@ -117,7 +121,7 @@ export const getAllOrderedProductsApi = async (reqHeader) => { //get all orders 
 
 export const updateProductQuantityApi = async (reqBody) => { //update the product's size quantity after checkout
     return await commonApi('PUT', `${serverUrl}/updateproductqty`, reqBody)
-}   
+}
 
 // -----------------------Admin--------------------------
 
